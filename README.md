@@ -27,4 +27,4 @@ you should be at the same version we used to run the experiments.
 That version also predates the setup.py file, so to get your code to use the old version, you'll either have to copy setup.py into the old revision and reinstall, or add FunkyYak to your PYTHONPATH.
 
 ## TODO
-Currently, our experiments are based on [Gradient-based Optimization of Hyperparameters through Reversible Learning](https://github.com/HIPS/hypergrad/). We are rewriting it using Lua/Torch to use GPUs. 
+Currently, our experiments are based on [autograd](https://github.com/HIPS/autograd). We are rewriting it using Lua/Torch to use GPUs. 
