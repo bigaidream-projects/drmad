@@ -28,3 +28,6 @@ That version also predates the setup.py file, so to get your code to use the old
 
 ## TODO
 Currently, our experiments are based on [autograd](https://github.com/HIPS/autograd). We are rewriting it using Lua/Torch to use GPUs. 
+
+## Acknowledgements
+Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. 
