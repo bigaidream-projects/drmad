@@ -30,4 +30,4 @@ That version also predates the setup.py file, so to get your code to use the old
 Currently, our experiments are based on [autograd](https://github.com/HIPS/autograd). We are rewriting it using Lua/Torch to use GPUs. 
 
 ## Acknowledgements
-Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. 
+Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. This work is also supported by NUS-Tsinghua Extreme Search (NExT) project. 
