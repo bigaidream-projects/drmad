@@ -2,7 +2,7 @@
 
 ## Objectives & Background
 
-[hypergrad](https://github.com/HIPS/hypergrad) uses [HIPS/autograd](https://github.com/HIPS/autograd) to calculate the differentiations. Unfortunately, [HIPS/autograd](https://github.com/HIPS/autograd) does not support GPUs, and will probably support it anytime soon. 
+[hypergrad](https://github.com/HIPS/hypergrad) uses [HIPS/autograd](https://github.com/HIPS/autograd) to calculate the differentiations. Unfortunately, [HIPS/autograd](https://github.com/HIPS/autograd) does not support GPUs, and will not support it anytime soon. 
 
 We are to rewrite [hypergrad](https://github.com/HIPS/hypergrad) using Lua/Torch, using [torch-autograd](https://github.com/twitter/torch-autograd)
 
