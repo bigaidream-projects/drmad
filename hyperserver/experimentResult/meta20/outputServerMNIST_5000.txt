@@ -1,0 +1,1522 @@
+training samples 20000: testing samples: 5000
+Top level iter 0
+Top level iter 1
+Top level iter 2
+Iter 0: train: 2.36149901558
+Iter 500: train: 0.604018467431
+Iter 1000: train: 0.283710961377
+Iter 1500: train: 0.579411190766
+Iter 2000: train: 0.39153688229
+Iter 2500: train: 0.317176456041
+Iter 3000: train: 0.400376446997
+Iter 3500: train: 0.401205522019
+Iter 4000: train: 0.298097734436
+Iter 4500: train: 0.312632816546
+Hyper iter 0, error rate 10.08
+Cur_transform 0.2
+calculate hypergradients
+Iter 0: train: 2.4038491794
+Iter 500: train: 0.74691991754
+Iter 1000: train: 0.322088373186
+Iter 1500: train: 0.550013702501
+Iter 2000: train: 0.714274909283
+Iter 2500: train: 0.460334465452
+Iter 3000: train: 0.371720026085
+Iter 3500: train: 0.302033280728
+Iter 4000: train: 0.649043134673
+Iter 4500: train: 0.391711483868
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.41284365631
+Iter 500: train: 0.421032382959
+Iter 1000: train: 0.432248127247
+Iter 1500: train: 0.317285585486
+Iter 2000: train: 0.413951355366
+Iter 2500: train: 0.378902103865
+Iter 3000: train: 0.435626795193
+Iter 3500: train: 0.315606740601
+Iter 4000: train: 0.519916338996
+Iter 4500: train: 0.363746387095
+calculate hypergradients end 
+calculate hypergradients end 
+Top level iter 0
+Top level iter 1
+Top level iter 2
+Iter 0: train: 2.36149901558
+Iter 500: train: 0.604018467431
+Iter 1000: train: 0.283710961377
+Iter 1500: train: 0.579411190766
+Iter 2000: train: 0.39153688229
+Iter 2500: train: 0.317176456041
+Iter 3000: train: 0.400376446997
+Iter 3500: train: 0.401205522019
+Iter 4000: train: 0.298097734436
+Iter 4500: train: 0.312632816546
+Hyper iter 0, error rate 10.84
+Cur_transform 0.2
+Iter 0: train: 2.38272058239
+Iter 500: train: 0.4724324739
+Iter 1000: train: 0.445098574247
+Iter 1500: train: 0.45036562692
+Iter 2000: train: 0.40976799137
+Iter 2500: train: 0.393762881606
+Iter 3000: train: 0.451488325295
+Iter 3500: train: 0.57826658153
+Iter 4000: train: 0.372981937122
+Iter 4500: train: 0.348166630973
+Iter 0: train: 2.42008970947
+Iter 500: train: 0.484332400917
+Iter 1000: train: 0.274651167807
+Iter 1500: train: 0.576534401166
+Iter 2000: train: 0.367196960458
+Iter 2500: train: 0.290686246723
+Iter 3000: train: 0.377764663325
+Iter 3500: train: 0.381372301991
+Iter 4000: train: 0.262764970122
+Iter 4500: train: 0.287124996524
+Hyper iter 1, error rate 10.36
+Cur_transform 0.205072838417
+Iter 0: train: 2.44138768107
+Iter 500: train: 0.47097456786
+Iter 1000: train: 0.266612922415
+Iter 1500: train: 0.320831734651
+Iter 2000: train: 0.32031256831
+Iter 2500: train: 0.339934323215
+Iter 3000: train: 0.409589282859
+Iter 3500: train: 0.289072750519
+Iter 4000: train: 0.364439717734
+Iter 4500: train: 0.314000673558
+Iter 0: train: 2.5939451319
+Iter 500: train: 0.494963114094
+Iter 1000: train: 0.245989239885
+Iter 1500: train: 0.521056645251
+Iter 2000: train: 0.357727652403
+Iter 2500: train: 0.25589833866
+Iter 3000: train: 0.365368756439
+Iter 3500: train: 0.37451537175
+Iter 4000: train: 0.240098914351
+Iter 4500: train: 0.277033257014
+Hyper iter 2, error rate 9.68
+Cur_transform 0.20263982239
+Iter 0: train: 2.65857662153
+Iter 500: train: 0.447285722889
+Iter 1000: train: 0.290003965111
+Iter 1500: train: 0.401917125605
+Iter 2000: train: 0.376274688321
+Iter 2500: train: 0.425973276345
+Iter 3000: train: 0.467190033398
+Iter 3500: train: 0.455846569288
+Iter 4000: train: 0.385003989075
+Iter 4500: train: 0.358429760055
+Iter 0: train: 2.30504086027
+Iter 500: train: 0.521188366175
+Iter 1000: train: 0.253987141705
+Iter 1500: train: 0.550534978785
+Iter 2000: train: 0.343173760926
+Iter 2500: train: 0.225905010271
+Iter 3000: train: 0.382098355815
+Iter 3500: train: 0.361882071916
+Iter 4000: train: 0.213600033057
+Iter 4500: train: 0.256584436342
+Hyper iter 3, error rate 9.44
+Cur_transform 0.195997688635
+Iter 0: train: 2.38232612569
+Iter 500: train: 0.435959853721
+Iter 1000: train: 0.223919673564
+Iter 1500: train: 0.625304191436
+Iter 2000: train: 0.324082681329
+Iter 2500: train: 0.398217662358
+Iter 3000: train: 0.165097207459
+Iter 3500: train: 0.261252966146
+Iter 4000: train: 0.321015625903
+Iter 4500: train: 0.26952036554
+Iter 0: train: 2.51497933073
+Iter 500: train: 0.492988543634
+Iter 1000: train: 0.221012064772
+Iter 1500: train: 0.571759636983
+Iter 2000: train: 0.320607934878
+Iter 2500: train: 0.21470155978
+Iter 3000: train: 0.383917700457
+Iter 3500: train: 0.355366780066
+Iter 4000: train: 0.190463248177
+Iter 4500: train: 0.242313090612
+Hyper iter 4, error rate 9.02
+Cur_transform 0.193929625011
+Iter 0: train: 2.29748544541
+Iter 500: train: 0.373048737373
+Iter 1000: train: 0.263202881496
+Iter 1500: train: 0.378664733444
+Iter 2000: train: 0.460891780139
+Iter 2500: train: 0.42440284628
+Iter 3000: train: 0.548250385689
+Iter 3500: train: 0.366498670878
+Iter 4000: train: 0.299838833261
+Iter 4500: train: 0.19683292019
+Iter 0: train: 2.59400475762
+Iter 500: train: 0.436067366676
+Iter 1000: train: 0.225232902551
+Iter 1500: train: 0.51384149718
+Iter 2000: train: 0.323925057087
+Iter 2500: train: 0.188117755587
+Iter 3000: train: 0.388828478463
+Iter 3500: train: 0.35518942509
+Iter 4000: train: 0.184023871707
+Iter 4500: train: 0.234480419166
+Hyper iter 5, error rate 8.8
+Cur_transform 0.200437942885
+Iter 0: train: 2.50645688065
+Iter 500: train: 0.347141462308
+Iter 1000: train: 0.247686457875
+Iter 1500: train: 0.193132435098
+Iter 2000: train: 0.467807005759
+Iter 2500: train: 0.33439451787
+Iter 3000: train: 0.34129932698
+Iter 3500: train: 0.298640931568
+Iter 4000: train: 0.500799723828
+Iter 4500: train: 0.322833387107
+Iter 0: train: 2.55506373228
+Iter 500: train: 0.412706591887
+Iter 1000: train: 0.209290276666
+Iter 1500: train: 0.533852802283
+Iter 2000: train: 0.309794915924
+Iter 2500: train: 0.172350823251
+Iter 3000: train: 0.377110744349
+Iter 3500: train: 0.355616008373
+Iter 4000: train: 0.166139379502
+Iter 4500: train: 0.222297448977
+Hyper iter 6, error rate 8.56
+Cur_transform 0.200255466683
+Iter 0: train: 2.72010333854
+Iter 500: train: 0.344325114365
+Iter 1000: train: 0.435564355761
+Iter 1500: train: 0.228396042633
+Iter 2000: train: 0.289807581715
+Iter 2500: train: 0.213749876496
+Iter 3000: train: 0.158282485986
+Iter 3500: train: 0.420519840027
+Iter 4000: train: 0.205970862768
+Iter 4500: train: 0.253157231968
+Iter 0: train: 2.72305892053
+Iter 500: train: 0.395494774745
+Iter 1000: train: 0.200458218987
+Iter 1500: train: 0.542502810791
+Iter 2000: train: 0.283208399573
+Iter 2500: train: 0.164865248561
+Iter 3000: train: 0.317168594342
+Iter 3500: train: 0.352681645462
+Iter 4000: train: 0.144576910003
+Iter 4500: train: 0.218838420732
+Hyper iter 7, error rate 8.18
+Cur_transform 0.192725282078
+Iter 0: train: 2.44328078684
+Iter 500: train: 0.352125789818
+Iter 1000: train: 0.442969039128
+Iter 1500: train: 0.175255423713
+Iter 2000: train: 0.222467172004
+Iter 2500: train: 0.268580559033
+Iter 3000: train: 0.252196227195
+Iter 3500: train: 0.364276021052
+Iter 4000: train: 0.221731347452
+Iter 4500: train: 0.189603578294
+Iter 0: train: 2.61909217526
+Iter 500: train: 0.368538274056
+Iter 1000: train: 0.212241454434
+Iter 1500: train: 0.557352000408
+Iter 2000: train: 0.26540128566
+Iter 2500: train: 0.164601422524
+Iter 3000: train: 0.351180426354
+Iter 3500: train: 0.381088290869
+Iter 4000: train: 0.146574625108
+Iter 4500: train: 0.215965329792
+Hyper iter 8, error rate 7.98
+Cur_transform 0.193990450412
+Iter 0: train: 2.81840473693
+Iter 500: train: 0.389131280679
+Iter 1000: train: 0.217637972743
+Iter 1500: train: 0.221304680576
+Iter 2000: train: 0.371155718629
+Iter 2500: train: 0.559403077526
+Iter 3000: train: 0.405103277922
+Iter 3500: train: 0.203334309735
+Iter 4000: train: 0.332611300787
+Iter 4500: train: 0.209150686678
+Iter 0: train: 2.65786887744
+Iter 500: train: 0.414700287268
+Iter 1000: train: 0.189836291339
+Iter 1500: train: 0.501664432009
+Iter 2000: train: 0.2699944438
+Iter 2500: train: 0.139949863939
+Iter 3000: train: 0.328039697735
+Iter 3500: train: 0.358542344514
+Iter 4000: train: 0.138811848788
+Iter 4500: train: 0.218900515283
+Hyper iter 9, error rate 7.94
+Cur_transform 0.195450260029
+Iter 0: train: 2.57373546331
+Iter 500: train: 0.613205008728
+Iter 1000: train: 0.248695166042
+Iter 1500: train: 0.203702799116
+Iter 2000: train: 0.247015843714
+Iter 2500: train: 0.317074574481
+Iter 3000: train: 0.350763284614
+Iter 3500: train: 0.28356088903
+Iter 4000: train: 0.18760093148
+Iter 4500: train: 0.180929415539
+Iter 0: train: 2.68658079525
+Iter 500: train: 0.356963715303
+Iter 1000: train: 0.193933202613
+Iter 1500: train: 0.517226838513
+Iter 2000: train: 0.250021588804
+Iter 2500: train: 0.139068989296
+Iter 3000: train: 0.37833991525
+Iter 3500: train: 0.354635604026
+Iter 4000: train: 0.119554729715
+Iter 4500: train: 0.202585102456
+Hyper iter 10, error rate 7.7
+Cur_transform 0.19647212676
+Iter 0: train: 2.54150806788
+Iter 500: train: 0.196289162266
+Iter 1000: train: 0.221595579834
+Iter 1500: train: 0.450192465562
+Iter 2000: train: 0.346319999884
+Iter 2500: train: 0.231219122212
+Iter 3000: train: 0.288281017365
+Iter 3500: train: 0.285085917525
+Iter 4000: train: 0.129110289375
+Iter 4500: train: 0.148036442651
+Iter 0: train: 2.51487200422
+Iter 500: train: 0.372476614857
+Iter 1000: train: 0.201663254133
+Iter 1500: train: 0.462677297022
+Iter 2000: train: 0.221881672684
+Iter 2500: train: 0.139262966623
+Iter 3000: train: 0.288375444935
+Iter 3500: train: 0.311375610002
+Iter 4000: train: 0.092451507917
+Iter 4500: train: 0.197128484974
+Hyper iter 11, error rate 7.16
+Cur_transform 0.196873574405
+Iter 0: train: 2.67164597571
+Iter 500: train: 0.240106130563
+Iter 1000: train: 0.205394168936
+Iter 1500: train: 0.252893252215
+Iter 2000: train: 0.474763672276
+Iter 2500: train: 0.513218111272
+Iter 3000: train: 0.302328150927
+Iter 3500: train: 0.378224133405
+Iter 4000: train: 0.241191134176
+Iter 4500: train: 0.199596901247
+Iter 0: train: 2.7208796822
+Iter 500: train: 0.335575059973
+Iter 1000: train: 0.151773739629
+Iter 1500: train: 0.540428321034
+Iter 2000: train: 0.218570243966
+Iter 2500: train: 0.147556826611
+Iter 3000: train: 0.262836221069
+Iter 3500: train: 0.352711211851
+Iter 4000: train: 0.122352604489
+Iter 4500: train: 0.159583675668
+Hyper iter 12, error rate 6.8
+Cur_transform 0.199391745993
+Iter 0: train: 2.53458255226
+Iter 500: train: 0.261066956247
+Iter 1000: train: 0.368581673054
+Iter 1500: train: 0.411816734594
+Iter 2000: train: 0.223223277293
+Iter 2500: train: 0.393591918029
+Iter 3000: train: 0.301659628985
+Iter 3500: train: 0.293956760444
+Iter 4000: train: 0.4302507163
+Iter 4500: train: 0.294236013102
+Iter 0: train: 2.7434549192
+Iter 500: train: 0.307817936843
+Iter 1000: train: 0.160225674983
+Iter 1500: train: 0.497424247347
+Iter 2000: train: 0.236755206553
+Iter 2500: train: 0.129211427062
+Iter 3000: train: 0.286673515856
+Iter 3500: train: 0.366515752949
+Iter 4000: train: 0.0983289836089
+Iter 4500: train: 0.163225071447
+Hyper iter 13, error rate 7.12
+Cur_transform 0.195511085429
+Iter 0: train: 2.71097552595
+Iter 500: train: 0.392140759071
+Iter 1000: train: 0.372172793052
+Iter 1500: train: 0.236458736894
+Iter 2000: train: 0.221659549282
+Iter 2500: train: 0.172878813391
+Iter 3000: train: 0.304148853399
+Iter 3500: train: 0.259324128236
+Iter 4000: train: 0.356031711261
+Iter 4500: train: 0.272277296659
+Iter 0: train: 3.10211785735
+Iter 500: train: 0.345922540142
+Iter 1000: train: 0.17263710877
+Iter 1500: train: 0.480363865493
+Iter 2000: train: 0.233422385153
+Iter 2500: train: 0.148036483073
+Iter 3000: train: 0.306411040596
+Iter 3500: train: 0.354189045801
+Iter 4000: train: 0.113500616705
+Iter 4500: train: 0.163773342242
+Hyper iter 14, error rate 6.64
+Cur_transform 0.18757945318
+Iter 0: train: 2.80236250779
+Iter 500: train: 0.380165181909
+Iter 1000: train: 0.282790648881
+Iter 1500: train: 0.356889887955
+Iter 2000: train: 0.170798715589
+Iter 2500: train: 0.186723964452
+Iter 3000: train: 0.164953006591
+Iter 3500: train: 0.151573510588
+Iter 4000: train: 0.298463268003
+Iter 4500: train: 0.180228576045
+Iter 0: train: 3.24501859814
+Iter 500: train: 0.363920942064
+Iter 1000: train: 0.183291070264
+Iter 1500: train: 0.5244927864
+Iter 2000: train: 0.240661732532
+Iter 2500: train: 0.12094256572
+Iter 3000: train: 0.248908972158
+Iter 3500: train: 0.356171232007
+Iter 4000: train: 0.0970966043224
+Iter 4500: train: 0.167689177763
+Hyper iter 15, error rate 7.0
+Cur_transform 0.18405157994
+Iter 0: train: 2.7979046749
+Iter 500: train: 0.322846356051
+Iter 1000: train: 0.431228560301
+Iter 1500: train: 0.272832245625
+Iter 2000: train: 0.172279663361
+Iter 2500: train: 0.128190375593
+Iter 3000: train: 0.369477093882
+Iter 3500: train: 0.230426940079
+Iter 4000: train: 0.27797980483
+Iter 4500: train: 0.218266745871
+Iter 0: train: 2.89969475953
+Iter 500: train: 0.34846302828
+Iter 1000: train: 0.172042139737
+Iter 1500: train: 0.423746575083
+Iter 2000: train: 0.17967400338
+Iter 2500: train: 0.125230037238
+Iter 3000: train: 0.310333054408
+Iter 3500: train: 0.381923702021
+Iter 4000: train: 0.0900717384941
+Iter 4500: train: 0.201149059977
+Hyper iter 16, error rate 6.4
+Cur_transform 0.178638119279
+Iter 0: train: 2.82263545317
+Iter 500: train: 0.27078744201
+Iter 1000: train: 0.264173204324
+Iter 1500: train: 0.209766394748
+Iter 2000: train: 0.13795646732
+Iter 2500: train: 0.253982614085
+Iter 3000: train: 0.517316068524
+Iter 3500: train: 0.208235509702
+Iter 4000: train: 0.195123043214
+Iter 4500: train: 0.228837145019
+Iter 0: train: 2.64587233612
+Iter 500: train: 0.285588404674
+Iter 1000: train: 0.195338530779
+Iter 1500: train: 0.518987114399
+Iter 2000: train: 0.205412246125
+Iter 2500: train: 0.122764016753
+Iter 3000: train: 0.317449089846
+Iter 3500: train: 0.346128852685
+Iter 4000: train: 0.0931403218913
+Iter 4500: train: 0.175713892236
+Hyper iter 17, error rate 7.18
+Cur_transform 0.181557738512
+Iter 0: train: 2.57026621145
+Iter 500: train: 0.305472754129
+Iter 1000: train: 0.312802380735
+Iter 1500: train: 0.284635259089
+Iter 2000: train: 0.185702048283
+Iter 2500: train: 0.0989252286122
+Iter 3000: train: 0.200658920485
+Iter 3500: train: 0.331844909439
+Iter 4000: train: 0.159182602612
+Iter 4500: train: 0.275117086693
+Iter 0: train: 3.08756004185
+Iter 500: train: 0.322932721247
+Iter 1000: train: 0.18028618409
+Iter 1500: train: 0.520757017457
+Iter 2000: train: 0.21215207049
+Iter 2500: train: 0.120502113932
+Iter 3000: train: 0.254809072011
+Iter 3500: train: 0.362532908855
+Iter 4000: train: 0.0832912413904
+Iter 4500: train: 0.161740036037
+Hyper iter 18, error rate 6.7
+Cur_transform 0.180158754296
+Iter 0: train: 2.89439703524
+Iter 500: train: 0.119741233784
+Iter 1000: train: 0.168087024936
+Iter 1500: train: 0.324421500609
+Iter 2000: train: 0.221526933532
+Iter 2500: train: 0.17229433703
+Iter 3000: train: 0.165996999201
+Iter 3500: train: 0.191427559933
+Iter 4000: train: 0.171626240343
+Iter 4500: train: 0.171473276422
+Iter 0: train: 2.80751570586
+Iter 500: train: 0.327058433461
+Iter 1000: train: 0.225383458201
+Iter 1500: train: 0.45942904935
+Iter 2000: train: 0.200933104229
+Iter 2500: train: 0.103178315075
+Iter 3000: train: 0.237936406364
+Iter 3500: train: 0.349542987753
+Iter 4000: train: 0.0986251079837
+Iter 4500: train: 0.159295208915
+Hyper iter 19, error rate 7.16
+Cur_transform 0.189829993005
+Iter 0: train: 2.64714817868
+Iter 500: train: 0.405053007186
+Iter 1000: train: 0.242546450686
+Iter 1500: train: 0.267769756996
+Iter 2000: train: 0.285861048376
+Iter 2500: train: 0.252768035227
+Iter 3000: train: 0.586742925351
+Iter 3500: train: 0.480563213666
+Iter 4000: train: 0.27914279049
+Iter 4500: train: 0.276593534253
+current startNum 0
+current startNum 20000
+current startNum 40000
+current startNum 10000
+current startNum 30000
+training samples 20000: testing samples: 5000
+Top level iter 0
+Top level iter 1
+Top level iter 2
+Iter 0: train: 2.36149901558
+Iter 500: train: 0.604018467431
+Iter 1000: train: 0.283710961377
+Iter 1500: train: 0.579411190766
+Iter 2000: train: 0.39153688229
+Iter 2500: train: 0.317176456041
+Iter 3000: train: 0.400376446997
+Iter 3500: train: 0.401205522019
+Iter 4000: train: 0.298097734436
+Iter 4500: train: 0.312632816546
+Hyper iter 0, error rate 10.08
+Cur_transform 0.2
+calculate hypergradients
+Iter 0: train: 2.4038491794
+Iter 500: train: 0.74691991754
+Iter 1000: train: 0.322088373186
+Iter 1500: train: 0.550013702501
+Iter 2000: train: 0.714274909283
+Iter 2500: train: 0.460334465452
+Iter 3000: train: 0.371720026085
+Iter 3500: train: 0.302033280728
+Iter 4000: train: 0.649043134673
+Iter 4500: train: 0.391711483868
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.41284365631
+Iter 500: train: 0.421032382959
+Iter 1000: train: 0.432248127247
+Iter 1500: train: 0.317285585486
+Iter 2000: train: 0.413951355366
+Iter 2500: train: 0.378902103865
+Iter 3000: train: 0.435626795193
+Iter 3500: train: 0.315606740601
+Iter 4000: train: 0.519916338996
+Iter 4500: train: 0.363746387095
+calculate hypergradients end 
+calculate hypergradients end 
+current startNum 0
+current startNum 20000
+current startNum 40000
+current startNum 10000
+current startNum 30000
+training samples 20000: testing samples: 5000
+Top level iter 0
+Top level iter 1
+Top level iter 2
+Iter 0: train: 2.36149901558
+current startNum 0
+current startNum 0
+current startNum 20000
+current startNum 40000
+current startNum 0
+current startNum 0
+current startNum 20000
+current startNum 40000
+current startNum 10000
+current startNum 30000
+training samples 20000: testing samples: 5000
+current startNum 0
+current startNum 20000
+current startNum 40000
+current startNum 0
+current startNum 20000
+current startNum 40000
+current startNum 0
+current startNum 20000
+current startNum 40000
+current startNum 10000
+current startNum 30000
+training samples 20000: testing samples: 5000
+Top level iter 0
+Top level iter 1
+Top level iter 2
+Iter 0: train: 2.36149901558
+Iter 500: train: 0.604018467431
+Iter 1000: train: 0.283710961377
+Iter 1500: train: 0.579411190766
+Iter 2000: train: 0.39153688229
+Iter 2500: train: 0.317176456041
+Iter 3000: train: 0.400376446997
+Iter 3500: train: 0.401205522019
+Iter 4000: train: 0.298097734436
+Iter 4500: train: 0.312632816546
+Hyper iter 0, error rate 10.08
+Cur_transform 0.2
+calculate hypergradients
+Iter 0: train: 2.4038491794
+Iter 500: train: 0.74691991754
+Iter 1000: train: 0.322088373186
+Iter 1500: train: 0.550013702501
+Iter 2000: train: 0.714274909283
+Iter 2500: train: 0.460334465452
+Iter 3000: train: 0.371720026085
+Iter 3500: train: 0.302033280728
+Iter 4000: train: 0.649043134673
+Iter 4500: train: 0.391711483868
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.41284365631
+Iter 500: train: 0.421032382959
+Iter 1000: train: 0.432248127247
+Iter 1500: train: 0.317285585486
+Iter 2000: train: 0.413951355366
+Iter 2500: train: 0.378902103865
+Iter 3000: train: 0.435626795193
+Iter 3500: train: 0.315606740601
+Iter 4000: train: 0.519916338996
+Iter 4500: train: 0.363746387095
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.427862648
+Iter 500: train: 0.535748772586
+Iter 1000: train: 0.458091005054
+Iter 1500: train: 0.467234579903
+Iter 2000: train: 0.511663361967
+Iter 2500: train: 0.444606289579
+Iter 3000: train: 0.462599152819
+Iter 3500: train: 0.584642791138
+Iter 4000: train: 0.391596429125
+Iter 4500: train: 0.584369622105
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.41300398349
+Iter 500: train: 0.512259670481
+Iter 1000: train: 0.371843246302
+Iter 1500: train: 0.530884842095
+Iter 2000: train: 0.364247069741
+Iter 2500: train: 0.386652461539
+Iter 3000: train: 0.304049535244
+Iter 3500: train: 0.403531403589
+Iter 4000: train: 0.414747722535
+Iter 4500: train: 0.29382075324
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.33749388511
+Iter 500: train: 0.480342842442
+Iter 1000: train: 0.335448537683
+Iter 1500: train: 0.278135000728
+Iter 2000: train: 0.423465057739
+Iter 2500: train: 0.505664808319
+Iter 3000: train: 0.466365104645
+Iter 3500: train: 0.306974461118
+Iter 4000: train: 0.55761947909
+Iter 4500: train: 0.620129159083
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.42036411963
+Iter 500: train: 0.514237053615
+Iter 1000: train: 0.292103337714
+Iter 1500: train: 0.583486373538
+Iter 2000: train: 0.37594482036
+Iter 2500: train: 0.311694875107
+Iter 3000: train: 0.39142859644
+Iter 3500: train: 0.39102694901
+Iter 4000: train: 0.283361562109
+Iter 4500: train: 0.295732533745
+Hyper iter 1, error rate 9.72
+Cur_transform 0.197253124905
+calculate hypergradients
+Iter 0: train: 2.39839514033
+Iter 500: train: 0.520945923745
+Iter 1000: train: 0.327980684866
+Iter 1500: train: 0.390715531572
+Iter 2000: train: 0.389962407686
+Iter 2500: train: 0.396693522617
+Iter 3000: train: 0.492547179102
+Iter 3500: train: 0.511433968314
+Iter 4000: train: 0.29619051156
+Iter 4500: train: 0.25729205837
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.41200310444
+Iter 500: train: 0.502792201712
+Iter 1000: train: 0.450280149967
+Iter 1500: train: 0.443103431072
+Iter 2000: train: 0.388789748499
+Iter 2500: train: 0.379350193789
+Iter 3000: train: 0.405129308961
+Iter 3500: train: 0.38178201833
+Iter 4000: train: 0.474404251335
+Iter 4500: train: 0.32702814596
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.35700606546
+Iter 500: train: 0.603890234502
+Iter 1000: train: 0.378192351216
+Iter 1500: train: 0.402079757216
+Iter 2000: train: 0.295539169896
+Iter 2500: train: 0.392637725671
+Iter 3000: train: 0.372539582294
+Iter 3500: train: 0.379375086256
+Iter 4000: train: 0.544503383605
+Iter 4500: train: 0.392382302821
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.3450058438
+Iter 500: train: 0.641738232097
+Iter 1000: train: 0.371675878068
+Iter 1500: train: 0.364107270116
+Iter 2000: train: 0.324259296659
+Iter 2500: train: 0.443330522498
+Iter 3000: train: 0.565550881491
+Iter 3500: train: 0.407226556599
+Iter 4000: train: 0.343835668904
+Iter 4500: train: 0.219653377064
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.4221743065
+Iter 500: train: 0.441189090013
+Iter 1000: train: 0.560323585524
+Iter 1500: train: 0.458442090113
+Iter 2000: train: 0.500423818168
+Iter 2500: train: 0.277883200149
+Iter 3000: train: 0.365153261009
+Iter 3500: train: 0.524933906288
+Iter 4000: train: 0.373933424313
+Iter 4500: train: 0.388630968958
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.58033685762
+Iter 500: train: 0.548208906126
+Iter 1000: train: 0.273241250348
+Iter 1500: train: 0.548232003887
+Iter 2000: train: 0.379246881943
+Iter 2500: train: 0.29579040779
+Iter 3000: train: 0.371507258567
+Iter 3500: train: 0.382553566141
+Iter 4000: train: 0.273940172661
+Iter 4500: train: 0.285938049577
+Hyper iter 2, error rate 9.8
+Cur_transform 0.194540312034
+calculate hypergradients
+Iter 0: train: 2.56100876381
+Iter 500: train: 0.463398118417
+Iter 1000: train: 0.433990542808
+Iter 1500: train: 0.288569528099
+Iter 2000: train: 0.333209120868
+Iter 2500: train: 0.311541426
+Iter 3000: train: 0.503722014706
+Iter 3500: train: 0.304066806006
+Iter 4000: train: 0.355959513829
+Iter 4500: train: 0.438654463183
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.5321484196
+Iter 500: train: 0.328520604199
+Iter 1000: train: 0.418321285268
+Iter 1500: train: 0.587310282134
+Iter 2000: train: 0.305299804553
+Iter 2500: train: 0.572489258722
+Iter 3000: train: 0.268149442495
+Iter 3500: train: 0.491843265074
+Iter 4000: train: 0.393532327287
+Iter 4500: train: 0.394721142459
+calculate hypergradients end 
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.44545791049
+Iter 500: train: 0.475035203494
+Iter 1000: train: 0.332892340686
+Iter 1500: train: 0.484785756672
+Iter 2000: train: 0.37423042944
+Iter 2500: train: 0.328904753684
+current startNum 0
+current startNum 20000
+current startNum 40000
+current startNum 10000
+current startNum 30000
+training samples 20000: testing samples: 5000
+Top level iter 0
+Top level iter 1
+Top level iter 2
+Iter 0: train: 2.36149901558
+Iter 500: train: 0.604018467431
+Iter 1000: train: 0.283710961377
+Iter 1500: train: 0.579411190766
+Iter 2000: train: 0.39153688229
+Iter 2500: train: 0.317176456041
+Iter 3000: train: 0.400376446997
+Iter 3500: train: 0.401205522019
+Iter 4000: train: 0.298097734436
+Iter 4500: train: 0.312632816546
+Hyper iter 0, error rate 10.08
+Cur_transform 0.2
+calculate hypergradients
+Iter 0: train: 2.4038491794
+Iter 500: train: 0.74691991754
+Iter 1000: train: 0.322088373186
+Iter 1500: train: 0.550013702501
+Iter 2000: train: 0.714274909283
+Iter 2500: train: 0.460334465452
+Iter 3000: train: 0.371720026085
+Iter 3500: train: 0.302033280728
+Iter 4000: train: 0.649043134673
+Iter 4500: train: 0.391711483868
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.40247114671
+Iter 500: train: 0.423809777065
+Iter 1000: train: 0.436565487885
+Iter 1500: train: 0.317610373108
+Iter 2000: train: 0.415243476475
+Iter 2500: train: 0.382182421183
+Iter 3000: train: 0.436590487835
+Iter 3500: train: 0.318290809118
+Iter 4000: train: 0.52197551406
+Iter 4500: train: 0.367710228657
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.42063604531
+Iter 500: train: 0.537632442984
+Iter 1000: train: 0.465157456484
+Iter 1500: train: 0.473032941945
+Iter 2000: train: 0.515479391426
+Iter 2500: train: 0.446596895821
+Iter 3000: train: 0.464467706604
+Iter 3500: train: 0.591821883173
+Iter 4000: train: 0.396632013145
+Iter 4500: train: 0.590697442919
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.40375487695
+Iter 500: train: 0.521892801221
+Iter 1000: train: 0.378517911698
+Iter 1500: train: 0.541118930163
+Iter 2000: train: 0.373984284255
+Iter 2500: train: 0.399131431826
+Iter 3000: train: 0.310266540135
+Iter 3500: train: 0.409511680746
+Iter 4000: train: 0.42503590478
+Iter 4500: train: 0.298687790573
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.35568307757
+Iter 500: train: 0.491589043712
+Iter 1000: train: 0.339094394094
+Iter 1500: train: 0.290288999933
+Iter 2000: train: 0.437197266912
+Iter 2500: train: 0.508618308409
+Iter 3000: train: 0.482569341721
+Iter 3500: train: 0.317405769577
+Iter 4000: train: 0.581854800953
+Iter 4500: train: 0.644686381619
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.41441393954
+Iter 500: train: 0.49766596067
+Iter 1000: train: 0.27806010299
+Iter 1500: train: 0.574727363885
+Iter 2000: train: 0.362728571741
+Iter 2500: train: 0.289818210117
+Iter 3000: train: 0.372911113939
+Iter 3500: train: 0.377175059668
+Iter 4000: train: 0.26467552429
+Iter 4500: train: 0.278992560335
+Hyper iter 1, error rate 9.58
+Cur_transform 0.202895289073
+calculate hypergradients
+Iter 0: train: 2.39620514873
+Iter 500: train: 0.501046854066
+Iter 1000: train: 0.306346259392
+Iter 1500: train: 0.382032107841
+Iter 2000: train: 0.374979517055
+Iter 2500: train: 0.379467927291
+Iter 3000: train: 0.47276881195
+Iter 3500: train: 0.495203517279
+Iter 4000: train: 0.283176958227
+Iter 4500: train: 0.237333409625
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.41957497246
+Iter 500: train: 0.479202400855
+Iter 1000: train: 0.431313535701
+Iter 1500: train: 0.432367452645
+Iter 2000: train: 0.36475327486
+Iter 2500: train: 0.359150482853
+Iter 3000: train: 0.383014893783
+Iter 3500: train: 0.360866624164
+Iter 4000: train: 0.459896044366
+Iter 4500: train: 0.309737908744
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.37555409975
+Iter 500: train: 0.59274881872
+Iter 1000: train: 0.373284369524
+Iter 1500: train: 0.381661997961
+Iter 2000: train: 0.277909661389
+Iter 2500: train: 0.378810769032
+Iter 3000: train: 0.366794392065
+Iter 3500: train: 0.356994038219
+Iter 4000: train: 0.532583254807
+Iter 4500: train: 0.373481330513
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.35791392585
+Iter 500: train: 0.620027267754
+Iter 1000: train: 0.347277220096
+Iter 1500: train: 0.347449775557
+Iter 2000: train: 0.312995965616
+Iter 2500: train: 0.432293884977
+Iter 3000: train: 0.543693071609
+Iter 3500: train: 0.400961052892
+Iter 4000: train: 0.320789355045
+Iter 4500: train: 0.210866777535
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.40679437598
+Iter 500: train: 0.429680692048
+Iter 1000: train: 0.562953403243
+Iter 1500: train: 0.464698887685
+Iter 2000: train: 0.484451586617
+Iter 2500: train: 0.275879991791
+Iter 3000: train: 0.366522303901
+Iter 3500: train: 0.514962334874
+Iter 4000: train: 0.36069537108
+Iter 4500: train: 0.381473565098
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.59773191768
+Iter 500: train: 0.508632537763
+Iter 1000: train: 0.246429646144
+Iter 1500: train: 0.510794497138
+Iter 2000: train: 0.350816451872
+Iter 2500: train: 0.251981718969
+Iter 3000: train: 0.356573702809
+Iter 3500: train: 0.363469443235
+Iter 4000: train: 0.237155125698
+Iter 4500: train: 0.268973888917
+Hyper iter 2, error rate 9.44
+Cur_transform 0.206313676591
+calculate hypergradients
+Iter 0: train: 2.62038564994
+Iter 500: train: 0.421474466168
+Iter 1000: train: 0.394330199544
+Iter 1500: train: 0.270759530333
+Iter 2000: train: 0.296307511003
+Iter 2500: train: 0.294836741095
+Iter 3000: train: 0.467812696118
+Iter 3500: train: 0.283964978137
+Iter 4000: train: 0.340300637475
+Iter 4500: train: 0.399283512298
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.59821033796
+Iter 500: train: 0.272816369026
+Iter 1000: train: 0.37941463474
+Iter 1500: train: 0.556065222413
+Iter 2000: train: 0.281508854546
+Iter 2500: train: 0.530871696353
+Iter 3000: train: 0.235923687835
+Iter 3500: train: 0.456168397543
+Iter 4000: train: 0.376149710103
+Iter 4500: train: 0.361341936303
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.53071157874
+Iter 500: train: 0.40822511747
+Iter 1000: train: 0.29348639943
+Iter 1500: train: 0.460427927344
+Iter 2000: train: 0.349523937716
+Iter 2500: train: 0.295336037307
+Iter 3000: train: 0.337612375223
+Iter 3500: train: 0.296445571033
+Iter 4000: train: 0.45542813651
+Iter 4500: train: 0.464360950655
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.5069730872
+Iter 500: train: 0.504594941312
+Iter 1000: train: 0.414145418317
+Iter 1500: train: 0.268629966905
+Iter 2000: train: 0.300212135366
+Iter 2500: train: 0.202199870499
+Iter 3000: train: 0.228540922315
+Iter 3500: train: 0.362737477557
+Iter 4000: train: 0.273562787245
+Iter 4500: train: 0.24969837797
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.54788557904
+Iter 500: train: 0.368646868145
+Iter 1000: train: 0.399234922696
+Iter 1500: train: 0.2576405533
+Iter 2000: train: 0.56645879437
+Iter 2500: train: 0.487868408061
+Iter 3000: train: 0.318004155443
+Iter 3500: train: 0.271229471279
+Iter 4000: train: 0.263508795046
+Iter 4500: train: 0.481799537406
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.30541525483
+Iter 500: train: 0.57948276043
+Iter 1000: train: 0.25211488815
+Iter 1500: train: 0.529362308106
+Iter 2000: train: 0.333516808187
+Iter 2500: train: 0.223951150205
+Iter 3000: train: 0.362432591983
+Iter 3500: train: 0.339417999962
+Iter 4000: train: 0.208651503654
+Iter 4500: train: 0.255173552618
+Hyper iter 3, error rate 8.92
+Cur_transform 0.207299048082
+calculate hypergradients
+Iter 0: train: 2.50189084231
+Iter 500: train: 0.420810802084
+Iter 1000: train: 0.511446394355
+Iter 1500: train: 0.317249449458
+Iter 2000: train: 0.262017592571
+Iter 2500: train: 0.322260571665
+Iter 3000: train: 0.279586110037
+Iter 3500: train: 0.271912551423
+Iter 4000: train: 0.313572110987
+Iter 4500: train: 0.31467577783
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.52806663866
+Iter 500: train: 0.394964250329
+Iter 1000: train: 0.509179288542
+Iter 1500: train: 0.413410629032
+Iter 2000: train: 0.426736988637
+Iter 2500: train: 0.510138028634
+Iter 3000: train: 0.299361317678
+Iter 3500: train: 0.305440445731
+Iter 4000: train: 0.415881392432
+Iter 4500: train: 0.560087312116
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.52357485377
+Iter 500: train: 0.408736384065
+Iter 1000: train: 0.360607397426
+Iter 1500: train: 0.330390418859
+Iter 2000: train: 0.288255941452
+Iter 2500: train: 0.322944147983
+Iter 3000: train: 0.407701241182
+Iter 3500: train: 0.277892586448
+Iter 4000: train: 0.372248087327
+Iter 4500: train: 0.287187088303
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.49212243749
+Iter 500: train: 0.347760804722
+Iter 1000: train: 0.443479398525
+Iter 1500: train: 0.431753001722
+Iter 2000: train: 0.301212451467
+Iter 2500: train: 0.225284457818
+Iter 3000: train: 0.369704113418
+Iter 3500: train: 0.256678840347
+Iter 4000: train: 0.374776717628
+Iter 4500: train: 0.351368393114
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.50663523807
+Iter 500: train: 0.328062159216
+Iter 1000: train: 0.337368043954
+Iter 1500: train: 0.304724220202
+Iter 2000: train: 0.410147768503
+Iter 2500: train: 0.297711983223
+Iter 3000: train: 0.31305722809
+Iter 3500: train: 0.271931682145
+Iter 4000: train: 0.313921180408
+Iter 4500: train: 0.326221117684
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.52312312916
+Iter 500: train: 0.520425234607
+Iter 1000: train: 0.207498822095
+Iter 1500: train: 0.518981802222
+Iter 2000: train: 0.303880735655
+Iter 2500: train: 0.218201319212
+Iter 3000: train: 0.345300249905
+Iter 3500: train: 0.323019014789
+Iter 4000: train: 0.184365794297
+Iter 4500: train: 0.245450006412
+Hyper iter 4, error rate 8.68
+Cur_transform 0.20711657188
+calculate hypergradients
+Iter 0: train: 2.40562038938
+Iter 500: train: 0.481182206176
+Iter 1000: train: 0.39428732722
+Iter 1500: train: 0.393880666093
+Iter 2000: train: 0.219253449358
+Iter 2500: train: 0.354789281873
+Iter 3000: train: 0.224243675449
+Iter 3500: train: 0.425537339329
+Iter 4000: train: 0.355109635695
+Iter 4500: train: 0.374233123658
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.29382655918
+Iter 500: train: 0.443740486512
+Iter 1000: train: 0.333829798834
+Iter 1500: train: 0.444482563677
+Iter 2000: train: 0.433136502112
+Iter 2500: train: 0.354989234177
+Iter 3000: train: 0.391643325607
+Iter 3500: train: 0.294419811155
+Iter 4000: train: 0.415641696998
+Iter 4500: train: 0.24489364475
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.230074681
+Iter 500: train: 0.316450601522
+Iter 1000: train: 0.384944590311
+Iter 1500: train: 0.296085776826
+Iter 2000: train: 0.245659443637
+Iter 2500: train: 0.360015206552
+Iter 3000: train: 0.294700622176
+Iter 3500: train: 0.353244413581
+Iter 4000: train: 0.27855988706
+Iter 4500: train: 0.354363524043
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.39021042441
+Iter 500: train: 0.370833547574
+Iter 1000: train: 0.365378324785
+Iter 1500: train: 0.310363459594
+Iter 2000: train: 0.326191040163
+Iter 2500: train: 0.354196195153
+Iter 3000: train: 0.222795025724
+Iter 3500: train: 0.317201771897
+Iter 4000: train: 0.256898334951
+Iter 4500: train: 0.568900016801
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.27201243767
+Iter 500: train: 0.192245331356
+Iter 1000: train: 0.250329132432
+Iter 1500: train: 0.743823533324
+Iter 2000: train: 0.43311799987
+Iter 2500: train: 0.200223666158
+Iter 3000: train: 0.194480877469
+Iter 3500: train: 0.366531539558
+Iter 4000: train: 0.272064524428
+Iter 4500: train: 0.235068903812
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.5157628784
+Iter 500: train: 0.483070304832
+Iter 1000: train: 0.206685054771
+Iter 1500: train: 0.509310230919
+Iter 2000: train: 0.30622161776
+Iter 2500: train: 0.167546273202
+Iter 3000: train: 0.332772776714
+Iter 3500: train: 0.328852666242
+Iter 4000: train: 0.167877675113
+Iter 4500: train: 0.225039663183
+Hyper iter 5, error rate 8.18
+Cur_transform 0.206666463915
+calculate hypergradients
+Iter 0: train: 2.54586367921
+Iter 500: train: 0.315083345027
+Iter 1000: train: 0.427657687294
+Iter 1500: train: 0.402144509382
+Iter 2000: train: 0.313800033642
+Iter 2500: train: 0.393254774089
+Iter 3000: train: 0.289860120474
+Iter 3500: train: 0.24230280253
+Iter 4000: train: 0.242820858208
+Iter 4500: train: 0.301672523167
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.43664821551
+Iter 500: train: 0.279326154586
+Iter 1000: train: 0.454666980363
+Iter 1500: train: 0.29542023589
+Iter 2000: train: 0.288895883725
+Iter 2500: train: 0.663209271322
+Iter 3000: train: 0.326006956552
+Iter 3500: train: 0.308454357335
+Iter 4000: train: 0.448120912121
+Iter 4500: train: 0.529001409706
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.55399977787
+Iter 500: train: 0.454734878344
+Iter 1000: train: 0.362597258623
+Iter 1500: train: 0.339519426853
+Iter 2000: train: 0.329493370249
+Iter 2500: train: 0.357298681161
+Iter 3000: train: 0.319020875441
+Iter 3500: train: 0.39609512777
+Iter 4000: train: 0.421109465725
+Iter 4500: train: 0.214109638209
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.49924691002
+Iter 500: train: 0.404685796198
+Iter 1000: train: 0.378572366974
+Iter 1500: train: 0.436847895484
+Iter 2000: train: 0.405508884884
+Iter 2500: train: 0.3101804897
+Iter 3000: train: 0.196257862562
+Iter 3500: train: 0.4865913806
+Iter 4000: train: 0.282470552298
+Iter 4500: train: 0.21868049608
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.5211728757
+Iter 500: train: 0.677984919282
+Iter 1000: train: 0.369722658571
+Iter 1500: train: 0.262233539571
+Iter 2000: train: 0.232945263031
+Iter 2500: train: 0.346269121331
+Iter 3000: train: 0.522914507406
+Iter 3500: train: 0.203373638611
+Iter 4000: train: 0.287026613455
+Iter 4500: train: 0.300639207017
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.55747292407
+Iter 500: train: 0.410132464447
+Iter 1000: train: 0.172901034247
+Iter 1500: train: 0.52836325014
+Iter 2000: train: 0.290926575839
+Iter 2500: train: 0.166661835721
+Iter 3000: train: 0.327032567413
+Iter 3500: train: 0.318280039557
+Iter 4000: train: 0.160370780267
+Iter 4500: train: 0.224808261484
+Hyper iter 6, error rate 8.24
+Cur_transform 0.208235759253
+calculate hypergradients
+Iter 0: train: 2.30599849294
+Iter 500: train: 0.488436691753
+Iter 1000: train: 0.412321014562
+Iter 1500: train: 0.230641616
+Iter 2000: train: 0.522053987834
+Iter 2500: train: 0.555894022019
+Iter 3000: train: 0.295872887767
+Iter 3500: train: 0.240915415292
+Iter 4000: train: 0.40538947774
+Iter 4500: train: 0.171101129796
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.46639567796
+Iter 500: train: 0.413430122246
+Iter 1000: train: 0.316853380972
+Iter 1500: train: 0.363309969784
+Iter 2000: train: 0.536878816469
+Iter 2500: train: 0.344875610809
+Iter 3000: train: 0.210032515196
+Iter 3500: train: 0.590721589839
+Iter 4000: train: 0.251001374829
+Iter 4500: train: 0.455156186323
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.48376254981
+Iter 500: train: 0.30667507317
+Iter 1000: train: 0.413403199138
+Iter 1500: train: 0.33349956549
+Iter 2000: train: 0.140466625375
+Iter 2500: train: 0.15924237471
+Iter 3000: train: 0.213593475753
+Iter 3500: train: 0.257003023111
+Iter 4000: train: 0.183889766158
+Iter 4500: train: 0.412127115763
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.52799345666
+Iter 500: train: 0.726504561385
+Iter 1000: train: 0.213634080603
+Iter 1500: train: 0.285444187973
+Iter 2000: train: 0.251335788639
+Iter 2500: train: 0.18495186478
+Iter 3000: train: 0.303764601358
+Iter 3500: train: 0.352450531576
+Iter 4000: train: 0.236023000608
+Iter 4500: train: 0.15600010384
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.44251561614
+Iter 500: train: 0.324274279321
+Iter 1000: train: 0.447125509528
+Iter 1500: train: 0.38408198392
+Iter 2000: train: 0.234564965027
+Iter 2500: train: 0.208016500092
+Iter 3000: train: 0.306261941621
+Iter 3500: train: 0.29417556687
+Iter 4000: train: 0.373720467014
+Iter 4500: train: 0.161684724357
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.63323637521
+Iter 500: train: 0.394420280977
+Iter 1000: train: 0.189170918745
+Iter 1500: train: 0.525559207516
+Iter 2000: train: 0.261112870839
+Iter 2500: train: 0.156143740643
+Iter 3000: train: 0.327786044606
+Iter 3500: train: 0.259944166914
+Iter 4000: train: 0.126262245185
+Iter 4500: train: 0.189141480093
+Hyper iter 7, error rate 7.98
+Cur_transform 0.213661384994
+calculate hypergradients
+Iter 0: train: 2.63722766798
+Iter 500: train: 0.280151417063
+Iter 1000: train: 0.375478611236
+Iter 1500: train: 0.171645559143
+Iter 2000: train: 0.246632078098
+Iter 2500: train: 0.191540803041
+Iter 3000: train: 0.388675300288
+Iter 3500: train: 0.244204490681
+Iter 4000: train: 0.319693745498
+Iter 4500: train: 0.229770035239
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.52163224185
+Iter 500: train: 0.389132051448
+Iter 1000: train: 0.346231695169
+Iter 1500: train: 0.204450473398
+Iter 2000: train: 0.520155871844
+Iter 2500: train: 0.213263927796
+Iter 3000: train: 0.216910280599
+Iter 3500: train: 0.221271349575
+Iter 4000: train: 0.388264653499
+Iter 4500: train: 0.227764020012
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.35209922737
+Iter 500: train: 0.321664265805
+Iter 1000: train: 0.361764590542
+Iter 1500: train: 0.457606565563
+Iter 2000: train: 0.266944784556
+Iter 2500: train: 0.245918344809
+Iter 3000: train: 0.191403388361
+Iter 3500: train: 0.224331572173
+Iter 4000: train: 0.233370414226
+Iter 4500: train: 0.194922085514
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.43432661769
+Iter 500: train: 0.269015991205
+Iter 1000: train: 0.226612583988
+Iter 1500: train: 0.426758843986
+Iter 2000: train: 0.393576611943
+Iter 2500: train: 0.425095687362
+Iter 3000: train: 0.261463435389
+Iter 3500: train: 0.348905044988
+Iter 4000: train: 0.259738207703
+Iter 4500: train: 0.294348445868
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.61287720075
+Iter 500: train: 0.305684074558
+Iter 1000: train: 0.253093390093
+Iter 1500: train: 0.401298955335
+Iter 2000: train: 0.26302890252
+Iter 2500: train: 0.276698170194
+Iter 3000: train: 0.248439758613
+Iter 3500: train: 0.154410190513
+Iter 4000: train: 0.146268571772
+Iter 4500: train: 0.252156827446
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.65448342916
+Iter 500: train: 0.426082422463
+Iter 1000: train: 0.157809234071
+Iter 1500: train: 0.476021460059
+Iter 2000: train: 0.254145739012
+Iter 2500: train: 0.135131692742
+Iter 3000: train: 0.297452543963
+Iter 3500: train: 0.277821348021
+Iter 4000: train: 0.126369305691
+Iter 4500: train: 0.167306503792
+Hyper iter 8, error rate 7.48
+Cur_transform 0.212213740458
+calculate hypergradients
+Iter 0: train: 2.83818930277
+Iter 500: train: 0.393482873263
+Iter 1000: train: 0.358247215562
+Iter 1500: train: 0.233879796725
+Iter 2000: train: 0.195783854992
+Iter 2500: train: 0.486999871547
+Iter 3000: train: 0.261252011972
+Iter 3500: train: 0.298573585608
+Iter 4000: train: 0.1572011114
+Iter 4500: train: 0.13357303517
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.79495611301
+Iter 500: train: 0.459076775802
+Iter 1000: train: 0.187495276615
+Iter 1500: train: 0.129080399372
+Iter 2000: train: 0.374367691032
+Iter 2500: train: 0.23441296255
+Iter 3000: train: 0.252068551514
+Iter 3500: train: 0.327310387236
+Iter 4000: train: 0.214886400799
+Iter 4500: train: 0.311071061579
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.88318123489
+Iter 500: train: 0.467444541026
+Iter 1000: train: 0.345261868938
+Iter 1500: train: 0.267857295184
+Iter 2000: train: 0.223660403839
+Iter 2500: train: 0.22229970357
+Iter 3000: train: 0.24429127256
+Iter 3500: train: 0.267850443344
+Iter 4000: train: 0.142034491405
+Iter 4500: train: 0.172381672416
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.7738419815
+Iter 500: train: 0.197655652312
+Iter 1000: train: 0.258632793386
+Iter 1500: train: 0.305758844426
+Iter 2000: train: 0.209582504621
+Iter 2500: train: 0.137878644351
+Iter 3000: train: 0.214750971164
+Iter 3500: train: 0.305317648987
+Iter 4000: train: 0.105005753615
+Iter 4500: train: 0.245531186446
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.66157030261
+Iter 500: train: 0.397150769826
+Iter 1000: train: 0.330740449053
+Iter 1500: train: 0.299944756682
+Iter 2000: train: 0.302890753658
+Iter 2500: train: 0.320223164649
+Iter 3000: train: 0.490826765072
+Iter 3500: train: 0.244970311168
+Iter 4000: train: 0.256951558966
+Iter 4500: train: 0.172109182133
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.56507374318
+Iter 500: train: 0.429525376842
+Iter 1000: train: 0.163606320919
+Iter 1500: train: 0.526327323086
+Iter 2000: train: 0.242994445581
+Iter 2500: train: 0.107598999392
+Iter 3000: train: 0.27952786098
+Iter 3500: train: 0.304462771212
+Iter 4000: train: 0.0957645920181
+Iter 4500: train: 0.180253167931
+Hyper iter 9, error rate 7.28
+Cur_transform 0.218831544053
+calculate hypergradients
+Iter 0: train: 2.64508853705
+Iter 500: train: 0.26655513766
+Iter 1000: train: 0.30167831317
+Iter 1500: train: 0.243630231742
+Iter 2000: train: 0.169799979999
+Iter 2500: train: 0.326100466999
+Iter 3000: train: 0.194190413252
+Iter 3500: train: 0.271026259245
+Iter 4000: train: 0.273998551528
+Iter 4500: train: 0.133828312345
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.54922724664
+Iter 500: train: 0.414251164645
+Iter 1000: train: 0.30257251547
+Iter 1500: train: 0.397416284367
+Iter 2000: train: 0.304950855667
+Iter 2500: train: 0.189210932473
+Iter 3000: train: 0.166191524104
+Iter 3500: train: 0.0951701791346
+Iter 4000: train: 0.232403123471
+Iter 4500: train: 0.13603305371
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.66734368161
+Iter 500: train: 0.285444439807
+Iter 1000: train: 0.252101405781
+Iter 1500: train: 0.207927661526
+Iter 2000: train: 0.21182218527
+Iter 2500: train: 0.222450682691
+Iter 3000: train: 0.280970334381
+Iter 3500: train: 0.235814238482
+Iter 4000: train: 0.42047167829
+Iter 4500: train: 0.244429730498
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.53214701102
+Iter 500: train: 0.363620429567
+Iter 1000: train: 0.281408534358
+Iter 1500: train: 0.299231289264
+Iter 2000: train: 0.167181579227
+Iter 2500: train: 0.128118849804
+Iter 3000: train: 0.378085357615
+Iter 3500: train: 0.218436009632
+Iter 4000: train: 0.331884256858
+Iter 4500: train: 0.108024732219
+calculate hypergradients end 
+calculate hypergradients
+Iter 0: train: 2.49712189194
+Iter 500: train: 0.604234610532
+Iter 1000: train: 0.218942925737
+Iter 1500: train: 0.52894959474
+Iter 2000: train: 0.225569709489
+Iter 2500: train: 0.153578391498
+Iter 3000: train: 0.226260029348
+Iter 3500: train: 0.269524083378
+Iter 4000: train: 0.148978522737
+Iter 4500: train: 0.199967642691
+calculate hypergradients end 
+calculate hypergradients end 
+Iter 0: train: 2.73824439842
+Iter 500: train: 0.324790803712
+Iter 1000: train: 0.169756117072
+Iter 1500: train: 0.474990854519
+Iter 2000: train: 0.246634896056
+Iter 2500: train: 0.109952469652
+Iter 3000: train: 0.267375920028
+Iter 3500: train: 0.288662202558
+Iter 4000: train: 0.0938925146148
+Iter 4500: train: 0.147341017138
+Hyper iter 10, error rate 7.14
+Cur_transform 0.22568048417
+calculate hypergradients
+Iter 0: train: 2.69449932691
+Iter 500: train: 0.340111950812
+Iter 1000: train: 0.341755770077
