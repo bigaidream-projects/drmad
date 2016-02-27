@@ -2,6 +2,7 @@
 
 Jie Fu, Hongyin Luo, Jiashi Feng, Kian Hsiang Low, Tat-Seng Chua
 
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bigaidream/drmad?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![ZenHub] (https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.io)
 
 > Source code for http://arxiv.org/abs/1601.00917
@@ -28,8 +29,10 @@ you should be at the same version we used to run the experiments.
 
 That version also predates the setup.py file, so to get your code to use the old version, you'll either have to copy setup.py into the old revision and reinstall, or add FunkyYak to your PYTHONPATH.
 
-## TODO
-Currently, our experiments are based on [autograd](https://github.com/HIPS/autograd). We are rewriting it using Lua/Torch to use GPUs. 
+## Doing Now
+Currently, our experiments are based on [autograd](https://github.com/HIPS/autograd). We are rewriting it using [torch-autograd](https://github.com/twitter/torch-autograd) to run on GPUs. 
+
+The entry point is [here](https://github.com/bigaidream-projects/drmad/tree/master/hypergrad_lua)
 
 ## Acknowledgements
 Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. This work is also supported by NUS-Tsinghua Extreme Search (NExT) project. 
