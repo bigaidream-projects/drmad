@@ -6,10 +6,12 @@
 
 We are to rewrite [hypergrad](https://github.com/HIPS/hypergrad) using Lua/Torch, using [torch-autograd](https://github.com/twitter/torch-autograd)
 
+## Current Status
+Only skech code using torch-autograd
+
 ## TODO
-1. Understand what is `automatic differentiation`. Read: [Automatic differentiation in machine learning: a survey](http://arxiv.org/abs/1502.05767)
-2. Read: [Gradient-based Hyperparameter Optimization through Reversible Learning](http://arxiv.org/abs/1502.03492)
-3. Converting the code of [hypergrad](https://github.com/HIPS/hypergrad) into Lua/Torch
+1. GPU version
+2. Refactoring
 
 ## Rally ([Net2Net](https://github.com/soumith/net2net.torch)) for ImageNet Dataset
 ImageNet dataset usually needs ~450,000 iterations. DrMAD may not approxiate this long trajectory well. 
