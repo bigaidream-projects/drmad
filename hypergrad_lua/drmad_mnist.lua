@@ -1,6 +1,6 @@
 --[[
 One meta-iteration for DrMAD on MNIST
-March 5, Jie Fu, http://bigaidream.github.io/contacth.html
+March 29, Jie Fu, http://bigaidream.github.io/contacth.html
 MIT license
 
 Modified from torch-autograd's example, train-mnist-mlp.lua
@@ -16,10 +16,13 @@ local grad = require 'autograd'
 local util = require 'autograd.util'
 local lossFuns = require 'autograd.loss'
 local optim = require 'optim'
-local debugger = require('fb.debugger')
+-- using https://github.com/slembcke/debugger.lua
+local debugger = require('debugger')
 
 grad.optimize(true)
 package.path = package.path .. ";/home/jie/d2/github/bigaidream-projects/drmad/hypergrad_lua/?.lua"
+
+
 -- Load in MNIST
 local fullData, testData, classes = require('get-mnist')()
 trainData = {
@@ -98,7 +101,7 @@ initParams = deepcopy(params)
 local dfTrain = grad(fTrain, { optimize = true })
 
 ------------------------------------
--- Forward pass
+-- [[Forward pass]]
 -----------------------------------
 
 -- elementary learning rate
@@ -136,7 +139,7 @@ finalParams = deepcopy(params)
 
 
 ----------------------
--- Backward pass
+-- [[Backward pass]]
 -----------------------
 
 local shallowcopy = require 'shallowcopy'
@@ -149,22 +152,49 @@ end
 
 -- Define validation loss
 validLoss = 0
-function fValid(params, x, y)
-    --confusionMatrix:zero()
-    print('==> testing on valid set:')
-    for t = 1, 10 do
-        -- get new sample
-        local input = x[t]
-        --  if opth.type == 'double' then input = input:double()
-        --  elseif opth.type == 'cuda' then input = input:cuda() end
-        local target = y[t]
-        local prediction = predict(params, input)
-        validLoss = validLoss + lossFuns.logMultinomialLoss(prediction, target)
-        --  local pred = model:forward(input)
-        --  confusionMatrix:add(pred, target)
+
+function fValid(params, input, target)
+    local prediction = predict(params, input)
+    local loss = lossFuns.logMultinomialLoss(prediction, target)
+    return loss, prediction
+end
+local dfValid = grad(fValid, { optimize = true })
+
+-- Initialize validGrads
+local VW1 = th.FloatTensor(inputSize, 50):fill(0)
+local VB1 = th.FloatTensor(50):fill(0)
+local VW2 = th.FloatTensor(50, 50):fill(0)
+local VB2 = th.FloatTensor(50):fill(0)
+local VW3 = th.FloatTensor(50, #classes):fill(0)
+local VB3 = th.FloatTensor(#classes):fill(0)
+
+validGrads = {
+    W = { VW1, VW2, VW3 },
+    B = { VB1, VB2, VB3 }
+}
+
+-- Get gradient of validation loss w.r.th. finalParams
+-- Test network to get validation gradients w.r.t weights
+for epoch = 1, numEpoch do
+    print('Forward Training Epoch #' .. epoch)
+    for i = 1, transValidData.size do
+        -- Next sample:
+        local x = transValidData.x[i]:view(1, inputSize)
+        local y = th.view(transValidData.y[i], 1, 10)
+
+        -- Grads:
+        local grads, loss, prediction = dfValid(params, x, y)
+        for i = 1, #params.W do
+            validGrads.W[i] = validGrads.W[i] + grads.W[i]
+            validGrads.B[i] = validGrads.B[i] - grads.B[i]
+        end
     end
-    validLoss  = validLoss / (validData.size)
-    return validLoss
+end
+
+-- Get average validation gradients w.r.t weights and biases
+for i = 1, #params.W do
+    validGrads.W[i] = validGrads.W[i]/numEpoch
+    validGrads.B[i] = validGrads.B[i]/numEpoch
 end
 
 -------------------------------------
@@ -183,22 +213,16 @@ local DHY3 = th.FloatTensor(50, #classes):fill(0)
 local DHY = { DHY1, DHY2, DHY3 }
 
 
--- Get gradient of validation loss w.r.th. finalParams
-local dfValid = grad(fValid, { optimize = true })
-local validGrads, validLoss = dfValid(params, transValidData.x, transValidData.y)
-
 local nLayers = 3
-local proj = th.FloatTensor(1024, 50)
+local proj = th.FloatTensor(1024, 50):fill(0)
 function gradProj(params, input, target)
     local grads, loss, prediction = dfTrain(params, input, target)
     for i = 1, nLayers do
-        proj = proj + th.cmul(grads.W[i], DV[i])
-        debugger.enter()
+        proj = proj + grads.W[i] * DV[i]
     end
     proj = th.sum(proj)
     return proj
 end
-
 local dHVP = grad(gradProj)
 
 ----------------------------------------------

@@ -13,4 +13,4 @@ local function deepcopy(orig)
     return copy
 end
 
-return 'deepcopy'
+return deepcopy

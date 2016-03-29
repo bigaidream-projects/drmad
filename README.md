@@ -35,4 +35,4 @@ Currently, our experiments are based on [autograd](https://github.com/HIPS/autog
 The entry point is [here](https://github.com/bigaidream-projects/drmad/tree/master/hypergrad_lua)
 
 ## Acknowledgements
-Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. This work is also supported by NUS-Tsinghua Extreme Search (NExT) project. 
+Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. This work is also supported by NUS-Tsinghua Extreme Search (NExT) project. NExT research is supported by the National Research Foundation, Prime Minister's Office, Singapore under its IRC@SG Funding Initiative.
