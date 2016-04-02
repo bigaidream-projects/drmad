@@ -1,14 +1,12 @@
 --[[
 One meta-iteration for DrMAD on MNIST
-March 29, Jie Fu, http://bigaidream.github.io/contacth.html
+April 2, 2016 Jie Fu, http://bigaidream.github.io/contacth.html
 MIT license
 
 Modified from torch-autograd's example, train-mnist-mlp.lua
 ]]
 
 -- Purely stochastic training on purpose, to test the linear subspace hypothesis
--- can NOT work yet!
-
 
 -- Import libs
 local th = require 'torch'
@@ -84,6 +82,8 @@ local initHyper = 0.001
 local HY1 = th.FloatTensor(inputSize, 50):fill(initHyper)
 local HY2 = th.FloatTensor(50, 50):fill(initHyper)
 local HY3 = th.FloatTensor(50, #classes):fill(initHyper)
+
+
 
 -- Trainable parameters and hyperparameters:
 params = {
@@ -199,13 +199,6 @@ end
 
 -------------------------------------
 
--- Initialize derivative w.r.th. velocity
-local DV1 = th.FloatTensor(inputSize, 50):fill(0)
-local DV2 = th.FloatTensor(50, 50):fill(0)
-local DV3 = th.FloatTensor(50, #classes):fill(0)
-local DV = { DV1, DV2, DV3 }
-
-
 -- Initialize derivative w.r.th. hyperparameters
 local DHY1 = th.FloatTensor(inputSize, 50):fill(0)
 local DHY2 = th.FloatTensor(50, 50):fill(0)
@@ -214,14 +207,27 @@ local DHY = { DHY1, DHY2, DHY3 }
 
 
 local nLayers = 3
-local proj = th.FloatTensor(1024, 50):fill(0)
-function gradProj(params, input, target)
+local proj1 = th.zero(th.FloatTensor(inputSize, 50))
+local proj2 = th.zero(th.FloatTensor(50, 50))
+local proj3 = th.zero(th.FloatTensor(50, #classes))
+
+
+-- Initialize derivative w.r.th. velocity
+local DV1 = th.FloatTensor(inputSize, 50):fill(0)
+local DV2 = th.FloatTensor(50, 50):fill(0)
+local DV3 = th.FloatTensor(50, #classes):fill(0)
+local DV = { DV1, DV2, DV3 }
+
+
+-- https://github.com/twitter/torch-autograd/issues/66
+-- torch-autograd needs to track all variables
+function gradProj(params, input, target, proj_1, proj_2, proj_3, DV_1, DV_2, DV_3)
     local grads, loss, prediction = dfTrain(params, input, target)
-    for i = 1, nLayers do
-        proj = proj + grads.W[i] * DV[i]
-    end
-    proj = th.sum(proj)
-    return proj
+    proj_1 = proj_1 + th.cmul(grads.W[1] , DV_1)
+    proj_2 = proj_2 + th.cmul(grads.W[2] , DV_2)
+    proj_3 = proj_3 + th.cmul(grads.W[3] , DV_3)
+    local loss = th.sum(proj_1) + th.sum(proj_2) + th.sum(proj_3)
+    return loss
 end
 local dHVP = grad(gradProj)
 
@@ -231,10 +237,9 @@ numIter = numEpoch * (trainData.size)
 local beta = th.linspace(0.001, 0.999, numIter)
 
 -- learning rate for hyperparameters
-local hLr
+local hLr = 0.01
 
 for epoch = 1, numEpoch do
-
 
     print('Backword Training Epoch #' .. epoch)
     for i = 1, trainData.size do
@@ -242,22 +247,14 @@ for epoch = 1, numEpoch do
         local x = trainData.x[i]:view(1, inputSize)
         local y = th.view(trainData.y[i], 1, 10)
         for j = 1, nLayers do
-            params.W[j] = th.mul(initParams.W[j], (1 - beta[-numEpoch * (i + epoch)])) + th.mul(finalParams.W[j], beta[-numEpoch * (i + epoch)])
+            params.W[j] = th.mul(initParams.W[j], (1 - beta[-numEpoch * (i + epoch-1)])) + th.mul(finalParams.W[j], beta[-numEpoch * (i + epoch-1)])
             DV[j] = DV[j] + validGrads.W[j] * eLr
         end
-        grads, loss = dHVP(params, x, y)
+        local grads, loss = dHVP(params, x, y, proj1, proj2, proj3, DV1, DV2, DV3)
         for j = 1, nLayers do
             validGrads.W[j] = validGrads.W[j] - th.mul(grads.W[j], (1.0 - hLr))
             DHY[j] = DHY[j] - th.mul(grads.HY[j], (1.0 - hLr))
             DV[j] = th.mul(DV[j], hLr)
-        end
-
-        -- Log performance:
-        confusionMatrix:add(prediction[1], y[1])
-        if i % 1000 == 0 then
-            print(confusionMatrix)
-            print(epoch)
-            confusionMatrix:zero()
         end
     end
 end

@@ -3,17 +3,30 @@
 Jie Fu, Hongyin Luo, Jiashi Feng, Kian Hsiang Low, Tat-Seng Chua
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bigaidream/drmad?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 [![ZenHub] (https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.io)
 
 > Source code for http://arxiv.org/abs/1601.00917
-
-The code is mainly modified from [Gradient-based Optimization of Hyperparameters through Reversible Learning](https://github.com/HIPS/hypergrad/). 
 
 ## Abstract
 
 The performance of deep neural networks is well-known to be sensitive to the setting of their hyperparameters. Recent advances in reverse-mode automatic differentiation allow for optimizing hyperparameters with gradients. The standard way of computing these gradients involves a forward and backward pass of computations. However, the backward pass usually needs to consume unaffordable memory to store all the intermediate variables to exactly reverse the forward training procedure. In this work we propose a new method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we approximately reverse the training trajectory. Experiments on several image benchmark datasets show that DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with minimal compromise to its effectiveness. To the best of our knowledge, DrMAD is the first research attempt to make it practical to automatically tune thousands of hyperparameters of deep neural networks.
 
-## How to run these experiments (following the instruction of hypergrad)
+## GPU Version (Lua/Torch)
+
+Currently, our experiments are based on [autograd](https://github.com/HIPS/autograd). We are rewriting it using [torch-autograd](https://github.com/twitter/torch-autograd) to run on GPUs. 
+
+The entry point is [here](https://github.com/bigaidream-projects/drmad/tree/master/hypergrad_lua)
+
+> Status, 2016-April-2: `drmad_mnist.lua` is used to run one meta-iteration and now can run without any errors. Will finish other parts to see real improvements on CIFAR-10. 
+
+## CPU Version (Python)
+
+The CPU code is used in the original paper. The code is mainly modified from [Gradient-based Optimization of Hyperparameters through Reversible Learning](https://github.com/HIPS/hypergrad/). 
+
+### How to run these experiments (following the instruction of hypergrad)
+
+To reproduce our experiments, use the code in [experiments](https://github.com/bigaidream-projects/drmad/tree/master/experiments) folder, e.g. [exp1/safe/safe.py](https://github.com/bigaidream-projects/drmad/blob/master/experiments/exp1/safe/safe.py). 
 
 > We strongly recommend that you take a look at the code of [autograd](https://github.com/HIPS/autograd) first. 
 
@@ -29,10 +42,6 @@ you should be at the same version we used to run the experiments.
 
 That version also predates the setup.py file, so to get your code to use the old version, you'll either have to copy setup.py into the old revision and reinstall, or add FunkyYak to your PYTHONPATH.
 
-## Doing Now
-Currently, our experiments are based on [autograd](https://github.com/HIPS/autograd). We are rewriting it using [torch-autograd](https://github.com/twitter/torch-autograd) to run on GPUs. 
-
-The entry point is [here](https://github.com/bigaidream-projects/drmad/tree/master/hypergrad_lua)
 
 ## Acknowledgements
 Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. This work is also supported by NUS-Tsinghua Extreme Search (NExT) project. NExT research is supported by the National Research Foundation, Prime Minister's Office, Singapore under its IRC@SG Funding Initiative.
