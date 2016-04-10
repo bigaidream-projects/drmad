@@ -1,5 +1,7 @@
 # DrMAD: Distilling Reverse-Mode Automatic Differentiation for Optimizing Hyperparameters of Deep Neural Networks
 
+![](https://github.com/bigaidream-projects/drmad/blob/master/shortcut.jpg)
+
 Jie Fu, Hongyin Luo, Jiashi Feng, Kian Hsiang Low, Tat-Seng Chua
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bigaidream/drmad?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -16,7 +18,9 @@ The performance of deep neural networks is well-known to be sensitive to the set
 
 Currently, our experiments are based on [autograd](https://github.com/HIPS/autograd). We are rewriting it using [torch-autograd](https://github.com/twitter/torch-autograd) to run on GPUs. 
 
-The entry point is [here](https://github.com/bigaidream-projects/drmad/tree/master/hypergrad_lua)
+The entry point is [/gpu_lua/](https://github.com/bigaidream-projects/drmad/tree/master/gpu_lua)
+
+We are working to make it an easy to use toolbox for Lua/Torch based deep learning systems. 
 
 > Status, 2016-April-2: `drmad_mnist.lua` is used to run one meta-iteration and now can run without any errors. Will finish other parts to see real improvements on CIFAR-10. 
 
@@ -26,7 +30,7 @@ The CPU code is used in the original paper. The code is mainly modified from [Gr
 
 ### How to run these experiments (following the instruction of hypergrad)
 
-To reproduce our experiments, use the code in [experiments](https://github.com/bigaidream-projects/drmad/tree/master/experiments) folder, e.g. [exp1/safe/safe.py](https://github.com/bigaidream-projects/drmad/blob/master/experiments/exp1/safe/safe.py). 
+To reproduce our experiments, use the code in [/cpu_py/experiments](https://github.com/bigaidream-projects/drmad/tree/master/cpu_py/experiments) folder, e.g. [./exp1/safe/safe.py](https://github.com/bigaidream-projects/drmad/blob/master/cpu_py/experiments/exp1/safe/safe.py). 
 
 > We strongly recommend that you take a look at the code of [autograd](https://github.com/HIPS/autograd) first. 
 
