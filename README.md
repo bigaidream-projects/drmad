@@ -2,8 +2,6 @@
 
 ![](https://github.com/bigaidream-projects/drmad/blob/master/shortcut.jpg)
 
-Jie Fu, Hongyin Luo, Jiashi Feng, Kian Hsiang Low, Tat-Seng Chua
-
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bigaidream/drmad?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 [![ZenHub] (https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.io)
@@ -12,17 +10,13 @@ Jie Fu, Hongyin Luo, Jiashi Feng, Kian Hsiang Low, Tat-Seng Chua
 
 ## Abstract
 
-The performance of deep neural networks is well-known to be sensitive to the setting of their hyperparameters. Recent advances in reverse-mode automatic differentiation allow for optimizing hyperparameters with gradients. The standard way of computing these gradients involves a forward and backward pass of computations. However, the backward pass usually needs to consume unaffordable memory to store all the intermediate variables to exactly reverse the forward training procedure. In this work we propose a new method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we approximately reverse the training trajectory. Experiments on several image benchmark datasets show that DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with minimal compromise to its effectiveness. To the best of our knowledge, DrMAD is the first research attempt to make it practical to automatically tune thousands of hyperparameters of deep neural networks.
+The performance of deep neural networks is well-known to be sensitive to the setting of their hyperparameters. Recent advances in reverse-mode automatic differentiation allow for optimizing hyperparameters with gradients. The standard way of computing these gradients involves a forward and backward pass of computations. However, the backward pass usually needs to consume unaffordable memory to store all the intermediate variables to exactly reverse the forward training procedure. In this work we propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we approximately reverse the training trajectory. Experiments on several image benchmark datasets show that DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with minimal compromise to its effectiveness. To the best of our knowledge, DrMAD is the first research attempt to make it practical to automatically tune thousands of hyperparameters of deep neural networks.
 
 ## GPU Version (Lua/Torch)
 
-Currently, our experiments are based on [autograd](https://github.com/HIPS/autograd). We are rewriting it using [torch-autograd](https://github.com/twitter/torch-autograd) to run on GPUs. 
+I'm working with [Nicholas Leonard](https://github.com/nicholas-leonard) from Element Inc. to provide a toolbox for efficiently tuning Lua/Torch based deep learning systems. It is of course under the MIT license. 
 
-The entry point is [/gpu_lua/](https://github.com/bigaidream-projects/drmad/tree/master/gpu_lua)
-
-We are working to make it an easy to use toolbox for Lua/Torch based deep learning systems. 
-
-> Status, 2016-April-2: `drmad_mnist.lua` is used to run one meta-iteration and now can run without any errors. Will finish other parts to see real improvements on CIFAR-10. 
+Check it out at https://github.com/nicholas-leonard/drmad
 
 ## CPU Version (Python)
 
@@ -48,4 +42,4 @@ That version also predates the setup.py file, so to get your code to use the old
 
 
 ## Acknowledgements
-Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. This work is also supported by NUS-Tsinghua Extreme Search (NExT) project. NExT research is supported by the National Research Foundation, Prime Minister's Office, Singapore under its IRC@SG Funding Initiative.
+Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. This work is also supported by NUS-Tsinghua Extreme Search (NExT) project through the National Research Foundation, Singapore.

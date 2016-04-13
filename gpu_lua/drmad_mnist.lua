@@ -1,12 +1,13 @@
 --[[
 One meta-iteration for DrMAD on MNIST
-April 2, 2016 Jie Fu, http://bigaidream.github.io/contacth.html
+April 13, 2016
 MIT license
 
 Modified from torch-autograd's example, train-mnist-mlp.lua
 ]]
 
 -- Purely stochastic training on purpose, to test the linear subspace hypothesis
+-- STATUS: something wrong with hypergradients, line 257
 
 -- Import libs
 local th = require 'torch'
@@ -15,7 +16,7 @@ local util = require 'autograd.util'
 local lossFuns = require 'autograd.loss'
 local optim = require 'optim'
 -- using https://github.com/slembcke/debugger.lua
-local debugger = require('debugger')
+--local debugger = require('debugger')
 
 grad.optimize(true)
 package.path = package.path .. ";/home/jie/d2/github/bigaidream-projects/drmad/hypergrad_lua/?.lua"
@@ -212,7 +213,7 @@ local proj2 = th.zero(th.FloatTensor(50, 50))
 local proj3 = th.zero(th.FloatTensor(50, #classes))
 
 
--- Initialize derivative w.r.th. velocity
+-- Initialize derivative w.r.t. velocity
 local DV1 = th.FloatTensor(inputSize, 50):fill(0)
 local DV2 = th.FloatTensor(50, 50):fill(0)
 local DV3 = th.FloatTensor(50, #classes):fill(0)
@@ -254,9 +255,12 @@ for epoch = 1, numEpoch do
         local grads, loss = dHVP(params, x, y, proj1, proj2, proj3, DV1, DV2, DV3)
         for j = 1, nLayers do
             validGrads.W[j] = validGrads.W[j] - th.mul(grads.W[j], (1.0 - hLr))
+            -- grads w.r.t. HY are all zeros
             DHY[j] = DHY[j] - th.mul(grads.HY[j], (1.0 - hLr))
+            debugger()
             DV[j] = th.mul(DV[j], hLr)
         end
     end
 end
 
+print(DHY2)
