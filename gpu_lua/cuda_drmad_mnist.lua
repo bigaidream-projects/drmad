@@ -1,5 +1,5 @@
 --[[
-Multiple meta-iterations for DrMAD on MNIST
+One meta-iteration for DrMAD on MNIST
 MIT license
 
 Modified from torch-autograd's example, train-mnist-mlp.lua
@@ -9,24 +9,23 @@ Modified from torch-autograd's example, train-mnist-mlp.lua
 -- to test the linear subspace hypothesis, epochSize=-1
 
 -- Import libs
-require 'torch'
+require 'cutorch'
 local grad = require 'autograd'
 local util = require 'autograd.util'
 local lossFuns = require 'autograd.loss'
 local optim = require 'optim'
 local dl = require 'dataload'
 local xlua = require 'xlua'
-
+cutorch.setDevice(2)
 grad.optimize(true)
 
 -- Load in MNIST
 local trainset, validset, testset = dl.loadMNIST()
 local transValidData = {
     size = 10000,
-    x = torch.FloatTensor(10000, 1, 28*28):fill(0),
-    y = torch.FloatTensor(10000, 1, 10):fill(0)
+    x = torch.CudaTensor(10000, 1, 28*28):fill(0),
+    y = torch.CudaTensor(10000, 1, 10):fill(0)
 }
-
 local inputSize = trainset.inputs[1]:nElement()
 local classes = testset.classes
 local confusionMatrix = optim.ConfusionMatrix(classes)
@@ -36,9 +35,9 @@ local predict, fTrain, params
 
 -- initialize hyperparameters as global variables
 -- to be shared across different meta-iterations
-local HY1 = torch.FloatTensor(inputSize, 50):fill(initHyper)
-local HY2 = torch.FloatTensor(50, 50):fill(initHyper)
-local HY3 = torch.FloatTensor(50, #classes):fill(initHyper)
+local HY1 = torch.CudaTensor(inputSize, 50):fill(initHyper)
+local HY2 = torch.CudaTensor(50, 50):fill(initHyper)
+local HY3 = torch.CudaTensor(50, #classes):fill(initHyper)
 
 local function train_meta()
     --[[
@@ -71,12 +70,12 @@ local function train_meta()
     -- Define elementary parameters
     -- [-1/sqrt(#output), 1/sqrt(#output)]
     torch.manualSeed(0)
-    local W1 = torch.FloatTensor(inputSize, 50):uniform(-1 / math.sqrt(50), 1 / math.sqrt(50))
-    local B1 = torch.FloatTensor(50):fill(0)
-    local W2 = torch.FloatTensor(50, 50):uniform(-1 / math.sqrt(50), 1 / math.sqrt(50))
-    local B2 = torch.FloatTensor(50):fill(0)
-    local W3 = torch.FloatTensor(50, #classes):uniform(-1 / math.sqrt(#classes), 1 / math.sqrt(#classes))
-    local B3 = torch.FloatTensor(#classes):fill(0)
+    local W1 = torch.CudaTensor(inputSize, 50):uniform(-1 / math.sqrt(50), 1 / math.sqrt(50))
+    local B1 = torch.CudaTensor(50):fill(0)
+    local W2 = torch.CudaTensor(50, 50):uniform(-1 / math.sqrt(50), 1 / math.sqrt(50))
+    local B2 = torch.CudaTensor(50):fill(0)
+    local W3 = torch.CudaTensor(50, #classes):uniform(-1 / math.sqrt(#classes), 1 / math.sqrt(#classes))
+    local B3 = torch.CudaTensor(#classes):fill(0)
 
 
 
@@ -109,11 +108,11 @@ local function train_meta()
     -- weight decay for elementary parameters
     local gamma = 0.1
     -- Train a neural network to get final parameters
-    local y_ = torch.FloatTensor(10)
+    local y_ = torch.CudaTensor(10)
     local function makesample(inputs, targets)
         assert(inputs:size(1) == 1)
         assert(inputs:dim() == 4)
-        --assert(torch.type(inputs) == 'torch.FloatTensor')
+        --assert(torch.type(inputs) == 'torch.CudaTensor')
         local x = inputs:view(1, -1)
         y_:zero()
         y_[targets[1]] = 1 -- onehot
@@ -124,7 +123,7 @@ local function train_meta()
         print('Forward Training Epoch #' .. epoch)
         for i, inputs, targets in trainset:subiter(1, epochSize) do
             -- Next sample:
-            local x, y = makesample(inputs, targets)
+            local x, y = makesample(inputs:cuda(), targets:cuda())
 
             -- Grads:
             local grads, loss, prediction = dfTrain(params, x, y)
@@ -156,6 +155,8 @@ local function train_meta()
 
     transValidData.y:zero()
     for t, inputs, targets in validset:subiter(1, epochSize) do
+        inputs = inputs:cuda()
+        targets = targets:cuda()
         transValidData.x[t]:copy(inputs:view(-1))
         transValidData.y[{t,1,targets[1]}] = 1 -- onehot
     end
@@ -171,12 +172,12 @@ local function train_meta()
     local dfValid = grad(fValid, { optimize = true })
 
     -- Initialize validGrads
-    local VW1 = torch.FloatTensor(inputSize, 50):fill(0)
-    local VB1 = torch.FloatTensor(50):fill(0)
-    local VW2 = torch.FloatTensor(50, 50):fill(0)
-    local VB2 = torch.FloatTensor(50):fill(0)
-    local VW3 = torch.FloatTensor(50, #classes):fill(0)
-    local VB3 = torch.FloatTensor(#classes):fill(0)
+    local VW1 = torch.CudaTensor(inputSize, 50):fill(0)
+    local VB1 = torch.CudaTensor(50):fill(0)
+    local VW2 = torch.CudaTensor(50, 50):fill(0)
+    local VB2 = torch.CudaTensor(50):fill(0)
+    local VW3 = torch.CudaTensor(50, #classes):fill(0)
+    local VB3 = torch.CudaTensor(#classes):fill(0)
 
     local validGrads = {
         W = { VW1, VW2, VW3 },
@@ -210,22 +211,22 @@ local function train_meta()
     -------------------------------------
 
     -- Initialize derivative w.r.th. hyperparameters
-    DHY1 = torch.FloatTensor(inputSize, 50):fill(0)
-    DHY2 = torch.FloatTensor(50, 50):fill(0)
-    DHY3 = torch.FloatTensor(50, #classes):fill(0)
+    DHY1 = torch.CudaTensor(inputSize, 50):fill(0)
+    DHY2 = torch.CudaTensor(50, 50):fill(0)
+    DHY3 = torch.CudaTensor(50, #classes):fill(0)
     DHY = { DHY1, DHY2, DHY3 }
 
 
     local nLayers = 3
-    local proj1 = torch.FloatTensor(inputSize, 50):zero()
-    local proj2 = torch.FloatTensor(50, 50):zero()
-    local proj3 = torch.FloatTensor(50, #classes):zero()
+    local proj1 = torch.CudaTensor(inputSize, 50):zero()
+    local proj2 = torch.CudaTensor(50, 50):zero()
+    local proj3 = torch.CudaTensor(50, #classes):zero()
 
 
     -- Initialize derivative w.r.t. velocity
-    local DV1 = torch.FloatTensor(inputSize, 50):fill(0)
-    local DV2 = torch.FloatTensor(50, 50):fill(0)
-    local DV3 = torch.FloatTensor(50, #classes):fill(0)
+    local DV1 = torch.CudaTensor(inputSize, 50):fill(0)
+    local DV2 = torch.CudaTensor(50, 50):fill(0)
+    local DV3 = torch.CudaTensor(50, #classes):fill(0)
     local DV = { DV1, DV2, DV3 }
 
 
@@ -253,7 +254,7 @@ local function train_meta()
         print('Backword Training Epoch #' .. epoch)
         for i, inputs, targets in trainset:subiter(1, epochSize) do
             -- Next sample:
-            local x, y = makesample(inputs, targets)
+            local x, y = makesample(inputs:cuda(), targets:cuda())
 
             for j = 1, nLayers do
                 params.W[j]:mul(initParams.W[j], 1 - beta[i + (numEpoch * (epoch-1))])

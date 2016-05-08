@@ -7,6 +7,7 @@
 [![ZenHub] (https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.io)
 
 > Source code for http://arxiv.org/abs/1601.00917
+> Accepted by IJCAI-2016
 
 ## Abstract
 
@@ -14,10 +15,10 @@ The performance of deep neural networks is well-known to be sensitive to the set
 
 ## Citation
 ```
-@inproceedings{drmad2016,
+@article{drmad2016,
   title={DrMAD: Distilling Reverse-Mode Automatic Differentiation for Optimizing Hyperparameters of Deep Neural Networks},
   author={Fu, Jie and Luo, Hongyin and Feng, Jiashi and Low, Kian Hsiang and Chua, Tat-Seng},
-  booktitle={Proceedings of the 25th International Joint Conference on Artificial Intelligence},
+  journal={arXiv preprint arXiv:1601.00917},
   year={2016}
 }
 
@@ -25,7 +26,7 @@ The performance of deep neural networks is well-known to be sensitive to the set
 
 ## GPU Version (Lua/Torch)
 
-I'm working with [Nicholas Leonard](https://github.com/nicholas-leonard) from Element Research (NYC) to provide a toolbox for efficiently tuning Lua/Torch based deep learning systems. It is of course under the MIT license. The code have been moved to a new repo:
+I'm working with [Nicholas Leonard](https://github.com/nicholas-leonard) from Element Research (NYC) to provide a toolbox for efficiently tuning Lua/Torch based deep learning systems. It is of course under the MIT license. The code has been moved to a new repo and under active development:
 
 **Check it out at** https://github.com/nicholas-leonard/drmad
 

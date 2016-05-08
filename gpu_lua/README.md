@@ -7,18 +7,16 @@
 We are rewriting [hypergrad](https://github.com/HIPS/hypergrad) using Lua/Torch, using [torch-autograd](https://github.com/twitter/torch-autograd)
 
 ## Current Status
-Only skech code using torch-autograd
+Can tune learning rates and L2 norms
 
 ## TODO
 1. Experiments on CIFAR-10 and ImageNet
-2. Support for learning rates
-3. Refactoring
+2. ~~Support for learning rates~~
+3. ~~Support GPU~~
+4. Integration with `hypero`
+5. Refactoring
 
 ## Rally ([Net2Net](https://github.com/soumith/net2net.torch)) for ImageNet Dataset
 ImageNet dataset usually needs ~450,000 iterations. DrMAD may not approxiate this long trajectory well. 
 
 One approach would be to repeatedly initialize the weights using Net2Net, from small subsets to larget subsets and finally to the full dataset. 
-
-## Lua/Torch resources & tutorials
-* [Torch cheatsheet](https://github.com/torch/torch7/wiki/Cheatsheet)
-* [torch-autograd](https://github.com/twitter/torch-autograd)
