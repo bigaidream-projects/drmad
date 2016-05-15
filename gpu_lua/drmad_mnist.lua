@@ -6,7 +6,7 @@ Modified from torch-autograd's example, train-mnist-mlp.lua
 ]]
 
 -- Purely stochastic training on purpose,
--- to test the linear subspace hypothesis, epochSize=-1
+-- to test the linear subspace hypothesis, batchSize = 1
 
 -- Import libs
 require 'torch'
@@ -78,7 +78,17 @@ local function train_meta()
     local W3 = torch.FloatTensor(50, #classes):uniform(-1 / math.sqrt(#classes), 1 / math.sqrt(#classes))
     local B3 = torch.FloatTensor(#classes):fill(0)
 
+    -- define velocities for weights
+    local VW1 = torch.FloatTensor(inputSize, 50):fill(0)
+    local VW2 = torch.FloatTensor(50, 50):fill(0)
+    local VW3 = torch.FloatTensor(50, #classes):fill(0)
+    local VW = { VW1, VW2, VW3 }
 
+    -- define velocities for biases
+    local VB1 = torch.FloatTensor(50):fill(0)
+    local VB2 = torch.FloatTensor(50):fill(0)
+    local VB3 = torch.FloatTensor(#classes):fill(0)
+    local VB = { VB1, VB2, VB3 }
 
     -- Trainable parameters and hyperparameters:
     params = {
@@ -104,14 +114,15 @@ local function train_meta()
     local eLr = 0.0001
 
     local numEpoch = 1
+    local batchSize = 1
     local epochSize = -1
 
     -- weight decay for elementary parameters
-    local gamma = 0.1
+    local gamma = 0.7
     -- Train a neural network to get final parameters
     local y_ = torch.FloatTensor(10)
     local function makesample(inputs, targets)
-        assert(inputs:size(1) == 1)
+--        assert(inputs:size(1) == 1)
         assert(inputs:dim() == 4)
         --assert(torch.type(inputs) == 'torch.FloatTensor')
         local x = inputs:view(1, -1)
@@ -122,7 +133,7 @@ local function train_meta()
 
     for epoch = 1, numEpoch do
         print('Forward Training Epoch #' .. epoch)
-        for i, inputs, targets in trainset:subiter(1, epochSize) do
+        for i, inputs, targets in trainset:subiter(batchSize, epochSize) do
             -- Next sample:
             local x, y = makesample(inputs, targets)
 
@@ -130,9 +141,12 @@ local function train_meta()
             local grads, loss, prediction = dfTrain(params, x, y)
 
             -- Update weights and biases at each layer
-            for i = 1, #params.W do
-                params.W[i] = params.W[i] - grads.W[i] * eLr
-                params.B[i] = params.B[i] - grads.B[i] * eLr
+            for j = 1, #params.W do
+
+                VW[j] = VW[j]:mul(gamma) - grads.W[j]:mul(1-gamma)
+                VB[j] = VB[j]:mul(gamma) - grads.B[j]:mul(1-gamma)
+                params.W[j] = params.W[j] + VW[j] * eLr
+                params.B[j] = params.B[j] + VB[j] * eLr
             end
 
             -- Log performance:
@@ -155,7 +169,7 @@ local function train_meta()
     -- Transform validation data
 
     transValidData.y:zero()
-    for t, inputs, targets in validset:subiter(1, epochSize) do
+    for t, inputs, targets in validset:subiter(batchSize, epochSize) do
         transValidData.x[t]:copy(inputs:view(-1))
         transValidData.y[{t,1,targets[1]}] = 1 -- onehot
     end
@@ -196,7 +210,7 @@ local function train_meta()
             local grads, loss, prediction = dfValid(params, x, y)
             for i = 1, #params.W do
                 validGrads.W[i] = validGrads.W[i] + grads.W[i]
-                validGrads.B[i] = validGrads.B[i] - grads.B[i]
+                validGrads.B[i] = validGrads.B[i] + grads.B[i]
             end
         end
     end
@@ -251,7 +265,7 @@ local function train_meta()
     for epoch = 1, numEpoch do
 
         print('Backword Training Epoch #' .. epoch)
-        for i, inputs, targets in trainset:subiter(1, epochSize) do
+        for i, inputs, targets in trainset:subiter(batchSize, epochSize) do
             -- Next sample:
             local x, y = makesample(inputs, targets)
 

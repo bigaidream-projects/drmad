@@ -13,7 +13,7 @@ local lossFuns = require 'autograd.loss'
 local optim = require 'optim'
 local dl = require 'dataload'
 local xlua = require 'xlua'
---debugger = require 'fb.debugger'
+--local debugger = require 'fb.debugger'
 
 grad.optimize(true)
 
@@ -42,6 +42,7 @@ local HY3 = torch.FloatTensor(50, #classes):fill(initHyper)
 -- set it small to avoid NaN issue
 local eLr = 0.0001
 local numEpoch = 1
+local batchSize = 1
 local epochSize = -1
 -- number of iterations
 local numIter = numEpoch * (epochSize == -1 and trainset:size() or epochSize)
@@ -135,7 +136,7 @@ local function train_meta()
 
     for epoch = 1, numEpoch do
         print('Forward Training Epoch #' .. epoch)
-        for i, inputs, targets in trainset:subiter(1, epochSize) do
+        for i, inputs, targets in trainset:subiter(batchSize, epochSize) do
             -- Next sample:
             local x, y = makesample(inputs, targets)
 
@@ -171,7 +172,7 @@ local function train_meta()
     -- Transform validation data
 
     transValidData.y:zero()
-    for t, inputs, targets in validset:subiter(1, epochSize) do
+    for t, inputs, targets in validset:subiter(batchSize, epochSize) do
         transValidData.x[t]:copy(inputs:view(-1))
         transValidData.y[{ t, 1, targets[1] }] = 1 -- onehot
     end
@@ -271,7 +272,7 @@ local function train_meta()
     for epoch = 1, numEpoch do
 
         print('Backword Training Epoch #' .. epoch)
-        for i, inputs, targets in trainset:subiter(1, epochSize) do
+        for i, inputs, targets in trainset:subiter(batchSize, epochSize) do
             -- Next sample:
             local x, y = makesample(inputs, targets)
 
@@ -318,16 +319,22 @@ end
 
 -- Hyperparameter learning rate, cannot be too huge
 -- this is a super-parameter...
-local hLr = 0.0001
+
+-- hyperparameter learning rate for elementary learning rate
+local hLr_lr = 0.00000001
+-- hyperparameter learning rate for l2 penalty
+local hLr_l2 = 0.0001
 local numMeta = 5
 
 for i = 1, numMeta do
     local dhy, dlr = train_meta()
-    local xx = dlr[{{}, 1}]
-    print(xx)
 
     for j = 1, #params.W do
-        dhy[j]:mul(-hLr)
+        -- modify elementary learning rates
+        dlr[{{}, j}]:mul(hLr_lr)
+        LR[{{}, j}]:add(dlr[{{}, j}])
+        -- modify l2 penalties
+        dhy[j]:mul(-hLr_l2)
         params.HY[j]:add(dhy[j])
     end
 end

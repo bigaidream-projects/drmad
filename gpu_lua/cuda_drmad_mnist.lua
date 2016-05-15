@@ -6,7 +6,7 @@ Modified from torch-autograd's example, train-mnist-mlp.lua
 ]]
 
 -- Purely stochastic training on purpose,
--- to test the linear subspace hypothesis, epochSize=-1
+-- to test the linear subspace hypothesis, batchSize = 1
 
 -- Import libs
 require 'cutorch'
@@ -77,7 +77,17 @@ local function train_meta()
     local W3 = torch.CudaTensor(50, #classes):uniform(-1 / math.sqrt(#classes), 1 / math.sqrt(#classes))
     local B3 = torch.CudaTensor(#classes):fill(0)
 
+    -- define velocities for weights
+    local VW1 = torch.CudaTensor(inputSize, 50):fill(0)
+    local VW2 = torch.CudaTensor(50, 50):fill(0)
+    local VW3 = torch.CudaTensor(50, #classes):fill(0)
+    local VW = { VW1, VW2, VW3 }
 
+    -- define velocities for biases
+    local VB1 = torch.CudaTensor(50):fill(0)
+    local VB2 = torch.CudaTensor(50):fill(0)
+    local VB3 = torch.CudaTensor(#classes):fill(0)
+    local VB = { VB1, VB2, VB3 }
 
     -- Trainable parameters and hyperparameters:
     params = {
@@ -103,6 +113,7 @@ local function train_meta()
     local eLr = 0.0001
 
     local numEpoch = 1
+    local batchSize = 1
     local epochSize = -1
 
     -- weight decay for elementary parameters
@@ -121,7 +132,7 @@ local function train_meta()
 
     for epoch = 1, numEpoch do
         print('Forward Training Epoch #' .. epoch)
-        for i, inputs, targets in trainset:subiter(1, epochSize) do
+        for i, inputs, targets in trainset:subiter(batchSize, epochSize) do
             -- Next sample:
             local x, y = makesample(inputs:cuda(), targets:cuda())
 
@@ -129,9 +140,11 @@ local function train_meta()
             local grads, loss, prediction = dfTrain(params, x, y)
 
             -- Update weights and biases at each layer
-            for i = 1, #params.W do
-                params.W[i] = params.W[i] - grads.W[i] * eLr
-                params.B[i] = params.B[i] - grads.B[i] * eLr
+            for j = 1, #params.W do
+                VW[j] = VW[j]:mul(gamma) - grads.W[j]:mul(1-gamma)
+                VB[j] = VB[j]:mul(gamma) - grads.B[j]:mul(1-gamma)
+                params.W[j] = params.W[j] + VW[j] * eLr
+                params.B[j] = params.B[j] + VB[j] * eLr
             end
 
             -- Log performance:
@@ -154,7 +167,7 @@ local function train_meta()
     -- Transform validation data
 
     transValidData.y:zero()
-    for t, inputs, targets in validset:subiter(1, epochSize) do
+    for t, inputs, targets in validset:subiter(batchSize, epochSize) do
         inputs = inputs:cuda()
         targets = targets:cuda()
         transValidData.x[t]:copy(inputs:view(-1))
@@ -252,7 +265,7 @@ local function train_meta()
     for epoch = 1, numEpoch do
 
         print('Backword Training Epoch #' .. epoch)
-        for i, inputs, targets in trainset:subiter(1, epochSize) do
+        for i, inputs, targets in trainset:subiter(batchSize, epochSize) do
             -- Next sample:
             local x, y = makesample(inputs:cuda(), targets:cuda())
 
