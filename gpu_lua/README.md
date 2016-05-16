@@ -9,6 +9,12 @@ We are rewriting [hypergrad](https://github.com/HIPS/hypergrad) using Lua/Torch,
 ## Current Status
 Can tune learning rates and L2 norms
 
+## How to run
+
+- `drmad_mnist.lua` is for tuning L2 penalties on MNIST. 
+- `cuda_drmad_mnist.lua` is for tuning L2 penalties on MNIST with CUDA. 
+- `lr_drmad_mnist.lua` is for tuning learning rates and L2 penalties on MNIST.  
+
 ## TODO
 1. Experiments on CIFAR-10 and ImageNet
 2. ~~Support for learning rates~~
