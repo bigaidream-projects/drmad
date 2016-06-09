@@ -40,8 +40,8 @@ To reproduce our experiments, use the code in [/cpu_py/experiments](https://gith
 
 > We strongly recommend that you take a look at the code of [autograd](https://github.com/HIPS/autograd) first. 
 
-You'll need to install [autograd](https://github.com/HIPS/autograd), our automatic differentiation package.
-However, autograd (aka funkyYak) has changed a lot since we wrote the hypergrad code, and it would take a little bit of work to make them compatible again.
+You'll need to install [autograd](https://github.com/HIPS/autograd), an automatic differentiation package.
+However, autograd (aka funkyYak) has changed a lot since they wrote the hypergrad code, and it would take a little bit of work to make them compatible again.
 
 However, the hypergrad code should work with the version of FunkyYak as of Feb 2, at this revision:
 https://github.com/HIPS/autograd/tree/be470d5b8d6c84bfa74074b238d43755f6f2c55c
@@ -52,6 +52,10 @@ you should be at the same version we used to run the experiments.
 
 That version also predates the setup.py file, so to get your code to use the old version, you'll either have to copy setup.py into the old revision and reinstall, or add FunkyYak to your PYTHONPATH.
 
+
+## Contact
+
+If you have any problems or suggestions, please contact me: jie.fu A~_~T u.nus.edu~~cation~~
 
 ## Acknowledgements
 Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. This work is also supported by NUS-Tsinghua Extreme Search (NExT) project through the National Research Foundation, Singapore.
