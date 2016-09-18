@@ -1,61 +1,72 @@
-# DrMAD: Distilling Reverse-Mode Automatic Differentiation for Optimizing Hyperparameters of Deep Neural Networks
+# DrMAD
 
-![](https://github.com/bigaidream-projects/drmad/blob/master/shortcut.jpg)
+![](https://github.com/bigaidream-projects/drmad/blob/master/docs/shortcut.jpg)
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bigaidream/drmad?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
-[![ZenHub] (https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.io)
 
-> Source code for http://arxiv.org/abs/1601.00917
+> Source code for the paper: [Distilling Reverse-Mode Automatic Differentiation for Optimizing Hyperparameters of Deep Neural Networks](http://arxiv.org/abs/1601.00917).
 
-> NEWS: Sep 8, 2016, We are refactoring it to support hyperparameters tuning on ImageNet with Residual Networks. 
+> :smirk: NEWS: Sep 18, 2016, We are refactoring it to support hyperparameters
+tuning on VGG on
+CIFAR-10, and
+on ImageNet with residual networks.
 
-## Abstract
+## What's DrMAD?
 
-The performance of deep neural networks is well-known to be sensitive to the setting of their hyperparameters. Recent advances in reverse-mode automatic differentiation allow for optimizing hyperparameters with gradients. The standard way of computing these gradients involves a forward and backward pass of computations. However, the backward pass usually needs to consume unaffordable memory to store all the intermediate variables to exactly reverse the forward training procedure. In this work we propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we approximately reverse the training trajectory. Experiments on several image benchmark datasets show that DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with minimal compromise to its effectiveness. To the best of our knowledge, DrMAD is the first research attempt to make it practical to automatically tune thousands of hyperparameters of deep neural networks.
+DrMAD is a hyperparameter tuning method based on automatic differentiation, which is a most [criminally underused tool](https://justindomke.wordpress.com/2009/02/17/automatic-differentiation-the-most-criminally-underused-tool-in-the-potential-machine-learning-toolbox/) for machine learning.
+
+DrMAD can tune any continuous hyperparameters (L1 norms for every neuron or learning rates for every neuron at every iteration) for deep models on GPUs.
+
+### AD vs Bayesian optimization (BO)
+
+BO, as a global optimization approach, can hardly support tuning more than 20 hyperparameters, because it treats the learning algorithm being tuned as a black-box and can only get feedback signals after convergence. Also, the learning rate tuned by BO is fixed for all iterations.
+
+AD is different from symbolic differentiation (used by TensorFlow and Theano), and numerical differentiation. AD, as a local optimization method based on gradient information, can make use of the feedback signals after every iteration and can tune thounsands of hyperparameters by using (hyper-)gradients with respect to hyperparameters. Checkout this [paper](https://arxiv.org/abs/1502.05767) if you want to understand AD techniques deeply.
+
+Therefore, AD can tune hundreds of thousands of constant (e.g. L1 norm for every neuron) or dynamic (e.g. learning rates for every neuron at every iteration) hyperparameters.
+
+The standard way of computing these (hyper-)gradients involves a forward and backward pass of computations. However, the backward pass usually needs to consume unaffordable memory (e.g. TBs of RAM for MNIST dataset) to store all the intermediate variables to `exactly` reverse the forward training procedure.
+
+### Hypergradient with an approximate backward pass
+
+![](https://github.com/bigaidream-projects/drmad/blob/master/docs/fig.jpg)
 
 
-## GPU Version (Lua/Torch)
+We propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we `approximately` reverse the training trajectory. When run on CPUs, DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with minimal compromise to its effectiveness.
+
+DrMAD is the only gradient-based hyperparameter optimizer that can tune learning rates for every neuron at every iteration on GPUs.
+
+
+
+## Usage
 
 ## Dependencies
-* [Twitter Torch Autograd](https://github.com/twitter/torch-autograd): the next version will not depend on this. 
+* Torch 7
+* [Twitter Torch Autograd](https://github.com/twitter/torch-autograd): the next version will not depend on this.
 
 ### How to run
-- `drmad_mnist.lua` is for tuning L2 penalties on MNIST. 
-- `cuda_drmad_mnist.lua` is for tuning L2 penalties on MNIST with CUDA. 
-- `lr_drmad_mnist.lua` is for tuning learning rates and L2 penalties on MNIST.  
 
-### TODO
-1. API for tuning learning rates, weight decay and momentum. 
+For MINST:
+
+- `drmad_mnist.lua` is for tuning L2 penalties on MNIST.
+- `cuda_drmad_mnist.lua` is for tuning L2 penalties on MNIST with CUDA.
+- `lr_drmad_mnist.lua` is for tuning learning rates and L2 penalties on MNIST.
+
+For CIFAR10:
+
+- `cifar10_L2.lua` is for tuning L2 penalties on CIFAR10.
+
+
+### TODOs
+1. API for tuning learning rates, weight decay and momentum.
 2. Knowledge distillation
 3. Rally with ([Net2Net](https://github.com/soumith/net2net.torch))
-4. Experiments on ImageNet
+4. Experiments on ImageNet, CIFAR10
 
+There is also a CPU version DrMAD available, please check [here](cpu_ver).
 
 ---
-
-
-## CPU Version (Python)
-
-The CPU code is used in the original paper. The code is mainly modified from [Gradient-based Optimization of Hyperparameters through Reversible Learning](https://github.com/HIPS/hypergrad/). 
-
-### How to run these experiments (following the instruction of hypergrad)
-
-To reproduce our experiments, use the code in [/cpu_py/experiments](https://github.com/bigaidream-projects/drmad/tree/master/cpu_py/experiments) folder, e.g. [./exp1/safe/safe.py](https://github.com/bigaidream-projects/drmad/blob/master/cpu_py/experiments/exp1/safe/safe.py). 
-
-> We strongly recommend that you take a look at the code of [autograd](https://github.com/HIPS/autograd) first. 
-
-You'll need to install [autograd](https://github.com/HIPS/autograd), an automatic differentiation package.
-However, autograd (aka funkyYak) has changed a lot since they wrote the hypergrad code, and it would take a little bit of work to make them compatible again.
-
-However, the hypergrad code should work with the version of FunkyYak as of Feb 2, at this revision:
-https://github.com/HIPS/autograd/tree/be470d5b8d6c84bfa74074b238d43755f6f2c55c
-
-So if you clone autograd, then type
-git checkout be470d5b8d6c84bfa74074b238d43755f6f2c55c,
-you should be at the same version we used to run the experiments.
-
-That version also predates the setup.py file, so to get your code to use the old version, you'll either have to copy setup.py into the old revision and reinstall, or add FunkyYak to your PYTHONPATH.
 
 ## Citation
 ```
@@ -70,7 +81,4 @@ That version also predates the setup.py file, so to get your code to use the old
 
 ## Contact
 
-If you have any problems or suggestions, please contact: jie.fu A~_~T u.nus.edu~~cation~~
-
-## Acknowledgements
-Jie Fu would like to thank Microsoft Azure for Research for providing the computational resources. This work is also supported by NUS-Tsinghua Extreme Search (NExT) project through the National Research Foundation, Singapore.
+If you have any problems or suggestions, please contact: jie.fu A_T u.nus.edu~~cation~~
