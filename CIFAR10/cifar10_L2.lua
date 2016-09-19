@@ -82,8 +82,8 @@ end
 
 local function L2_norm(params)
 --    print(params_l2, params[1])
---    local penalty = torch.sum(torch.cmul(params[1], params_l2[1]))
-     local penalty = torch.sum(params[1])
+    local penalty = torch.sum(torch.cmul(params[1], params_l2[1]))
+--    local penalty = torch.sum(params[1])
     --    local penalty = 0
     --    for i = 1, #params do
     --        -- dimension = 1 is bias, do not need L2_reg
@@ -114,19 +114,24 @@ local function init(iter)
         local Lossf = grad.nn.MSECriterion()
 
         local function fTrain(params, x, y)
-            local prediction = modelf(params, x)
-            local penalty = L2_norm(params)
+--            print(params)
+            local prediction = modelf(params.p2, x)
+            local penalty = L2_norm(params.p2)
             return Lossf(prediction, y) + penalty
         end
 
-        dfTrain = grad(fTrain, { optimize = true })
+        dfTrain = grad(fTrain)
 
         -- a simple unit test
         local X = cast(torch.Tensor(64, 3, 32, 32):fill(0.5))
         local Y = cast(torch.Tensor(64, 10):fill(0))
 
+        local p = {
+            p1 = params_l2,
+            p2 = params
+        }
 
-        local dparams, l = dfTrain(params, X, Y)
+        local dparams, l = dfTrain(p, X, Y)
 
         if (l) then
             print(c.green '    Auto Diff works!')
