@@ -80,7 +80,7 @@ local function L2_norm_create(params, initHyper)
 end
 
 
-local function L2_norm(params)
+local function L2_norm(params, params_l2)
 --    print(params_l2, params[1])
     local penalty = torch.sum(torch.cmul(params[1], params_l2[1]))
 --    local penalty = torch.sum(params[1])
@@ -114,9 +114,10 @@ local function init(iter)
         local Lossf = grad.nn.MSECriterion()
 
         local function fTrain(params, x, y)
---            print(params)
+            print(params.p1)
+            print(params.p2)
             local prediction = modelf(params.p2, x)
-            local penalty = L2_norm(params.p2)
+            local penalty = L2_norm(params.p2, params.p1)
             return Lossf(prediction, y) + penalty
         end
 
@@ -176,7 +177,12 @@ local function train_meta(iter)
                 return inputs:cuda(), t_:cuda()
             end
 
-            local grads, loss = dfTrain(params, makesample(inputs, targets))
+            local p = {
+                p1 = params_l2,
+                p2 = params
+            }
+
+            local grads, loss = dfTrain(p, makesample(inputs, targets))
 
             for i = 1, #grads do
                 params[i] = params[i] + opt.learningRate * grads[i]
