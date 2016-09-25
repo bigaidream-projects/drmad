@@ -82,16 +82,19 @@ end
 
 local function L2_norm(params, params_l2)
 --    print(params_l2, params[1])
-    local penalty = torch.sum(torch.cmul(params[1], params_l2[1]))
+--    local penalty = torch.sum(torch.cmul(params[1], params_l2[1]))
 --    local penalty = torch.sum(params[1])
-    --    local penalty = 0
-    --    for i = 1, #params do
-    --        -- dimension = 1 is bias, do not need L2_reg
-    --        if (params[i]:nDimension() > 1) then
-    --            print(i)
-    --            penalty = penalty + torch.sum(params[i]) * params_l2[i]
-    --        end
-    --    end
+    local penalty = 0
+     for i = 1, #params do
+         --dimension = 1 is bias, do not need L2_reg
+         if (params[i]:nDimension() > 1) then
+--             print('it works!'..i)
+--             print(params[i])
+--             print(params_l2[i])
+             penalty = penalty + torch.sum(torch.cmul(torch.cmul(params[i], params[i]), params_l2[i]))
+--             print("finish!")
+         end
+     end
     return penalty
 end
 
@@ -114,8 +117,8 @@ local function init(iter)
         local Lossf = grad.nn.MSECriterion()
 
         local function fTrain(params, x, y)
-            print(params.p1)
-            print(params.p2)
+--            print(params.p1)
+--            print(params.p2)
             local prediction = modelf(params.p2, x)
             local penalty = L2_norm(params.p2, params.p1)
             return Lossf(prediction, y) + penalty
