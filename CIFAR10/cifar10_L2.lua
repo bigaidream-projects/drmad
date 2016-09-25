@@ -119,10 +119,10 @@ local function init(iter)
       params_velocity = full_create(params)
       params_proj = full_create(params)
 
-      local Lossf = grad.nn.MSECriterion()
+      local Lossf = grad.nn.CrossEntropyCriterion()
 
       -- define training function
-      local function fTrain(params, x, y)
+      local function fTrain(params, x, y, y_label)
          --print(params.elementary)
          --print(params.l2)
          local prediction = modelf(params.elementary, x)
@@ -134,7 +134,8 @@ local function init(iter)
 
       -- a simple unit test
       local X = cast(torch.Tensor(4, 3, 32, 32):fill(0.5))
-      local Y = cast(torch.Tensor(4, 10):fill(0))
+      local Y = cast(torch.Tensor(1, 4):fill(0))
+      local y_label =cast(torch.IntTensor{1,2,3,4})
 
       all_params = {
          elementary = params,
@@ -142,7 +143,7 @@ local function init(iter)
          velocity = params_velocity
       }
 
-      local dparams, l, p = dfTrain(all_params, X, Y)
+      local dparams, l, p = dfTrain(all_params, X, Y, y_label)
 
       if (l) then
         print(c.green '    Auto Diff works!')
@@ -193,7 +194,7 @@ local function train_meta(iter)
             return cast(inputs), cast(t_)
          end
 
-         local X, Y = makesample(inputs, targets)
+         local X, Y = cast(inputs), cast(targets)--makesample(inputs, targets)
          local grads, loss, prediction = dfTrain(all_params, X, Y)
 
          -- update parameter
@@ -204,10 +205,12 @@ local function train_meta(iter)
 
          -- Log performance:
          confusionMatrix:batchAdd(prediction, Y)
-         if i % 1000 == 0 then
+         if i % 100 == 0 then
             print("Epoch "..epoch)
             print(confusionMatrix)
-            confusionMatrix:zero()
+            if i % 1000 == 0 then
+               confusionMatrix:zero()
+            end
          end
          print(c.red 'loss: ', loss)
       end
