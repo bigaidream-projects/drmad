@@ -3,14 +3,11 @@
 ![](https://github.com/bigaidream-projects/drmad/blob/master/docs/shortcut.jpg)
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bigaidream/drmad?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
+[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
 
 > Source code for the paper: [Distilling Reverse-Mode Automatic Differentiation for Optimizing Hyperparameters of Deep Neural Networks](http://arxiv.org/abs/1601.00917).
 
-> :smirk: NEWS: Sep 18, 2016, We are refactoring it to support hyperparameters
-tuning on VGG on
-CIFAR-10, and
-on ImageNet with residual networks.
+> :smirk: NEWS: Sep 18, 2016, We are refactoring it to support hyperparameters tuning on VGG on CIFAR-10, and on ImageNet with residual networks. The beta-versions are in other branches. 
 
 ## What's DrMAD?
 
@@ -47,13 +44,13 @@ DrMAD is the only gradient-based hyperparameter optimizer that can tune learning
 
 ### How to run
 
-For MINST:
+For MMIST:
 
 - `drmad_mnist.lua` is for tuning L2 penalties on MNIST.
 - `cuda_drmad_mnist.lua` is for tuning L2 penalties on MNIST with CUDA.
 - `lr_drmad_mnist.lua` is for tuning learning rates and L2 penalties on MNIST.
 
-For CIFAR10:
+For CIFAR10(in other branches, still has bugs):
 
 - `cifar10_L2.lua` is for tuning L2 penalties on CIFAR10.
 
@@ -64,7 +61,7 @@ For CIFAR10:
 3. Rally with ([Net2Net](https://github.com/soumith/net2net.torch))
 4. Experiments on ImageNet, CIFAR10
 
-There is also a CPU version DrMAD available, please check [here](cpu_ver).
+There is also a CPU version DrMAD available, please checkout [here](cpu_ver).
 
 ---
 
