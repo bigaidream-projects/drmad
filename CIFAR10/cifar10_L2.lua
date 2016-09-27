@@ -58,7 +58,6 @@ local function sgd_m(opfunc, x, config, state)
    assert(not nesterov or (mom > 0 and damp == 0), "Nesterov momentum requires a momentum and zero dampening")
 
 
-   --print(config)
    -- (1) evaluate f(x) and df/dx
    local fx,dfdx = opfunc(x)
 
@@ -138,9 +137,9 @@ local confusionMatrix = optim.ConfusionMatrix(classes)
 print(c.blue '    completed!')
 
 
-local predict, model, modelf, dfTrain, params, all_params, initParams, finalParams, params_l2, params_velocity
+local predict, model, modelf, dfTrain, params, all_params, initParams, finalParams, params_l2, params_velocity, gethessian
 local params_proj, dHyperProj
-
+local parameters, gradParameters
 
 local function cast(t)
    if opt.type == 'cuda' then
@@ -204,6 +203,16 @@ local function init(iter)
       model = cast(dofile(root .. 'models/'..opt.model..'.lua'))
       -- cast a model using functionalize
       modelf, params = grad.functionalize(model)
+      parameters, gradParameters = model:parameters()
+
+
+--      print(params[1][1])
+--      print(parameters[1][1])
+--
+--      print(parameters == params)
+--      for i = 1, #params do
+--         print(params[i] == parameters[i])
+--      end
 
       params_l2 = L2_norm_create(params, opt.initHyper)
       params_velocity = full_create(params)
@@ -222,28 +231,43 @@ local function init(iter)
 
       dfTrain = grad(fTrain)
 
-      -- a simple unit test
-      local X = cast(torch.Tensor(4, 3, 32, 32):fill(0.5))
-      local Y = cast(torch.Tensor(1, 4):fill(0))
-
       all_params = {
-         elementary = params,
+         elementary = parameters,
          l2 = params_l2,
          velocity = params_velocity
       }
 
+      -- a simple unit test
+      local X = cast(torch.Tensor(4, 3, 32, 32):fill(0.5))
+      local Y = cast(torch.Tensor(1, 4):fill(0))
+
+
       local dparams, l, p = dfTrain(all_params, X, Y)
+
+      print(dparams)
 
       if (l) then
         print(c.green '    Auto Diff works!')
       end
+
+      -- build auto-hessian
+      local function fhessian(params, X, Y)
+         local grads, loss, predition = dfTrain(params, X, Y)
+         return loss
+      end
+
+      gethessian = grad(fhessian)
+
+      local hessian, loss = gethessian(all_params, X, Y)
+
+      print("hessian:", hessian)
 
       print(c.blue '    completed!')
    end
 
    print(c.blue '==>' ..' initializing model')
    --print(params[1])
-   utils.MSRinit(model)
+--   utils.MSRinit(model)
    --print(params[1])
 
    print(c.blue '    completed!')
@@ -306,18 +330,10 @@ local function train_meta(iter)
             return loss, grads.elementary
          end
 
+
          -- use optim's implementation
          sgd_m(feval, params, optimState)
 
-
-         -- update parameter
---         for j = 1, #grads.elementary do
---            -- add weight dacay, i.e. l2 norm
---            grads.elementary[j]:add(opt.weightDecay, params[j])
---            params_velocity[j] = params_velocity[j]:mul(opt.learningRateDecay) - grads.elementary[j]:mul(1 - opt.learningRateDecay)
---            params[j] = params[j] + opt.learningRate * params_velocity[j]
---         end
-----
 
          -- Log performance:
 --         confusionMatrix:batchAdd(prediction, Y)
