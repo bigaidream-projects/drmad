@@ -14,6 +14,7 @@ local optim = require 'optim'
 local dl = require 'dataload'
 local xlua = require 'xlua'
 local c = require 'trepl.colorize'
+dofile './provider.lua'
 
 
 opt = lapp[[
@@ -137,9 +138,12 @@ local confusionMatrix = optim.ConfusionMatrix(classes)
 print(c.blue '    completed!')
 
 
+
+
+
 local predict, model, modelf, dfTrain, params, all_params, initParams, finalParams, params_l2, params_velocity, gethessian
 local params_proj, dHyperProj
-local parameters, gradParameters
+local parameters, gradParameters, grads
 
 local function cast(t)
    if opt.type == 'cuda' then
@@ -192,6 +196,25 @@ local function L2_norm(params, params_l2)
 end
 
 
+print(c.blue '==>' ..' loading data')
+provider = torch.load 'provider.t7'
+provider.trainData.data = provider.trainData.data:float()
+provider.testData.data = provider.testData.data:float()
+
+confusion = optim.ConfusionMatrix(10)
+
+print('Will save at '..opt.save)
+paths.mkdir(opt.save)
+testLogger = optim.Logger(paths.concat(opt.save, 'test.log'))
+testLogger:setNames{'% mean class accuracy (train set)', '% mean class accuracy (test set)'}
+testLogger.showPlot = false
+
+
+print(c.blue'==>' ..' setting criterion')
+criterion = cast(nn.CrossEntropyCriterion())
+
+
+
 local function init(iter)
    ----
    --- build VGG net.
@@ -204,6 +227,7 @@ local function init(iter)
       -- cast a model using functionalize
       modelf, params = grad.functionalize(model)
       parameters, gradParameters = model:parameters()
+      --parameters = model:parameters()
 
 
 --      print(params[1][1])
@@ -232,7 +256,7 @@ local function init(iter)
       dfTrain = grad(fTrain)
 
       all_params = {
-         elementary = parameters,
+         elementary = params,
          l2 = params_l2,
          velocity = params_velocity
       }
@@ -241,8 +265,8 @@ local function init(iter)
       local X = cast(torch.Tensor(4, 3, 32, 32):fill(0.5))
       local Y = cast(torch.Tensor(1, 4):fill(0))
 
-
-      local dparams, l, p = dfTrain(all_params, X, Y)
+      local l, p
+      grads, l, p = dfTrain(all_params, X, Y)
 
       print(dparams)
 
@@ -295,6 +319,74 @@ local optimState = {
    learningRateDecay = opt.learningRateDecay,
 }
 
+
+local function train()
+   model:training()
+   local epoch = epoch or 1
+
+   -- drop learning rate every "epoch_step" epochs
+   if epoch % opt.epoch_step == 0 then optimState.learningRate = optimState.learningRate/2 end
+
+   print(c.blue '==>'.." online epoch # " .. epoch .. ' [batchSize = ' .. opt.batchSize .. ']')
+
+   local targets = cast(torch.FloatTensor(opt.batchSize))
+   local indices = torch.randperm(provider.trainData.data:size(1)):long():split(opt.batchSize)
+   -- remove last element so that all the batches have equal size
+   indices[#indices] = nil
+
+   local tic = torch.tic()
+   for t,v in ipairs(indices) do
+      xlua.progress(t, #indices)
+
+      local inputs = provider.trainData.data:index(1,v):cuda()
+      targets:copy(provider.trainData.labels:index(1,v)):cuda()
+
+
+      local feval = function(x)
+         if x~=params then params:copy(x) end
+         for j = 1, #gradParameters do
+            gradParameters[j]:zero()
+         end
+         local loss, prediction
+         grads, loss, prediction = dfTrain(all_params, inputs, targets)
+         confusionMatrix:batchAdd(prediction, targets)
+         print(c.red 'loss: ', loss)
+         return loss, gradParameters
+      end
+
+      sgd_m(feval, params, optimState)
+
+--      local feval = function(x)
+--         if x ~= parameters then parameters:copy(x) end
+----         gradParameters:zero()
+--         for j = 1, #gradParameters do
+--            gradParameters[j]:zero()
+--         end
+--         local outputs = model:forward(inputs)
+--         local f = criterion:forward(outputs, targets)
+--         local df_do = criterion:backward(outputs, targets)
+--         model:backward(inputs, df_do)
+--         print("loss: ", f)
+--         confusion:batchAdd(outputs, targets)
+--
+--         return f,gradParameters
+--      end
+--
+--      sgd_m(feval, parameters, optimState)
+   end
+
+   confusion:updateValids()
+   print(('Train accuracy: '..c.cyan'%.2f'..' %%\t time: %.2f s'):format(
+      confusion.totalValid * 100, torch.toc(tic)))
+
+   train_acc = confusion.totalValid * 100
+
+   confusion:zero()
+   epoch = epoch + 1
+end
+
+
+
 local function train_meta(iter)
 
     -----------------------------------
@@ -313,40 +405,42 @@ local function train_meta(iter)
 
 
     for epoch = 1, opt.max_epoch do
-      print(c.blue '==>' ..' Meta episode #' .. iter .. ', Training epoch #' .. epoch)
-      for i = 1, iter_num do
-         local inputs, targets = trainset:index(torch.LongTensor():range((i - 1) * opt.batchSize + 1, i * opt
-         .batchSize))
 
-         local X, Y = cast(inputs), cast(targets)
+
+       train()
+--      print(c.blue '==>' ..' Meta episode #' .. iter .. ', Training epoch #' .. epoch)
+--      for i = 1, iter_num do
+--         local inputs, targets = trainset:index(torch.LongTensor():range((i - 1) * opt.batchSize + 1, i * opt
+--         .batchSize))
 --
---         local grads, loss, prediction = dfTrain(all_params, X, Y)
-
-
-         local feval = function(x)
-            if x~=params then params:copy(x) end
-            grads, loss, prediction = dfTrain(all_params, X, Y)
-            confusionMatrix:batchAdd(prediction, Y)
-            return loss, grads.elementary
-         end
-
-
-         -- use optim's implementation
-         sgd_m(feval, params, optimState)
-
-
-         -- Log performance:
---         confusionMatrix:batchAdd(prediction, Y)
-         if i % 100 == 0 then
-            print("Epoch "..epoch)
-            print(confusionMatrix)
-            if i % 1000 == 0 then
-               confusionMatrix:zero()
-            end
-         end
-         print(c.red 'loss: ', loss)
+--         local X, Y = cast(inputs), cast(targets)
+----
+--
+--
+--         local feval = function(x)
+--            if x~=params then params:copy(x) end
+--            grads, loss, prediction = dfTrain(all_params, X, Y)
+--            confusionMatrix:batchAdd(prediction, Y)
+--            return loss, grads.elementary
+--         end
+--
+--
+--         -- use optim's implementation
+--         sgd_m(feval, params, optimState)
+--
+--
+--         -- Log performance:
+----         confusionMatrix:batchAdd(prediction, Y)
+--         if i % 100 == 0 then
+--            print("Epoch "..epoch)
+--            print(confusionMatrix)
+--            if i % 1000 == 0 then
+--               confusionMatrix:zero()
+--            end
+--         end
+--         print(c.red 'loss: ', loss)
          --break
-      end
+--      end
    end
 
    -- copy final parameters after convergence

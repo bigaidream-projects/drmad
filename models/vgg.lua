@@ -52,19 +52,19 @@ classifier:add(nn.Linear(512,10))
 vgg:add(classifier)
 
 -- initialization from MSR
---local function MSRinit(net)
---    local function init(name)
---        for k,v in pairs(net:findModules(name)) do
---            local n = v.kW*v.kH*v.nOutputPlane
---            v.weight:normal(0,math.sqrt(2/n))
---            v.bias:zero()
---        end
---    end
---    -- have to do for both backends
---    init'nn.SpatialConvolution'
---END
---
---MSRinit(vgg)
+local function MSRinit(net)
+    local function init(name)
+        for k,v in pairs(net:findModules(name)) do
+            local n = v.kW*v.kH*v.nOutputPlane
+            v.weight:normal(0,math.sqrt(2/n))
+            v.bias:zero()
+        end
+    end
+    -- have to do for both backends
+    init'nn.SpatialConvolution'
+end
+
+MSRinit(vgg)
 
 -- check that we can propagate forward without errors
 -- should get 16x10 tensor
