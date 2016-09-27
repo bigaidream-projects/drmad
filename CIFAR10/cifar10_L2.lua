@@ -130,15 +130,16 @@ local function sgd_m(opfunc, x, config, state)
 end
 
 -- Load in MNIST
-
 print(c.blue '==>' ..' loading data')
+
+provider = torch.load 'provider.t7'
+provider.trainData.data = provider.trainData.data:float()
+provider.testData.data = provider.testData.data:float()
+
 local trainset, validset, testset = dl.loadCIFAR10()
 local classes = testset.classes
 local confusionMatrix = optim.ConfusionMatrix(classes)
 print(c.blue '    completed!')
-
-
-
 
 
 local predict, model, modelf, dfTrain, params, all_params, initParams, finalParams, params_l2, params_velocity, gethessian
@@ -160,46 +161,7 @@ local function cast(t)
 end
 
 
--- create params that has a same size as elementary parameters
-local function full_create(params)
-   local full_params = {}
-   for i = 1, #params do
-      full_params[i] = params[i]:clone():fill(0)
-   end
-   return full_params
-end
 
--- create params that has a same size as elementary weight parameters
--- i.e. ignore bias parameters
-local function L2_norm_create(params, initHyper)
-   local hyper_L2 = {}
-   for i = 1, #params do
-      -- dimension = 1 is bias, do not need L2_reg
-      if (params[i]:nDimension() > 1) then
-        hyper_L2[i] = params[i]:clone():fill(initHyper)
-      end
-   end
-   return hyper_L2
-end
-
-local function L2_norm(params, params_l2)
---   local penalty = torch.sum(params[1]) * params_l2[1]
-   local penalty = 0
-   for i = 1, #params do
-       --dimension = 1 is bias, do not need L2_reg
-       if (params[i]:nDimension() > 1) then
-         --print(i)
-         penalty = penalty + torch.sum(torch.cmul(params[i], params_l2[i]))
-       end
-   end
-    return penalty
-end
-
-
-print(c.blue '==>' ..' loading data')
-provider = torch.load 'provider.t7'
-provider.trainData.data = provider.trainData.data:float()
-provider.testData.data = provider.testData.data:float()
 
 confusion = optim.ConfusionMatrix(10)
 
@@ -227,50 +189,21 @@ local function init(iter)
       -- cast a model using functionalize
       modelf, params = grad.functionalize(model)
       parameters, gradParameters = model:parameters()
-      --parameters = model:parameters()
-
-
---      print(params[1][1])
---      print(parameters[1][1])
---
---      print(parameters == params)
---      for i = 1, #params do
---         print(params[i] == parameters[i])
---      end
-
-      params_l2 = L2_norm_create(params, opt.initHyper)
-      params_velocity = full_create(params)
-      params_proj = full_create(params)
 
       local Lossf = grad.nn.CrossEntropyCriterion()
 
       -- define training function
       local function fTrain(params, x, y)
-         --print(params.elementary)
-         --print(params.l2)
-         local prediction = modelf(params.elementary, x)
-         --local penalty = L2_norm(params.elementary, params.l2)
+         local prediction = modelf(params, x)
          return Lossf(prediction, y), prediction
       end
-
       dfTrain = grad(fTrain)
-
-      all_params = {
-         elementary = params,
-         l2 = params_l2,
-         velocity = params_velocity
-      }
 
       -- a simple unit test
       local X = cast(torch.Tensor(4, 3, 32, 32):fill(0.5))
       local Y = cast(torch.Tensor(1, 4):fill(0))
-
-      local l, p
-      grads, l, p = dfTrain(all_params, X, Y)
-
-      print(dparams)
-
-      if (l) then
+      local grads, l, p = dfTrain(params, X, Y)
+      if (grads) then
         print(c.green '    Auto Diff works!')
       end
 
@@ -279,12 +212,11 @@ local function init(iter)
          local grads, loss, predition = dfTrain(params, X, Y)
          return loss
       end
-
       gethessian = grad(fhessian)
-
-      local hessian, loss = gethessian(all_params, X, Y)
-
-      print("hessian:", hessian)
+      local hessian, loss = gethessian(params, X, Y)
+      if (hessian) then
+         print(c.green '    Hessian seems works!')
+      end
 
       print(c.blue '    completed!')
    end
@@ -300,16 +232,6 @@ local function init(iter)
    initParams = utils.deepcopy(params)
 end
 
-
-local function gradProj(params, input, target, Proj, dV)
---   local grads, loss, prediction = dfTrain(params, input, target)
---   proj_1 = proj_1 + torch.cmul(grads.W[1] , DV_1)
---   proj_2 = proj_2 + torch.cmul(grads.W[2] , DV_2)
---   proj_3 = proj_3 + torch.cmul(grads.W[3] , DV_3)
---   local loss = torch.sum(proj_1) + torch.sum(proj_2) + torch.sum(proj_3)
---   return loss
-
-end
 
 
 local optimState = {
@@ -341,24 +263,25 @@ local function train()
       local inputs = provider.trainData.data:index(1,v):cuda()
       targets:copy(provider.trainData.labels:index(1,v)):cuda()
 
-
+      --- [autograd] begin
       local feval = function(x)
          if x~=params then params:copy(x) end
          for j = 1, #gradParameters do
             gradParameters[j]:zero()
          end
          local loss, prediction
-         grads, loss, prediction = dfTrain(all_params, inputs, targets)
+         grads, loss, prediction = dfTrain(params, inputs, targets)
          confusionMatrix:batchAdd(prediction, targets)
          print(c.red 'loss: ', loss)
          return loss, gradParameters
       end
-
       sgd_m(feval, params, optimState)
+      --- [autograd] end
 
+
+      --- [orginal] begin
 --      local feval = function(x)
 --         if x ~= parameters then parameters:copy(x) end
-----         gradParameters:zero()
 --         for j = 1, #gradParameters do
 --            gradParameters[j]:zero()
 --         end
@@ -368,11 +291,11 @@ local function train()
 --         model:backward(inputs, df_do)
 --         print("loss: ", f)
 --         confusion:batchAdd(outputs, targets)
---
 --         return f,gradParameters
 --      end
---
 --      sgd_m(feval, parameters, optimState)
+      --- [orginal] end
+
    end
 
    confusion:updateValids()
@@ -393,109 +316,15 @@ local function train_meta(iter)
     -- [[Meta training]]
     -----------------------------------
 
-    -- Train a neural network to get final parameters
-
-    local iter_num = torch.floor(trainset:size() / opt.batchSize)
-
---    print(iter_num)
---
---    sys.sleep(100)
-
-    local grads, loss, prediction
-
 
     for epoch = 1, opt.max_epoch do
-
-
        train()
---      print(c.blue '==>' ..' Meta episode #' .. iter .. ', Training epoch #' .. epoch)
---      for i = 1, iter_num do
---         local inputs, targets = trainset:index(torch.LongTensor():range((i - 1) * opt.batchSize + 1, i * opt
---         .batchSize))
---
---         local X, Y = cast(inputs), cast(targets)
-----
---
---
---         local feval = function(x)
---            if x~=params then params:copy(x) end
---            grads, loss, prediction = dfTrain(all_params, X, Y)
---            confusionMatrix:batchAdd(prediction, Y)
---            return loss, grads.elementary
---         end
---
---
---         -- use optim's implementation
---         sgd_m(feval, params, optimState)
---
---
---         -- Log performance:
-----         confusionMatrix:batchAdd(prediction, Y)
---         if i % 100 == 0 then
---            print("Epoch "..epoch)
---            print(confusionMatrix)
---            if i % 1000 == 0 then
---               confusionMatrix:zero()
---            end
---         end
---         print(c.red 'loss: ', loss)
-         --break
---      end
    end
-
-   -- copy final parameters after convergence
-   finalParams = utils.deepcopy(params)
-   finalParams = nn.utils.recursiveCopy(finalParams, params)
 
    -----------------------
    -- [[Reverse mode hyper-parameter training:
    -- to get gradient w.r.t. hyper-parameters]]
    -----------------------
-
-
-    --- obtain on validation
-
-
-
-
-
---    for i = 1, iter_num do
---       local inputs, targets = trainset:index(torch.LongTensor():range((i - 1) * opt.batchSize + 1, i * opt.batchSize))
---
---       local X, Y = cast(inputs), cast(targets)
---
---
---       local feval = function(x)
---          if x~=params then params:copy(x) end
---          grads.elementary:zero()
---          grads, loss, prediction = dfTrain(all_params, X, Y)
---          confusionMatrix:batchAdd(prediction, Y)
---          return loss, grads.elementary
---       end
---       -- update parameter
---
---       sgd_m(feval, params, optimState)
---
---
-----       for i = 1, #grads do
-----          params_velocity[i] = params_velocity[i]:mul(opt.learningRateDecay) - grads[i]:mul(1 - opt.learningRateDecay)
-----          params[i] = params[i] + opt.learningRate * params_velocity[i]
-----       end
-----
-----       -- Log performance:
-----       confusionMatrix:batchAdd(prediction, Y)
---       if i % 50 == 0 then
---          print("Epoch "..epoch)
---          print(confusionMatrix)
---          if i % 1000 == 0 then
---             confusionMatrix:zero()
---          end
---       end
-----       print(c.red 'loss: ', loss)
---       --break
---    end
---
---    dHyperProj = grad(gradProj)
 
 
 
