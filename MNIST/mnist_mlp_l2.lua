@@ -41,13 +41,15 @@ local classes = testset.classes
 local confusionMatrix = optim.ConfusionMatrix(classes)
 
 local initHyper = 0.001
-local predict, fTrain, params
+local predict, fTrain, params, initParams, finalParams
 
 -- initialize hyperparameters as global variables
 -- to be shared across different meta-iterations
 local HY1 = torch.FloatTensor(inputSize, 50):fill(initHyper)
 local HY2 = torch.FloatTensor(50, 50):fill(initHyper)
 local HY3 = torch.FloatTensor(50, #classes):fill(initHyper)
+local hLr = 0.0001
+
 
 local function train_meta()
    --[[
@@ -106,10 +108,17 @@ local function train_meta()
       HY = { HY1, HY2, HY3 }
    }
 
-   local deepcopy = require 'deepcopy'
+--   local deepcopy = require 'deepcopy'
 
-   -- copy initial weights
-   initParams = deepcopy(params)
+
+   finalParams = {}
+   nn.utils.recursiveResizeAs(finalParams, params)
+
+   initParams = {}
+   nn.utils.recursiveResizeAs(initParams, params)
+
+   nn.utils.recursiveCopy(initParams, params)
+   print("initParams", initParams.W[1])
 
    -- Get the gradients closure magically:
    local dfTrain = grad(fTrain, { optimize = true })
@@ -126,7 +135,7 @@ local function train_meta()
    local batchSize = 1
    local epochSize = -1
 
-   -- weight decay for elementary parameters
+   -- decay (momentum) for elementary parameters
    local gamma = 0.7
    -- Train a neural network to get final parameters
    local y_ = torch.FloatTensor(10)
@@ -169,7 +178,10 @@ local function train_meta()
    end
 
    -- copy final parameters after convergence
-   finalParams = deepcopy(params)
+--   finalParams = deepcopy(params)
+   nn.utils.recursiveCopy(finalParams, params)
+
+   print("finalParams", finalParams)
 
    ----------------------
    -- [[Backward pass]]
@@ -257,11 +269,11 @@ local function train_meta()
    -- https://github.com/twitter/torch-autograd/issues/66
    -- torch-autograd needs to track all variables
    local function gradProj(params, input, target, proj_1, proj_2, proj_3, DV_1, DV_2, DV_3)
-      local grads, loss, prediction = dfTrain(params, input, target)
+      local grads, loss, prediction = dfTrain(params, input, target) -- implicit forward
       proj_1 = proj_1 + torch.cmul(grads.W[1], DV_1)
       proj_2 = proj_2 + torch.cmul(grads.W[2], DV_2)
       proj_3 = proj_3 + torch.cmul(grads.W[3], DV_3)
-      local loss = torch.sum(proj_1) + torch.sum(proj_2) + torch.sum(proj_3)
+      local loss = torch.sum(grads.W) + torch.sum(grads.HY) + torch.sum(grads.B)
       return loss
    end
 
@@ -271,9 +283,10 @@ local function train_meta()
    -- Backpropagate the validation errors
    local numIter = numEpoch * (epochSize == -1 and trainset:size() or epochSize)
    local beta = torch.linspace(0.001, 0.999, numIter)
+--   print('numIter', numIter)
+--   print('beta', beta)
 
-
-   local buffer
+--   local buffer
    for epoch = 1, numEpoch do
 
       print('Backword Training Epoch #' .. epoch)
@@ -281,26 +294,23 @@ local function train_meta()
          -- Next sample:
          local x, y = makesample(inputs, targets)
 
+         --- generate a fake weight
          for j = 1, nLayers do
-            params.W[j]:mul(initParams.W[j], 1 - beta[i + (numEpoch * (epoch - 1))])
-            buffer = buffer or initParams.W[j].new()
-            buffer:mul(finalParams.W[j], beta[i + (numEpoch * (epoch - 1))])
-            params.W[j]:add(buffer)
-            DV[j]:add(eLr, validGrads.W[j])
+            params.W[j] = torch.mul(initParams.W[j], (1 - beta[i + (numEpoch * (epoch-1))])) +
+                    torch.mul(finalParams.W[j], beta[i + (numEpoch * (epoch-1))])
+            DV[j] = DV[j] + validGrads.W[j] * eLr
          end
 
+         print(params.HY[1])
          local grads, loss = dHVP(params, x, y, proj1, proj2, proj3, DV1, DV2, DV3)
-         --        print("loss", loss)
+--         print("loss", loss), loss is here!
+         print(grads.HY[1])
+         assert(grads)
          for j = 1, nLayers do
-            buffer = buffer or DHY[j].new()
-
-            buffer:mul(grads.W[j], 1.0 - gamma)
-            validGrads.W[j]:add(-1, buffer)
-
-            buffer:mul(grads.HY[j], 1.0 - gamma)
-            DHY[j]:add(-1, buffer)
-
-            DV[j]:mul(DV[j], gamma)
+            validGrads.W[j] = validGrads.W[j] - torch.mul(grads.W[j], (1.0 - gamma))
+            -- grads w.r.t. HY are all zeros
+            DHY[j] = DHY[j] - torch.mul(grads.HY[j], (1.0 - gamma))
+            DV[j]:mul(gamma)
          end
          --xlua.progress(i, trainset:size())
       end
@@ -314,7 +324,6 @@ end
 
 -- Hyperparameter learning rate, cannot be too huge
 -- this is a super-parameter...
-local hLr = 0.0001
 local numMeta = 3
 
 for i = 1, numMeta do
