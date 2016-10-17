@@ -61,7 +61,7 @@ For CIFAR10(in other branches, still has bugs):
 3. Rally with ([Net2Net](https://github.com/soumith/net2net.torch))
 4. Experiments on ImageNet, CIFAR10
 
-There is also a CPU version DrMAD available, please checkout [here](cpu_ver).
+There is also a CPU version DrMAD (used in the original conference paper), please checkout [here](cpu_ver).
 
 ---
 
