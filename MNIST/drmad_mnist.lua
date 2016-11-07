@@ -223,12 +223,6 @@ local function train_meta()
 
    print("valid_loss: ", valid_loss)
 
-   -- Get average validation gradients w.r.t weights and biases
-   for i = 1, #params.W do
-      validGrads.W[i] = validGrads.W[i] / numEpoch
-      validGrads.B[i] = validGrads.B[i] / numEpoch
-   end
-
    -------------------------------------
 
    -- Initialize derivative w.r.th. hyperparameters

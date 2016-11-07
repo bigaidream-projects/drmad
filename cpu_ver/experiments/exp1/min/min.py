@@ -53,7 +53,7 @@ def run():
                               for i in range(N_layers)])
             for i in range(N_layers):
                 all_t[('weights', i)] = t_mean
-        elif name == 'layers':
+        elif name == 'optimizer':
             for i in range(N_layers):
                 all_t[('weights', i)] = np.mean(all_t[('weights', i)])
         elif name == 'units':
@@ -112,7 +112,7 @@ def run():
         return cur_transform
 
     transform = np.ones(N_weights)
-    constraints = ['universal', 'layers', 'units']
+    constraints = ['universal', 'optimizer', 'units']
     for i_top, (N_meta_iter, constraint) in enumerate(zip(all_N_meta_iter, constraints)):
         transform = train_reg(transform, constraint, N_meta_iter, i_top)
 
