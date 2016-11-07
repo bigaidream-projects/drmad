@@ -38,6 +38,8 @@ DrMAD is the only gradient-based hyperparameter optimizer that can tune learning
 
 ## Usage
 
+> Caution: the Torch version may not work correctly. For reproducing the original result in the paper, please refer to [CPU version](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver)
+
 ## Dependencies
 * Torch 7
 * [Twitter Torch Autograd](https://github.com/twitter/torch-autograd): the next version will not depend on this.
