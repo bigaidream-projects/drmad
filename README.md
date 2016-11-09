@@ -34,36 +34,13 @@ We propose a simple but effective method, DrMAD, to distill the knowledge of the
 
 DrMAD is the only gradient-based hyperparameter optimizer that can tune learning rates for every neuron at every iteration on GPUs.
 
+## CPU code for reproducing
 
+For reproducing the original result in the paper, please refer to [CPU version](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver)
 
-## Usage
+## TODO
 
-> Caution: the Torch version may not work correctly. For reproducing the original result in the paper, please refer to [CPU version](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver)
-
-## Dependencies
-* Torch 7
-* [Twitter Torch Autograd](https://github.com/twitter/torch-autograd): the next version will not depend on this.
-
-### How to run
-
-For MMIST:
-
-- `drmad_mnist.lua` is for tuning L2 penalties on MNIST.
-- `cuda_drmad_mnist.lua` is for tuning L2 penalties on MNIST with CUDA.
-- `lr_drmad_mnist.lua` is for tuning learning rates and L2 penalties on MNIST.
-
-For CIFAR10(in other branches, still has bugs):
-
-- `cifar10_L2.lua` is for tuning L2 penalties on CIFAR10.
-
-
-### TODOs
-1. API for tuning learning rates, weight decay and momentum.
-2. Knowledge distillation
-3. Rally with ([Net2Net](https://github.com/soumith/net2net.torch))
-4. Experiments on ImageNet, CIFAR10
-
-There is also a CPU version DrMAD (used in the original conference paper), please checkout [here](cpu_ver).
+We are refactoring the code with Theano/TensorFlow/Torch to support GPU. Currently, the Torch version may not work correctly. 
 
 ---
 
