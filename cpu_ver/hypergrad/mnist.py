@@ -1,3 +1,4 @@
+
 import os
 import gzip
 import struct
@@ -8,7 +9,9 @@ import pickle
 from hypergrad.util import dictslice
 
 def datapath(fname):
-    datadir = os.path.expanduser('/home/jie/d2/bitbucket/hypergradient_bo/data/mnist')
+    # datadir = os.path.expanduser('/home/jie/d2/bitbucket/hypergradient_bo/data/mnist')
+    datadir = os.path.expanduser('~/repos/hypergrad/data/mnist')
+
     return os.path.join(datadir, fname)
 
 def mnist():
