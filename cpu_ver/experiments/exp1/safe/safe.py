@@ -6,14 +6,14 @@ import pickle
 from collections import defaultdict
 from funkyyak import grad, kylist, getval
 
-import hypergrad.mnist as mnist
+import hypergrad.cifar10 as cifar10
 from hypergrad.mnist import random_partition
 from hypergrad.nn_utils import make_nn_funs, VectorParser
 from hypergrad.optimizers import sgd_numpy_safe as sgd
 from hypergrad.util import RandomState, dictslice, dictmap
 from hypergrad.odyssey import omap
 
-layer_sizes = [784, 100, 100, 100, 10]
+layer_sizes = [3072, 100, 100, 100, 10]
 N_layers = len(layer_sizes) - 1
 batch_size = 50
 N_iters = 100000    # 5000
@@ -34,7 +34,7 @@ log_init_scale = -3.0
 
 def run():
     RS = RandomState((seed, "top_rs"))
-    all_data = mnist.load_data_as_dict()
+    all_data = cifar10.load_data_as_dict()
     train_data, tests_data = random_partition(all_data, RS, [N_train, N_tests])
     w_parser, pred_fun, loss_fun, frac_err = make_nn_funs(layer_sizes)
     N_weights = w_parser.vect.size

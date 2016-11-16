@@ -2,9 +2,15 @@ import cPickle
 import os
 import tarfile
 import urllib
+import pickle
+
 
 import numpy as np
 
+datadir = os.path.expanduser('~/repos/drmad/data/cifar10')
+
+def datapath(fname):
+    return os.path.join(datadir, fname)
 
 def cifar10(cifar10_datadir):
     datadir = cifar10_datadir
@@ -52,8 +58,41 @@ def cifar10(cifar10_datadir):
 
     return X_train, y_train, X_test, y_test
 
+def load_data(normalize=False):
+    with open(datapath("cifar10_data.pkl")) as f:
+        train_images, train_labels, test_images, test_labels = pickle.load(f)
+
+    one_hot = lambda x, K : np.array(x[:,None] == np.arange(K)[None, :], dtype=int)
+    partial_flatten = lambda x : np.reshape(x, (x.shape[0], np.prod(x.shape[1:])))
+    train_images = partial_flatten(train_images) / 255.0
+    test_images  = partial_flatten(test_images)  / 255.0
+    train_labels = one_hot(train_labels, 10)
+    test_labels = one_hot(test_labels, 10)
+    N_data = train_images.shape[0]
+
+    train_labels = train_labels.reshape(-1, 10)
+    test_labels = test_labels.reshape(-1, 10)
+    if normalize:
+        train_mean = np.mean(train_images, axis=0)
+        train_images = train_images - train_mean
+        test_images = test_images - train_mean
+    return train_images, train_labels, test_images, test_labels, N_data
+
+
+
+def gz_to_pickle():
+    data = cifar10(datadir);
+    with open(datapath("cifar10_data.pkl"), "w") as f:
+        pickle.dump(data, f, 1)
+
+def load_data_as_dict(normalize=True):
+    X, T = load_data(normalize)[:2]
+    return {'X' : X, 'T' : T}
+
+
+    return [{"X" : dat[0], "T" : dat[1]} for dat in datapairs]
 if __name__ == '__main__':
-    cifar10_datadir = os.path.normpath(os.path.join(os.getcwd(), '..', 'data', 'cifar10'))
-    X_train, y_train, X_test, y_test = cifar10(cifar10_datadir)
+    X_train, y_train, X_test, y_test = cifar10(datadir)
+    gz_to_pickle();
     print('X_train: {}, y_train: {}', X_train.shape, y_train.shape)
     print('X_test: {}, y_test: {}', X_test.shape, y_test.shape)
