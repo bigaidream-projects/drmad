@@ -364,6 +364,55 @@ def sgd4(L_grad, hypers, callback=None, forward_pass_only=True):
 
 sgd4 = Differentiable(sgd4, partial(sgd4, forward_pass_only=False))
 
+def sgd4_mad(L_grad, hypers, callback=None, forward_pass_only=True):
+
+    x0, alphas, gammas, meta = hypers
+    N_safe_sampling = len(alphas)
+    x_init = np.copy(x0)
+    x_current = np.copy(x0)
+    global  v_current
+    v_current = np.zeros(x0.size)
+    X, V = ExactRep(x0), ExactRep(np.zeros(x0.size))
+    iters = zip(range(len(alphas)), alphas, gammas)
+    for i, alpha, gamma in iters:
+        g = L_grad(X.val, meta, i)
+        if callback: callback(X.val, V.val, g, i)
+        V.mul(gamma).sub((1.0 - gamma) * g)
+        X.add(alpha * V.val)
+    x_final = X.val
+
+    if forward_pass_only:
+        return x_final
+
+    def hypergrad(outgrad):
+        d_x = outgrad
+        global v_current
+        v=v_current
+        d_alphas, d_gammas = np.zeros(len(alphas)), np.zeros(len(gammas))
+        d_v, d_meta = np.zeros(d_x.shape), np.zeros(meta.shape)
+        grad_proj = lambda x, meta, d, i: np.dot(L_grad(x, meta, i), d)
+        L_hvp_x    = grad(grad_proj, 0) # Returns a size(x) output.
+        L_hvp_meta = grad(grad_proj, 1) # Returns a size(gamma) output.
+        beta = np.linspace(0.001, 0.999, N_safe_sampling)
+        for i, alpha, gamma in iters[::-1]:
+            x = (1 - beta[i])*x_init + beta[i]*x_final
+            x_previous = (1 - beta[i-1])*x_init + beta[i-1]*x_final
+            v = np.subtract(x,x_previous) #recover velocity
+            d_alphas[i] = np.dot(d_x, v)
+            g = L_grad(x, meta, i)         # Evaluate gradient
+            # v = (v+(1.0 - gamma)*g)/gamma
+            d_v += d_x * alpha
+            d_gammas[i] = np.dot(d_v, v + g)
+            d_x    -= (1.0 - gamma) * L_hvp_x(x, meta, d_v, i)
+            d_meta -= (1.0 - gamma) * L_hvp_meta(x, meta, d_v, i)
+            d_v    *= gamma
+        # assert np.all(ExactRep(x0).val == X.val)
+        return d_x, d_alphas, d_gammas, d_meta
+
+    return x_final, [None, hypergrad]
+
+sgd4_mad = Differentiable(sgd4_mad, partial(sgd4_mad, forward_pass_only=False))
+
 
 def sgd_meta_only(L_grad, meta, x0, alpha, beta, N_iters,
                   callback=None, forward_pass_only=True):
