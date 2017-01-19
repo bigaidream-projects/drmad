@@ -397,7 +397,7 @@ def sgd4_mad(L_grad, hypers, callback=None, forward_pass_only=True):
         for i, alpha, gamma in iters[::-1]:
             x = (1 - beta[i])*x_init + beta[i]*x_final
             x_previous = (1 - beta[i-1])*x_init + beta[i-1]*x_final
-            v = np.subtract(x,x_previous) #recover velocity
+            v = np.subtract(x,x_previous)/alpha #recover velocity
             d_alphas[i] = np.dot(d_x, v)
             g = L_grad(x, meta, i)         # Evaluate gradient
             # v = (v+(1.0 - gamma)*g)/gamma
