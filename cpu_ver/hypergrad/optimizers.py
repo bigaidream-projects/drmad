@@ -668,6 +668,68 @@ sgd_parsed = Differentiable(sgd_parsed,
                             partial(sgd_parsed, forward_pass_only=False))
 
 
+def sgd_parsed_mad(L_grad, hypers, parser, callback=None, forward_pass_only=True):
+    """This version has alphas and betas be TxN_weight_types matrices.
+       parser is a dict containing the indices for the different types of weights."""
+    x0, alphas, gammas, meta = hypers
+    N_safe_sampling = len(alphas)
+    x_init = np.copy(x0)
+    x_current = np.copy(x0)
+    global v_current
+    v_current = np.zeros(x0.size)
+    X, V = ExactRep(x0), ExactRep(np.zeros(x0.size))
+    iters = zip(range(len(alphas)), alphas, gammas)
+    for i, alpha, gamma in iters:
+        g = L_grad(X.val, meta, i)
+        if callback: callback(X.val, V.val, g, i)
+        cur_alpha_vect = fill_parser(parser, alpha)
+        cur_gamma_vect  = fill_parser(parser, gamma)
+        V.mul(cur_gamma_vect).sub((1.0 - cur_gamma_vect) * g)
+        X.add(cur_alpha_vect * V.val)
+    x_final = X.val
+
+    if forward_pass_only:
+        return x_final
+
+    def hypergrad(outgrad):
+        d_x = outgrad
+        global v_current
+        v = v_current
+        d_alphas, d_gammas = np.zeros(alphas.shape), np.zeros(gammas.shape)
+        d_v, d_meta = np.zeros(d_x.shape), np.zeros(meta.shape)
+        grad_proj = lambda x, meta, d, i: np.dot(L_grad(x, meta, i), d)
+        L_hvp_x    = grad(grad_proj, 0)  # Returns a size(x) output.
+        L_hvp_meta = grad(grad_proj, 1)  # Returns a size(meta) output.
+        beta = np.linspace(0.001, 0.999, N_safe_sampling)
+        for i, alpha, gamma in iters[::-1]:
+            # build alpha and beta vector
+            cur_alpha_vect = fill_parser(parser, alpha)
+            cur_gamma_vect  = fill_parser(parser, gamma)
+
+            x = (1 - beta[i]) * x_init + beta[i] * x_final
+            x_previous = (1 - beta[i - 1]) * x_init + beta[i - 1] * x_final
+            v = (np.subtract(x, x_previous)) / cur_alpha_vect  # recover velocity
+            for j, (_, (ixs, _)) in enumerate(parser.idxs_and_shapes.iteritems()):
+                d_alphas[i,j] = np.dot(d_x[ixs], v[ixs])
+            g = L_grad(x, meta, i)                           # Evaluate gradient
+
+            d_v += d_x * cur_alpha_vect
+
+            for j, (_, (ixs, _)) in enumerate(parser.idxs_and_shapes.iteritems()):
+                d_gammas[i,j] = np.dot(d_v[ixs], v[ixs] + g[ixs])
+
+            d_x    -= L_hvp_x(x, meta, (1.0 - cur_gamma_vect)*d_v, i)
+            d_meta -= L_hvp_meta(x, meta, (1.0 - cur_gamma_vect)* d_v, i)
+            d_v    *= cur_gamma_vect
+        # assert np.all(ExactRep(x0).val == X.val)
+        return d_x, d_alphas, d_gammas, d_meta
+
+    return x_final, [None, hypergrad]
+
+sgd_parsed_mad = Differentiable(sgd_parsed_mad,
+                            partial(sgd_parsed_mad, forward_pass_only=False))
+
+
 # Non-reversible code
 ###############################################
 
