@@ -9,27 +9,28 @@ from funkyyak import grad, kylist, getval
 import hypergrad.mnist as mnist
 from hypergrad.mnist import random_partition
 from hypergrad.nn_utils import make_nn_funs, VectorParser
-from hypergrad.optimizers import sgd_numpy_safe as sgd
+from hypergrad.optimizers import sgd_meta_only_mad as sgd
 from hypergrad.util import RandomState, dictslice, dictmap
 from hypergrad.odyssey import omap
 
-layer_sizes = [784, 100, 100, 100, 10]
+layer_sizes = [784, 300, 300, 10]
 N_layers = len(layer_sizes) - 1
 batch_size = 50
-N_iters = 100000    # 5000
-N_train = 20000
+N_iters = 5000
+N_train = 50000
 N_valid = 5000
 N_tests = 5000
 
 all_N_meta_iter = [0, 0, 20]
-alpha = 0.05  #0.1
-meta_alpha = 0.07
+alpha = 0.01
+meta_alpha = 0.3
 beta = 0.1
 seed = 0
 N_thin = 500
 N_meta_thin = 1
 log_L2 = -4.0
 log_init_scale = -3.0
+
 
 
 def run():
@@ -89,7 +90,7 @@ def run():
             return loss + reg
         return sgd(grad(primal_loss), transform, z_vect_0, alpha, beta, N_iters)
 
-    all_transforms, all_tests_loss, all_tests_rates, all_avg_regs = [], [], [], []
+    all_transforms, all_tests_loss, all_tests_rates = [], [], []
     def train_reg(reg_0, constraint, N_meta_iter, i_top):
         def hyperloss(transform, i_hyper, cur_train_data, cur_valid_data):
             RS = RandomState((seed, i_top, i_hyper, "hyperloss"))
@@ -112,7 +113,6 @@ def run():
                 test_rate = error_rate(cur_reg, i_hyper, train_data, tests_data)
                 all_tests_rates.append(test_rate)
                 all_transforms.append(cur_reg.copy())
-                all_avg_regs.append(np.mean(cur_reg))
                 print "Hyper iter {0}, error rate {1}".format(i_hyper, all_tests_rates[-1])
                 print "Cur_transform", np.mean(cur_reg)
             RS = RandomState((seed, i_top, i_hyper, "hyperloss"))
@@ -122,21 +122,21 @@ def run():
             cur_reg -= np.sign(constrained_grad) * meta_alpha
         return cur_reg
 
-    reg = np.zeros(N_weights)+0.2
+    reg = np.zeros(N_weights)+0.2  # or 1.2
     constraints = ['universal', 'layers', 'units']
     for i_top, (N_meta_iter, constraint) in enumerate(zip(all_N_meta_iter, constraints)):
         print "Top level iter {0}".format(i_top)
         reg = train_reg(reg, constraint, N_meta_iter, i_top)
 
     all_L2_regs = np.array(zip(*map(process_transform, all_transforms)))
-    return all_L2_regs, all_tests_rates, all_avg_regs
+    return all_L2_regs, all_tests_rates
 
 def plot():
     import matplotlib.pyplot as plt
     mpl.rcParams['font.family'] = 'serif'
     mpl.rcParams['image.interpolation'] = 'none'
     with open('results.pkl') as f:
-        all_L2_regs, all_tests_rates, all_avg_regs = pickle.load(f)
+        all_L2_regs, all_tests_rates = pickle.load(f)
 
     fig = plt.figure(0)
     fig.clf()
@@ -149,12 +149,7 @@ def plot():
         ax.plot(L2_reg_curve, color=c)
     ax.set_ylabel('Log L2 regularization')
     # ax.set_ylim([-3.0, -2.5])
-
     ax = fig.add_subplot(212)
-    ax.plot(all_avg_regs)
-    ax.set_ylabel('Average log L2 regularization')
-
-    ax = fig.add_subplot(213)
     ax.plot(all_tests_rates)
     ax.set_ylabel('Test error (%)')
     ax.set_xlabel('Meta iterations')
@@ -170,13 +165,7 @@ def plot():
     plt.savefig('bottom_layer_filter.eps', format='eps', dpi=1000)
 
 if __name__ == '__main__':
-    import time
-    t0 = time.time()
     results = run()
     with open('results.pkl', 'w') as f:
         pickle.dump(results, f, 1)
-    t1 = time.time()
-
-    total = t1 - t0
-    print(total)
-    # plot()
+    plot()

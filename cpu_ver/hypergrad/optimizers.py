@@ -449,7 +449,7 @@ def sgd_meta_only(L_grad, meta, x0, alpha, beta, N_iters,
 sgd_meta_only = Differentiable(sgd_meta_only,
                                partial(sgd_meta_only, forward_pass_only=False))
 
-def sgd_numpy_safe(L_grad, meta, x0, alpha, gamma, N_iters,
+def sgd_meta_only_mad(L_grad, meta, x0, alpha, gamma, N_iters,
                 callback=None, forward_pass_only=True):
     #the tricky part is the denominator, still investigating the effect
     N_safe_sampling = N_iters/10
@@ -484,8 +484,8 @@ def sgd_numpy_safe(L_grad, meta, x0, alpha, gamma, N_iters,
     return x_final, [None, hypergrad]
 
 
-sgd_numpy_safe = Differentiable(sgd_numpy_safe,
-                               partial(sgd_numpy_safe, forward_pass_only=False))
+sgd_meta_only_mad = Differentiable(sgd_meta_only_mad,
+                               partial(sgd_meta_only_mad, forward_pass_only=False))
 
 def sgd_short_safe(L_grad, meta, x0, alpha, gamma, N_iters,
                 callback=None, forward_pass_only=True):

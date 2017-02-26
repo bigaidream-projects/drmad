@@ -9,7 +9,7 @@ from funkyyak import grad, kylist, getval
 import hypergrad.mnist as mnist
 from hypergrad.mnist import random_partition
 from hypergrad.nn_utils import make_nn_funs, VectorParser
-from hypergrad.optimizers import sgd_numpy_safe as sgd
+from hypergrad.optimizers import sgd_meta_only_mad as sgd
 from hypergrad.util import RandomState, dictslice, dictmap
 from hypergrad.odyssey import omap
 import loaddataSubClass as loadData
