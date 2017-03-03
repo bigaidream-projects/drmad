@@ -7,8 +7,6 @@
 
 > Source code for the paper: [Distilling Reverse-Mode Automatic Differentiation for Optimizing Hyperparameters of Deep Neural Networks](http://arxiv.org/abs/1601.00917).
 
-> :smirk: NEWS: Sep 18, 2016, We are refactoring it to support hyperparameters tuning on VGG on CIFAR-10, and on ImageNet with residual networks. The beta-versions are in other branches. 
-
 ## What's DrMAD?
 
 DrMAD is a hyperparameter tuning method based on automatic differentiation, which is a most [criminally underused tool](https://justindomke.wordpress.com/2009/02/17/automatic-differentiation-the-most-criminally-underused-tool-in-the-potential-machine-learning-toolbox/) for machine learning.
@@ -37,6 +35,8 @@ DrMAD is the only gradient-based hyperparameter optimizer that can tune learning
 ## CPU code for reproducing
 
 For reproducing the original result in the paper, please refer to [CPU version](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver)
+
+> In the original paper, we set the momentum to a small value (0.1). Now we found that setting this value to 0.9 or even 0.95 will give much better approximation performance. Compared to RMAD, the speedup is about 15 times. 
 
 ## TODO
 
