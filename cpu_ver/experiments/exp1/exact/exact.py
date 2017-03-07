@@ -17,9 +17,9 @@ layer_sizes = [784, 50, 50, 50, 10]
 N_layers = len(layer_sizes) - 1
 batch_size = 50
 N_iters = 2000    # 5000
-N_train = 10000
-N_valid = 3000
-N_tests = 3000
+N_train = 20000
+N_valid = 5000
+N_tests = 5000
 
 all_N_meta_iter = [0, 0, 30]
 alpha = 0.05  #0.1

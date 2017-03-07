@@ -13,10 +13,10 @@ from hypergrad.optimizers import sgd_meta_only_mad as sgd
 from hypergrad.util import RandomState, dictslice, dictmap
 from hypergrad.odyssey import omap
 
-layer_sizes = [784, 100, 100, 100, 10]
+layer_sizes = [784, 50, 50, 50, 10]
 N_layers = len(layer_sizes) - 1
 batch_size = 50
-N_iters = 100000    # 5000
+N_iters = 2000    # 5000
 N_train = 20000
 N_valid = 5000
 N_tests = 5000
