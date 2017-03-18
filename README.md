@@ -36,7 +36,9 @@ DrMAD is the only gradient-based hyperparameter optimizer that can tune learning
 
 For reproducing the original result in the paper, please refer to [CPU version](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver)
 
-> In the original paper, we set the momentum to a small value (0.1). Now we found that setting this value to 0.9 or even 0.95 will give much better approximation performance. Compared to RMAD, the speedup is about 15 times. 
+> In the original paper, we set the momentum to a small value (0.1). Now we found that setting this value to 0.9 or even 0.95 will give much better approximation performance. 
+
+> One trick used in DrMAD is to set the number of iterations in the backward pass much smaller than that in the forward pass (see the [code](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/hypergrad/optimizers.py#L455). This will make the hyperparameter learning robust fast. 
 
 ## TODO
 
