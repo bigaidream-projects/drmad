@@ -17,7 +17,7 @@ theano.config.floatX = 'float32'
 theano.config.optimizer='fast_compile'
 
 
-def run_exp(args, update_lambda):
+def run_exp(args, update_lambda, fix_weight):
 
     if args.predata is False:
         X_elementary, Y_elementary, X_hyper, Y_hyper, X_valid, Y_valid, X_test, Y_test = read_preprocess(params=args)
@@ -42,6 +42,9 @@ def run_exp(args, update_lambda):
         raise AttributeError
     y = T.matrix('y')
     lr_ele = T.fscalar('lr_ele')
+
+    lr_ele_true = np.array(args.lrEle, theano.config.floatX)
+    mom = 0.95
     lr_hyper = T.fscalar('lr_hyper')
     grad_valid_weight = T.tensor4('grad_valid_weight')
 
@@ -49,25 +52,38 @@ def run_exp(args, update_lambda):
         model = MLP(x=x, y=y, args=args)
     elif args.model == 'convnet':
         model = ConvNet(x=x, y=y, args=args)
-        X_elementary = X_elementary.reshape(-1, 1, 28, 28)
-        X_hyper = X_hyper.reshape(-1, 1, 28, 28)
-        X_valid = X_valid.reshape(-1, 1, 28, 28)
-        X_test = X_test.reshape(-1, 1, 28, 28)
+
+        if args.dataset == 'mnist':
+            nc = 1
+            nPlane = 28
+        else:
+            nc = 3
+            nPlane = 32
+        X_elementary = X_elementary.reshape(-1, nc, nPlane, nPlane)
+        X_hyper = X_hyper.reshape(-1, nc, nPlane, nPlane)
+        X_valid = X_valid.reshape(-1, nc, nPlane, nPlane)
+        X_test = X_test.reshape(-1, nc, nPlane, nPlane)
     else:
         raise AttributeError
 
     update_ele, update_valid, output_valid_list, share_var_dloss_dweight = update(model.params_theta, model.params_lambda, model.params_weight,
                                       model.loss, model.penalty, model.lossWithPenalty,
-                                      lr_ele, lr_hyper)
+                                      lr_ele, lr_hyper, mom)
 
     if update_lambda:
         for up, origin in zip(update_lambda, model.params_lambda):
-            print origin[0]
-            origin += up * args.lrHyper
-            print origin[0]
+            origin.set_value(np.array(up))
+            boo = origin.get_value()
+            # print 'update', type(up), type(boo), boo[1]
+            # TIME.sleep(20)
 
-    print(update_ele)
-    print(update_valid)
+    if fix_weight:
+        for fix, origin in zip(fix_weight, model.params_weight):
+            origin.set_value(np.array(fix))
+    else:
+        fix_weight = []
+        for origin in model.params_weight:
+            fix_weight.append(origin.get_value())
 
     # Phase 1
     func_elementary = theano.function(
@@ -97,19 +113,31 @@ def run_exp(args, update_lambda):
          Phase 1: meta-forward
 
     """
+    X_mix = np.concatenate((X_valid, X_test), axis=0)
+    Y_mix = np.concatenate((Y_valid, Y_test), axis=0)
+    print X_valid.shape, X_mix.shape
+    X_valid, Y_valid = X_mix[:len(X_mix) / 2], Y_mix[:len(X_mix) / 2]
+    X_test, Y_test = X_mix[len(X_mix) / 2:], Y_mix[len(X_mix) / 2:]
     n_ele, n_valid, n_test = X_elementary.shape[0], X_valid.shape[0], X_test.shape[0]
+    # TODO: remove this override
+    n_ele = 20000
+    X_elementary, Y_elementary = X_elementary[:n_ele], Y_elementary[:n_ele]
+
+    print "# of ele, valid, test: ", n_ele, n_valid, n_test
     n_batch_ele = n_ele / args.batchSizeEle
     test_perm, ele_perm = range(0, n_test), range(0, n_ele)
     last_iter = args.maxEpoch * n_batch_ele - 1
     temp_err_ele = []
     temp_cost_ele = []
-
+    eval_loss = 0.
     t_start = time()
 
+    iter_index_cache = []
+
     # save the model parameters into theta_initial
-    theta_initial = {}
-    for w in model.params_theta:
-        theta_initial[w] = w.get_value()
+    theta_initial = []
+    for i, w in enumerate(model.params_theta):
+        theta_initial.append(w.get_value())
 
     for i in range(0, args.maxEpoch * n_batch_ele):
         curr_epoch = i / n_batch_ele
@@ -120,42 +148,43 @@ def run_exp(args, update_lambda):
 
         """
         t = 1. * i / (args.maxEpoch * n_batch_ele)
-        lr_ele = 0.02
-        moment_ele = 0.5
-        # if curr_batch == 0:
-        #     np.random.shuffle(ele_perm)
 
         """
             Update
 
         """
         sample_idx_ele = ele_perm[(curr_batch * args.batchSizeEle):((curr_batch + 1) * args.batchSizeEle)]
+        iter_index_cache.append(sample_idx_ele)
         batch_x, batch_y = X_elementary[sample_idx_ele], Y_elementary[sample_idx_ele]
+        if i == 399:
+            print "399!!!!!!!!!!!", batch_y
         tmp_y = np.zeros((args.batchSizeEle, 10))
         for idx, element in enumerate(batch_y):
             tmp_y[idx][element] = 1
         batch_y = tmp_y
-        res = func_elementary(batch_x, batch_y, lr_ele)
+        res = func_elementary(batch_x, batch_y, lr_ele_true)
         (cost_ele, pred_ele, debugs) = (res[0], res[1], res[2:])
+        # print("Epoch %d, batch %d, time = %ds, train_loss = %.4f" %
+        #       (curr_epoch, curr_batch, time() - t_start, cost_ele))
+
         # temp_err_ele += [1. * sum(batch_y != pred_ele) / args.batchSizeEle]
         temp_cost_ele += [cost_ele]
         eval_error = 0.
 
-        if np.isnan(cost_ele):
-            print 'NANS', cost_ele
+        # if np.isnan(cost_ele):
+        #     print 'NANS', cost_ele
 
         """
             Evaluate
 
         """
-        if args.verbose or (curr_epoch == n_batch_ele - 1):
+        if args.verbose or (curr_batch == n_batch_ele - 1):
 
             if args.model == 'mlp':
-                n_eval = 5000
+                n_eval = n_test
             else:
                 n_eval = 1000
 
-            eval_error = 0.
             temp_idx = test_perm[:n_eval]
             batch_x, batch_y = X_test[temp_idx], Y_test[temp_idx]
             tmp_y = np.zeros((n_eval, 10))
@@ -163,15 +192,21 @@ def run_exp(args, update_lambda):
                 tmp_y[idx][element] = 1
             batch_y = tmp_y
             eval_loss, y_test = func_eval(batch_x, batch_y)
-            # eval_error = 1. * sum(y_test != batch_y) / n_eval
 
-            print("Epoch %d, batch %d, time = %ds, eval_err = %.2f, eval_loss = %.4f" %
-                  (curr_epoch, curr_batch, time() - t_start, eval_error * 100, eval_loss))
+            wrong = 0
+            for e1, e2 in zip(y_test, Y_test[temp_idx]):
+                if e1 != e2:
+                    wrong += 1
+            # eval_error = 1. * sum(int(Y_test[temp_idx] != batch_y)) / n_eval
+            eval_error = 100. * wrong / n_eval
+            print "test sample", n_eval
+            print("Valid on Test Set: Epoch %d, batch %d, time = %ds, eval_loss = %.4f, eval_error = %.4f" %
+                  (curr_epoch, curr_batch + 1, time() - t_start, eval_loss, eval_error))
 
     # save the model parameters after T1 into theta_final
-    theta_final = {}
-    for w in model.params_theta:
-        theta_final[w] = w.get_value()
+    theta_final = []
+    for i, w in enumerate(model.params_theta):
+        theta_final.append(w.get_value())
 
     """
         Phase 2: Validation on Hyper set
@@ -214,13 +249,14 @@ def run_exp(args, update_lambda):
     cost_valid /= n_batch_hyper
 
     # get average grad of all iterations on validation set
-    for grad in grad_l_theta:
+
+    for i, grad in enumerate(grad_l_theta):
         print grad.shape
-        grad = grad / (np.array(n_hyper * 1., dtype=theano.config.floatX))
+        grad_l_theta[i] = grad / (np.array(n_hyper * 1., dtype=theano.config.floatX))
+
 
     print("Valid on Hyper Set: time = %ds, valid_err = %.2f, valid_loss = %.4f" %
           (time() - t_start, err_valid * 100, cost_valid))
-
 
     """
         Phase 3: meta-backward
@@ -242,54 +278,63 @@ def run_exp(args, update_lambda):
         allow_input_downcast=True)
 
     # init for pseudo params
-    pseudo_params = {}
-    for w in model.params_theta:
-        pseudo_params[w] = w.get_value()
+    pseudo_params = []
+    for i, v in enumerate(model.params_theta):
+        pseudo_params.append(v.get_value())
 
     def replace_pseudo_params(ratio):
-        for param in model.params_theta:
-            pseudo_params[param] = (1 - ratio) * theta_initial[param] + ratio * theta_final[param]
-            param.set_value(pseudo_params[param])
+        for i, param in enumerate(model.params_theta):
+            pseudo_params[i] = (1 - ratio) * theta_initial[i] + ratio * theta_final[i]
+            param.set_value(pseudo_params[i])
 
-    for xxx in phase_3_input:
-        print(xxx)
-        params = xxx.get_value()
-        print params
-        print params.shape
+    n_backward = len(iter_index_cache)
+    print "n_backward", n_backward
 
-    rho = np.linspace(0.001, 0.999, args.maxEpoch * n_batch_ele)
+    rho = np.linspace(0.001, 0.999, n_backward)
 
     # initialization
-    up_lambda = []
+    up_lambda, up_v = [], []
     for param in model.params_lambda:
         temp_param = np.zeros_like(param.get_value() * 0., dtype=theano.config.floatX)
         up_lambda += [temp_param]
-        print temp_param.shape
+
+    for param in model.params_weight:
+        temp_v = np.zeros_like(param.get_value() * 0., dtype=theano.config.floatX)
+        up_v += [temp_v]
 
     # time.sleep(20)
     up_theta = grad_l_theta
 
-    for iteration in range(args.maxEpoch * n_batch_ele)[::-1]:
+    iter_index_cache = iter_index_cache[:n_backward]
+
+    for iteration in range(n_backward)[::-1]:
         replace_pseudo_params(rho[iteration])         # line 4
         curr_epoch = iteration / n_batch_ele
         curr_batch = iteration % n_batch_ele
-        print "Phase 3, ep{} iter{}".format(curr_epoch, curr_batch)
-        sample_idx_ele = ele_perm[(curr_batch * args.batchSizeEle):((curr_batch + 1) * args.batchSizeEle)]
+        if iteration % 40 == 0:
+            print "Phase 3, ep{} iter{}, total{}".format(curr_epoch, curr_batch, iteration)
+        sample_idx_ele = iter_index_cache[iteration]
+        # sample_idx_ele = ele_perm[(curr_batch * args.batchSizeEle):((curr_batch + 1) * args.batchSizeEle)]
         batch_x, batch_y = X_elementary[sample_idx_ele], Y_elementary[sample_idx_ele]
+        if curr_batch == 399:
+            print "399!!!!!!!!!!!", batch_y
         tmp_y = np.zeros((args.batchSizeEle, 10))
         for idx, element in enumerate(batch_y):
             tmp_y[idx][element] = 1
         batch_y = tmp_y
-        
+
         if args.model == 'mlp':
-            for p1, input_p in zip(up_theta, phase_3_input):
-                # print p1[1]
-                input_p.set_value(p1)
+            for p3, p1, input_p in zip(up_v, up_theta, phase_3_input):
+                # print p3.shape, p1.shape
+                p3 += lr_ele_true * p1
+                input_p.set_value(p3)
                 tmp = input_p.get_value()
-                print tmp[1][1]
+                # print 'set up_v to obtain hypergrad', tmp[1][1]
+                # TIME.sleep(2)
         else:
-            pass
-            # TODO: I don't know what it should print. The shape of tmp is different so I blocked it.
+            for p3, p1, input_p in zip(up_v, up_theta, phase_3_input):
+                p3 += lr_ele_true * p1
+                input_p.set_value(p3)
 
         # hessian vector product
         HVP_value = func_hyper(batch_x, batch_y)
@@ -299,30 +344,49 @@ def run_exp(args, update_lambda):
 
         # return
         cnt = 0
-        for p1, p2, hvp1, hvp2 in zip(up_theta, up_lambda, HVP_weight_value, HVP_lambda_value):
+        for p1, p2, p3, hvp1, hvp2 in zip(up_theta, up_lambda, up_v, HVP_weight_value, HVP_lambda_value):
+            # this code is to monitor the up_lambda
             if cnt == 3:
                 tmp2 = np.array(hvp2)
                 tmp1 = np.array(hvp1)
-                print "hvp_weight", tmp1[3][0]
-                print "hvp_lambda", tmp2[3][0] * (1 - lr_ele)
-                print "up_weight", p1[3][0]
-                print "up_lambda", p2[3][0]
-                # print up_theta[3][0]
-                # TIME.sleep(5)
+                if iteration % 40 == 0:
+                    print "up_lambda", p2[3][0]
             else:
                 cnt += 1
-            p1 -= lr_ele * np.array(hvp1)
-            p2 -= lr_ele * np.array(hvp2)
-            # print
+            p1 -= (1. - mom) * np.array(hvp1)
+            p2 -= (1. - mom) * np.array(hvp2)
+            p3 *= mom
 
-    print up_lambda[0]
+        # print up_lambda[2][0][0]
 
-    return model.params_lambda, up_lambda
+    return model.params_lambda, up_lambda, fix_weight, eval_loss, eval_error
+
+
+def update_lambda_every_meta(ori, up, hyper_lr, updatemode):
+    tmp = []
+    for x, y in zip(ori, up):
+        if updatemode == 'unit':
+            new_y = np.mean(y, axis=1, keepdims=True)
+            tmp.append(x.get_value() - np.sign(new_y) * np.array(float(hyper_lr) * 1., dtype=theano.config.floatX))
+            print "metaupdate", x.get_value()[0][1], tmp[-1][0][1]
+        else:
+            raise AttributeError
+    return tmp
 
 
 if __name__ == '__main__':
     args = setup()
     print 'all argument: ', args
     temp_lambda = None
+    loss_change = []
+    tmp_weights = None
     for i in range(args.metaEpoch):
-        _, temp_lambda = run_exp(args, temp_lambda)
+        origin_lambda, temp_lambda, tmp_weights, eval_loss, eval_err = run_exp(args, temp_lambda, tmp_weights)
+        temp_lambda = update_lambda_every_meta(origin_lambda, temp_lambda, args.lrHyper, 'unit')
+
+        loss_change.append((float(eval_loss), eval_err))
+        print("---------------------------------------------------------------------------------------------------")
+        print("Training Result: ")
+        for k, v in enumerate(loss_change):
+            print k, v
+        print("---------------------------------------------------------------------------------------------------")

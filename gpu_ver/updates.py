@@ -5,16 +5,70 @@
 import numpy as np
 import theano
 import theano.tensor as T
-from lasagne.updates import sgd
+from lasagne.updates import sgd, momentum
 from hypergrad import hypergrad
 from pprint import pprint
 
 
+
+def get_or_compute_grads(loss_or_grads, params):
+    """Helper function returning a list of gradients
+    Parameters
+    ----------
+    loss_or_grads : symbolic expression or list of expressions
+        A scalar loss expression, or a list of gradient expressions
+    params : list of shared variables
+        The variables to return the gradients for
+    Returns
+    -------
+    list of expressions
+        If `loss_or_grads` is a list, it is assumed to be a list of
+        gradients and returned as is, unless it does not match the length
+        of `params`, in which case a `ValueError` is raised.
+        Otherwise, `loss_or_grads` is assumed to be a cost expression and
+        the function returns `theano.grad(loss_or_grads, params)`.
+    Raises
+    ------
+    ValueError
+        If `loss_or_grads` is a list of a different length than `params`, or if
+        any element of `params` is not a shared variable (while we could still
+        compute its gradient, we can never update it and want to fail early).
+    """
+    if any(not isinstance(p, theano.compile.SharedVariable) for p in params):
+        raise ValueError("params must contain shared variables only. If it "
+                         "contains arbitrary parameter expressions, then "
+                         "lasagne.utils.collect_shared_vars() may help you.")
+    if isinstance(loss_or_grads, list):
+        if not len(loss_or_grads) == len(params):
+            raise ValueError("Got %d gradient expressions for %d parameters" %
+                             (len(loss_or_grads), len(params)))
+        return loss_or_grads
+    else:
+        return theano.grad(loss_or_grads, params)
+
+from collections import OrderedDict
+
+
+def custom_mom(loss_or_grads, params, learning_rate, momentum=0.9):
+
+    grads = get_or_compute_grads(loss_or_grads, params)
+    updates = OrderedDict()
+
+    for param, grad in zip(params, grads):
+        value = param.get_value(borrow=True)
+        velocity = theano.shared(np.zeros(value.shape, dtype=value.dtype),
+                                 broadcastable=param.broadcastable)
+        updates[velocity] = momentum * velocity - (1. - momentum) * grad
+        updates[param] = param + learning_rate * velocity
+
+    return updates
+
+
 def update(params_theta, params_lambda, params_weight, loss, penalty, lossWithPenalty,
-           lr_ele, lr_hyper):
+           lr_ele, lr_hyper, mom):
     # (1) phase 1
     # it's a simple MLP, we can use lasagne's routine to calc the updates
-    update_ele = sgd(lossWithPenalty, params_theta, lr_ele)
+    update_ele = custom_mom(lossWithPenalty, params_theta, lr_ele, momentum=mom)
 
     dloss_dweight = T.grad(loss, params_weight)
     print "type 1,", type(dloss_dweight[0])

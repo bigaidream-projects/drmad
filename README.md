@@ -2,7 +2,6 @@
 
 ![](https://github.com/bigaidream-projects/drmad/blob/master/docs/shortcut.jpg)
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bigaidream/drmad?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
 
 > Source code for the paper: [Distilling Reverse-Mode Automatic Differentiation for Optimizing Hyperparameters of Deep Neural Networks](http://arxiv.org/abs/1601.00917).
@@ -38,11 +37,11 @@ For reproducing the original result in the paper, please refer to [CPU version](
 
 > In the original paper, we set the momentum to a small value (0.1). Now we found that setting this value to 0.9 or even 0.95 will give much better approximation performance. 
 
-> One trick used in DrMAD is to set the number of iterations in the backward pass much smaller than that in the forward pass (see the [code](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/hypergrad/optimizers.py#L455). This will make the hyperparameter learning robust fast. 
+> One trick used in DrMAD is to set the number of iterations in the backward pass much smaller than that in the forward pass (see the [code](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/hypergrad/optimizers.py#L455) ). This will make the hyperparameter learning robust and fast. 
 
-## TODO
+## GPU code
 
-We are refactoring the code with Theano/TensorFlow/Torch to support GPU. Currently, the Torch version may not work correctly. 
+We've implemented GPU version with Theano. We are experimenting with CNN on large datasets. 
 
 ---
 

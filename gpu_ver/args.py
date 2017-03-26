@@ -4,7 +4,7 @@ import argparse
 def setup():
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--verbose',
-                        type=bool, default=True)
+                        type=bool, default=False)
     parser.add_argument('-m', '--model',
                         type=str, choices=['mlp', 'convnet'], default='mlp')
     parser.add_argument('-d', '--dataset',
@@ -28,14 +28,16 @@ def setup():
     parser.add_argument('--maxEpoch',
                         type=int, default=1)
     parser.add_argument('--batchSizeEle',
-                        type=int, default=128)
+                        type=int, default=50)
     parser.add_argument('--batchSizeHyper',
-                        type=int, default=128)
+                        type=int, default=50)
     parser.add_argument('--metaEpoch',
                         type=int, default=10)
 
     parser.add_argument('--lrHyper',
-                        type=float, default=1.0)
+                        type=float, default=0.0001)
+    parser.add_argument('--lrEle',
+                        type=float, default=0.05)
     args = parser.parse_args()
 
     args.processedDataName = args.dataset + '_processed.npz'
@@ -43,10 +45,10 @@ def setup():
     args.preContrast = 'None'
     args.seed = 1234
     args.evaluateTestInterval = 1
-    args.MLPlayer = [100, 100, 100, 10]
+    args.MLPlayer = [50, 50, 50, 10]
 
     args.regInit = {
         'L1': 0,
-        'L2': 0.01,
+        'L2': 0.2,
     }
     return args
