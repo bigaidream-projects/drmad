@@ -35,9 +35,9 @@ def setup():
                         type=int, default=10)
 
     parser.add_argument('--lrHyper',
-                        type=float, default=0.0001)
+                        type=float, default=0.01)
     parser.add_argument('--lrEle',
-                        type=float, default=0.05)
+                        type=float, default=0.01)
     args = parser.parse_args()
 
     args.processedDataName = args.dataset + '_processed.npz'
@@ -45,7 +45,7 @@ def setup():
     args.preContrast = 'None'
     args.seed = 1234
     args.evaluateTestInterval = 1
-    args.MLPlayer = [50, 50, 50, 10]
+    args.MLPlayer = [300, 300, 300, 10]
 
     args.regInit = {
         'L1': 0,
