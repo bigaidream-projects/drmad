@@ -1,8 +1,5 @@
 # DrMAD in Theano
 
-> WARNING: this version is not stable and we are still investigating. 
-
-
 DrMAD-Theano uses `Lasagne` to build a simple MLP. 
 
 Run:
