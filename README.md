@@ -10,13 +10,13 @@
 
 DrMAD is a hyperparameter tuning method based on automatic differentiation, which is a most [criminally underused tool](https://justindomke.wordpress.com/2009/02/17/automatic-differentiation-the-most-criminally-underused-tool-in-the-potential-machine-learning-toolbox/) for machine learning.
 
-DrMAD can tune any continuous hyperparameters (L1 norms for every neuron or learning rates for every neuron at every iteration) for deep models on GPUs.
+DrMAD can tune thousands of continuous hyperparameters (e.g. L1 norms for every single neuron) for deep models on GPUs.
 
 ### AD vs Bayesian optimization (BO)
 
 BO, as a global optimization approach, can hardly support tuning more than 20 hyperparameters, because it treats the learning algorithm being tuned as a black-box and can only get feedback signals after convergence. Also, the learning rate tuned by BO is fixed for all iterations.
 
-AD is different from symbolic differentiation (used by TensorFlow and Theano), and numerical differentiation. AD, as a local optimization method based on gradient information, can make use of the feedback signals after every iteration and can tune thounsands of hyperparameters by using (hyper-)gradients with respect to hyperparameters. Checkout this [paper](https://arxiv.org/abs/1502.05767) if you want to understand AD techniques deeply.
+AD is different from symbolic differentiation (used by Mathematica), and numerical differentiation. AD, as a local optimization method based on gradient information, can make use of the feedback signals after every iteration and can tune thounsands of hyperparameters by using (hyper-)gradients with respect to hyperparameters. Checkout this [paper](https://arxiv.org/abs/1502.05767) if you want to understand AD techniques deeply.
 
 Therefore, AD can tune hundreds of thousands of constant (e.g. L1 norm for every neuron) or dynamic (e.g. learning rates for every neuron at every iteration) hyperparameters.
 
@@ -27,9 +27,7 @@ The standard way of computing these (hyper-)gradients involves a forward and bac
 ![](https://github.com/bigaidream-projects/drmad/blob/master/docs/fig.jpg)
 
 
-We propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we `approximately` reverse the training trajectory. When run on CPUs, DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with minimal compromise to its effectiveness.
-
-DrMAD is the only gradient-based hyperparameter optimizer that can tune learning rates for every neuron at every iteration on GPUs.
+We propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we `approximately` reverse the training trajectory. When run on CPUs, DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with no compromise to its effectiveness. Actually, when setting `momentum=0.95`, it is more effective than the exact approach, because it avoids compouding too much noise from the elementary back-propagation. 
 
 ## CPU code for reproducing
 
