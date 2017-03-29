@@ -27,15 +27,13 @@ The standard way of computing these (hyper-)gradients involves a forward and bac
 ![](https://github.com/bigaidream-projects/drmad/blob/master/docs/fig.jpg)
 
 
-We propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we `approximately` reverse the training trajectory. When run on CPUs, DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with no compromise to its effectiveness. Actually, when setting `momentum=0.95`, it is more effective than the exact approach, because it avoids compouding too much noise from the elementary back-propagation. 
+We propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we `approximately` reverse the training trajectory. When run on CPUs, DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with almost no compromise to its effectiveness. In fact, when setting `momentum=0.95` and setting the number of iterations in the backward pass much smaller than that in the forward pass (see the [line](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/hypergrad/optimizers.py#L455) ), it is more effective than the exact approach, because it avoids compouding too much noise from the elementary back-propagation. This makes the hyperparameter learning robust and fast. 
 
 ## CPU code for reproducing
 
 For reproducing the original result in the paper, please refer to [CPU version](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver)
 
 > In the original paper, we set the momentum to a small value (0.1). Now we found that setting this value to 0.9 or even 0.95 will give much better approximation performance. 
-
-> One trick used in DrMAD is to set the number of iterations in the backward pass much smaller than that in the forward pass (see the [code](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/hypergrad/optimizers.py#L455) ). This will make the hyperparameter learning robust and fast. 
 
 ## GPU code
 
