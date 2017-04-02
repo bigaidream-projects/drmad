@@ -33,7 +33,7 @@ We propose a simple but effective method, DrMAD, to distill the knowledge of the
 
 For reproducing the original result in the paper, please refer to [CPU version](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver)
 
-> In the original paper, we set the momentum to a small value (0.1). Now we found that setting this value to 0.9 or even 0.95 will give much better approximation performance. 
+> In the original paper, we set the momentum to a small value (0.1). Now we found that setting this value to 0.9 or even 0.95 will give much better performance. 
 
 ## GPU code
 
