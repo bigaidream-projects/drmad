@@ -287,7 +287,8 @@ def run_exp(args, update_lambda, fix_weight):
             pseudo_params[i] = (1 - ratio) * theta_initial[i] + ratio * theta_final[i]
             param.set_value(pseudo_params[i])
             
-    n_backward = len(iter_index_cache)/10
+    # n_backward = len(iter_index_cache)/200
+    n_backward = 100
     print "n_backward", n_backward
 
     rho = np.linspace(0.001, 0.999, n_backward)

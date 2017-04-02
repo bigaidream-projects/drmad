@@ -1,5 +1,5 @@
 
-# CPU Version (Python)
+# CPU Version (Python/Numpy)
 
 We no longer update CPU version and keep it here mainly for reference.
 
@@ -32,4 +32,6 @@ That version also predates the setup.py file, so to get your code to use the old
 
 #### How to run
 
-Use the code in [/cpu_ver/experiments](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver/experiments) folder, e.g. [./exp1/safe/safe.py](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/experiments/exp1/safe/safe.py).
+Use the code in [/cpu_ver/experiments](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver/experiments) folder, e.g. [./exp1/mad/mad.py](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/experiments/exp1/mad/mad.py). 
+
+This experiment is done with MLP on MNIST. 

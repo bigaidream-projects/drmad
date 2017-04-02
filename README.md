@@ -37,7 +37,7 @@ For reproducing the original result in the paper, please refer to [CPU version](
 
 ## GPU code
 
-We've implemented GPU version with Theano. We are experimenting with CNN on large datasets. 
+We've implemented [GPU version with Theano](https://github.com/bigaidream-projects/drmad/tree/master/gpu_ver). In addition to the experiments in the original paper, we did experiments with convolutional networks in CIFAR-10. DrMAD also works with CNN on CIFAR-10. 
 
 ---
 

@@ -6,9 +6,9 @@ def setup():
     parser.add_argument('-v', '--verbose',
                         type=bool, default=False)
     parser.add_argument('-m', '--model',
-                        type=str, choices=['mlp', 'convnet'], default='mlp')
+                        type=str, choices=['mlp', 'convnet'], default='convnet')
     parser.add_argument('-d', '--dataset',
-                        choices=['mnist', 'cifar10'], default='mnist')
+                        choices=['mnist', 'cifar10'], default='cifar10')
     parser.add_argument('-r', '--ratioValid', help='the ratio of valid set to train set',
                         type=float, default=0.2)
     parser.add_argument('--bn', help='use BatchNorm or not',
@@ -26,7 +26,7 @@ def setup():
     parser.add_argument('--meta_bw', help='use meta backward or not',
                         type=bool, default=True)
     parser.add_argument('--maxEpoch',
-                        type=int, default=1)
+                        type=int, default=50)
     parser.add_argument('--batchSizeEle',
                         type=int, default=50)
     parser.add_argument('--batchSizeHyper',
@@ -35,9 +35,9 @@ def setup():
                         type=int, default=10)
 
     parser.add_argument('--lrHyper',
-                        type=float, default=0.01)
+                        type=float, default=0.005)
     parser.add_argument('--lrEle',
-                        type=float, default=0.01)
+                        type=float, default=0.005)
     args = parser.parse_args()
 
     args.processedDataName = args.dataset + '_processed.npz'
@@ -49,6 +49,6 @@ def setup():
 
     args.regInit = {
         'L1': 0,
-        'L2': 0.2,
+        'L2': 0.02,
     }
     return args

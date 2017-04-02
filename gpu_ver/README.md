@@ -22,6 +22,11 @@ Run:
 - `models.py` provides class `MLP()`.
 - `updates.py` provides update rules for different theano functions.
 
+### Tricks
+
+In `simple_mlp.py` file, we set `n_backward = 100`. That is, we do not allow the meta-backward pass has the same iteration number as the meta-forward pass. Sometimes, we might need to modify this to achieve better results. But usually, `100` to `200` should be good. 
+
+
 ### References
 [hypergrad](https://github.com/HIPS/hypergrad)
 
