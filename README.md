@@ -27,7 +27,7 @@ The standard way of computing these (hyper-)gradients involves a forward and bac
 ![](https://github.com/bigaidream-projects/drmad/blob/master/docs/fig.jpg)
 
 
-We propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we `approximately` reverse the training trajectory. When run on CPUs, DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with almost no compromise to its effectiveness. In fact, when setting `momentum=0.95` and setting the number of iterations in the backward pass much smaller than that in the forward pass (see the [line](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/hypergrad/optimizers.py#L455) ), it is more effective than the exact approach, because it avoids compouding too much noise from the elementary back-propagation. This makes the hyperparameter learning robust and fast. 
+We propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we `approximately` reverse the training trajectory. When run on CPUs, DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with almost no compromise to its effectiveness. 
 
 ## CPU code for reproducing
 
