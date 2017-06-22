@@ -46,7 +46,7 @@ We've implemented [GPU version with Theano](https://github.com/bigaidream-projec
 @article{drmad2016,
   title={DrMAD: Distilling Reverse-Mode Automatic Differentiation for Optimizing Hyperparameters of Deep Neural Networks},
   author={Fu, Jie and Luo, Hongyin and Feng, Jiashi and Low, Kian Hsiang and Chua, Tat-Seng},
-  journal={arXiv preprint arXiv:1601.00917},
+  journal={IJCAI},
   year={2016}
 }
 
