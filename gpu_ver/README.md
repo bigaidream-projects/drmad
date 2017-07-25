@@ -1,5 +1,7 @@
 # DrMAD in Theano
 
+> WARNING: The GPU version is only experimental and might have unknown bugs. The GPU version is not dicussed in the original paper. We only tested it with small-scaled models, which is by no means thorough. 
+
 DrMAD-Theano uses `Lasagne` to build a simple MLP. 
 
 Run:
