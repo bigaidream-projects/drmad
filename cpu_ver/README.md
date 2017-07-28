@@ -32,6 +32,6 @@ That version also predates the setup.py file, so to get your code to use the old
 
 #### How to run
 
-Use the code in [/cpu_ver/experiments](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver/experiments) folder, e.g. [./exp1/mad/mad.py](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/experiments/exp1/mad/mad.py). 
+Use the code in [/cpu_ver/experiments](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver/experiments) folder, e.g. [./exp_omni_rotated/mad/mad.py](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/experiments/exp_omni_rotated/mad/mad.py). 
 
 This experiment is done with MLP on MNIST. 
