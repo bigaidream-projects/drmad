@@ -1,1 +1,0 @@
-This experiment is based on https://github.com/HIPS/hypergrad/blob/master/experiments/Jan_28_training_schedule/2_copy_of_good/experiment.py
