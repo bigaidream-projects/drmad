@@ -27,17 +27,17 @@ The standard way of computing these (hyper-)gradients involves a forward and bac
 ![](https://github.com/bigaidream-projects/drmad/blob/master/docs/fig.jpg)
 
 
-We propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we `approximately` reverse the training trajectory. When run on CPUs, DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with almost no compromise to its effectiveness. 
+We propose a simple but effective method, DrMAD, to distill the knowledge of the forward pass into a shortcut path, through which we `approximately` reverse the training trajectory. When run on CPUs, DrMAD is at least 45 times faster and consumes 100 times less memory compared to state-of-the-art methods for optimizing hyperparameters with almost no compromise to its effectiveness on small-scale problems as used in the previous studies. 
 
 ## CPU code for reproducing
 
 For reproducing the original result in the paper, please refer to [CPU version](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver)
 
-> In the original paper, we set the momentum to a small value (0.1). Now we found that setting this value to 0.9 or even 0.95 will give much better performance. 
+> In the original paper, we set the momentum to a small value (0.1). Now we found that setting this value to 0.9 or even 0.95 will give better performance. 
 
 ## GPU code
 
-We've implemented [GPU version with Theano](https://github.com/bigaidream-projects/drmad/tree/master/gpu_ver). In addition to the experiments in the original paper, we did experiments with a small convolutional networks in CIFAR-10. It is not practical yet. 
+We've implemented [GPU version with Theano](https://github.com/bigaidream-projects/drmad/tree/master/gpu_ver), which is not included in the original paper. This GPU implementation does NOT mean tt is not practical for large-scale models. 
 
 ---
 
