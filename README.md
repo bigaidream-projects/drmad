@@ -37,7 +37,7 @@ For reproducing the original result in the paper, please refer to [CPU version](
 
 ## GPU code
 
-We've implemented [GPU version with Theano](https://github.com/bigaidream-projects/drmad/tree/master/gpu_ver), which is not included in the original paper. This GPU implementation does NOT mean tt is not practical for large-scale models. 
+We've implemented [GPU version with Theano](https://github.com/bigaidream-projects/drmad/tree/master/gpu_ver), which is not included in the original paper. This GPU implementation does NOT mean it is practical for large-scale models. 
 
 ---
 
