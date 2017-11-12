@@ -1,18 +1,13 @@
 
 # CPU Version (Python/Numpy)
 
-We no longer update CPU version and keep it here mainly for reference.
-
-The CPU code is used in the original paper. The detailed how-to-run instructions can be found [here](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver/README.md).
-
-
+The CPU code is used in the original paper. 
 
 ---
 
 ### How to reproduce our experiments
 
 #### Dependencies
-
 
 The code is mainly modified from [Gradient-based Optimization of Hyperparameters through Reversible Learning](https://github.com/HIPS/hypergrad/).
 
@@ -34,4 +29,4 @@ That version also predates the setup.py file, so to get your code to use the old
 
 Use the code in [/cpu_ver/experiments](https://github.com/bigaidream-projects/drmad/tree/master/cpu_ver/experiments) folder, e.g. [./exp_omni_rotated/mad/mad.py](https://github.com/bigaidream-projects/drmad/blob/master/cpu_ver/experiments/exp_omni_rotated/mad/mad.py). 
 
-This experiment is done with MLP on MNIST. 
+This experiment is done with MLP on MNIST or OmniGlot. 
